@@ -72,8 +72,9 @@ export function parseText(text: string): ParsedDocument {
 }
 
 /** Entry point for dropped files: decode bytes (BOM, encodings, zip) and parse. */
-export function parseBytes(bytes: Uint8Array): { document: ParsedDocument; text: string } {
+export function parseBytes(bytes: Uint8Array, onDecoded?: () => void): { document: ParsedDocument; text: string } {
   const { text, archiveNote } = decodeFile(bytes);
+  onDecoded?.();
   const document = parseText(text);
   if (archiveNote) document.record.meta.warnings.unshift({ message: archiveNote, severity: 'info' });
   return { document, text };
