@@ -85,6 +85,21 @@ const KEYWORDS: Array<[BodySystem, RegExp]> = [
   ['musculoskeletal', /\b(arthr|osteo|bone|joint|fracture|muscul|spine|spinal|lumbar|back pain|knee|hip\b|shoulder|tendon|ligament|gout|scoliosis|fibromyalgia|sprain)/i],
 ];
 
+/** Common drug names and classes, so medications can follow the body-map filter. */
+const DRUGS: Array<[BodySystem, RegExp]> = [
+  ['endocrine', /(metformin|insulin|gliptin|gliflozin|glutide|glipizide|glimepiride|levothyroxine|pioglitazone)/i],
+  ['cardio', /(statin\b|pril\b|sartan\b|olol\b|dipine\b|aspirin|clopidogrel|warfarin|apixaban|rivaroxaban|furosemide|spironolactone|hydrochlorothiazide|digoxin|amiodarone|nitroglycerin)/i],
+  ['respiratory', /(albuterol|salbutamol|budesonide|fluticasone|montelukast|tiotropium|salmeterol|formoterol)/i],
+  ['gi', /(prazole\b|ranitidine|famotidine|ondansetron|lactulose|mesalamine|loperamide)/i],
+  ['neuro', /(sertraline|fluoxetine|escitalopram|citalopram|gabapentin|pregabalin|levetiracetam|sumatriptan|donepezil|levodopa|amitriptyline)/i],
+  ['musculoskeletal', /(ibuprofen|naproxen|diclofenac|celecoxib|allopurinol|alendronate|methotrexate|colchicine)/i],
+  ['blood', /(ferrous|iron\b|epoetin|folic acid|cyanocobalamin)/i],
+];
+
+export function classifyMedication(name: string): BodySystem {
+  return DRUGS.find(([, pattern]) => pattern.test(name))?.[0] ?? 'general';
+}
+
 /** Maps a coded clinical item to one of the 8 body zones; unmapped items stay under General. */
 export function classifyBodySystem(name: string | undefined, codes: Coding[] = []): BodySystem {
   for (const coding of codes) {

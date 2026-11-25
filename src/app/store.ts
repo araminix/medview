@@ -1,0 +1,136 @@
+import { create } from 'zustand';
+import type { BodySystem, ClinicalRecord } from '@/domain/types';
+import type { LoadStage } from '@/engine/api';
+import { CancelledError, engine, EngineError } from '@/engine/client';
+import { preferences, type Theme, type WorkspaceTab } from '@/lib/preferences';
+import { DEFAULT_SCRUB_OPTIONS, type ScrubOptions } from '@/scrubber';
+
+export type ModalName = 'privacy' | 'scrubber' | 'print';
+
+interface FileInfo {
+  name: string;
+  size: number;
+}
+
+/** Everything tied to the open file. Lives in memory only and is dropped on Clear. */
+interface Session {
+  status: 'idle' | 'loading' | 'ready';
+  stage?: LoadStage;
+  file?: FileInfo;
+  record?: ClinicalRecord;
+  scrubbed: boolean;
+  scrubOptions: ScrubOptions;
+  error?: { message: string; hint?: string };
+  bodyFilter?: BodySystem;
+  /** Source selected in the Dev View or the graph drawer. */
+  selectedSource?: string;
+  modal?: ModalName;
+}
+
+interface AppState extends Session {
+  theme: Theme;
+  tab: WorkspaceTab;
+  openFile(file: File): Promise<void>;
+  openText(text: string, name: string): Promise<void>;
+  cancelLoad(): void;
+  clearFile(): void;
+  dismissError(): void;
+  setTheme(theme: Theme): void;
+  setTab(tab: WorkspaceTab): void;
+  setBodyFilter(system: BodySystem | undefined): void;
+  selectSource(id: string | undefined): void;
+  inspectSource(id: string): void;
+  openModal(modal: ModalName | undefined): void;
+  applyScrub(options: ScrubOptions): Promise<void>;
+  revertScrub(): Promise<void>;
+}
+
+const EMPTY_SESSION: Session = {
+  status: 'idle',
+  stage: undefined,
+  file: undefined,
+  record: undefined,
+  scrubbed: false,
+  scrubOptions: DEFAULT_SCRUB_OPTIONS,
+  error: undefined,
+  bodyFilter: undefined,
+  selectedSource: undefined,
+  modal: undefined,
+};
+
+function applyTheme(theme: Theme): void {
+  document.documentElement.dataset.theme = theme;
+}
+
+export const useApp = create<AppState>((set, get) => {
+  const load = async (name: string, size: number, read: () => Promise<Uint8Array>) => {
+    set({ ...EMPTY_SESSION, status: 'loading', stage: 'reading', file: { name, size } });
+    try {
+      const { record, scrubbed } = await engine.load(await read(), (stage) => set({ stage }));
+      set({ status: 'ready', record, scrubbed, stage: undefined });
+    } catch (error) {
+      if (error instanceof CancelledError) return;
+      const message = error instanceof EngineError ? error.message : 'This file could not be opened';
+      const hint = error instanceof EngineError ? error.hint : error instanceof Error ? error.message : undefined;
+      set({ ...EMPTY_SESSION, error: { message, hint } });
+    }
+  };
+
+  const theme = preferences.theme();
+  applyTheme(theme);
+
+  return {
+    ...EMPTY_SESSION,
+    theme,
+    tab: preferences.tab(),
+
+    openFile: (file) => load(file.name, file.size, async () => new Uint8Array(await file.arrayBuffer())),
+    openText: (text, name) => {
+      const bytes = new TextEncoder().encode(text);
+      return load(name, bytes.length, async () => bytes);
+    },
+    cancelLoad: () => {
+      engine.reset();
+      set(EMPTY_SESSION);
+    },
+    // Terminating the worker is what actually frees the raw file; resetting state drops the parsed record.
+    clearFile: () => {
+      engine.reset();
+      set(EMPTY_SESSION);
+    },
+    dismissError: () => set({ error: undefined }),
+
+    setTheme: (next) => {
+      preferences.setTheme(next);
+      applyTheme(next);
+      set({ theme: next });
+    },
+    setTab: (tab) => {
+      preferences.setTab(tab);
+      set({ tab });
+    },
+    setBodyFilter: (bodyFilter) => set({ bodyFilter }),
+    selectSource: (selectedSource) => set({ selectedSource }),
+    inspectSource: (id) => {
+      get().setTab('dev');
+      set({ selectedSource: id });
+    },
+    openModal: (modal) => set({ modal }),
+
+    applyScrub: async (options) => {
+      const { record, scrubbed } = await engine.call('applyScrub', options);
+      set({ record, scrubbed, scrubOptions: options, selectedSource: undefined });
+    },
+    revertScrub: async () => {
+      const { record, scrubbed } = await engine.call('revertScrub');
+      set({ record, scrubbed, selectedSource: undefined });
+    },
+  };
+});
+
+/** The open record. Only call inside the workspace, where a record is guaranteed. */
+export function useRecord(): ClinicalRecord {
+  const record = useApp((state) => state.record);
+  if (!record) throw new Error('No record is open');
+  return record;
+}

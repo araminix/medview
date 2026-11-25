@@ -29,5 +29,7 @@ export default defineConfig({
   ],
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   worker: { format: 'es' },
+  // Never inline assets as data: URIs — the CSP only allows fonts from 'self'.
+  build: { assetsInlineLimit: 0 },
   test: { include: ['tests/unit/**/*.test.ts'], environment: 'node' },
 });

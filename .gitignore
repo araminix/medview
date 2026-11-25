@@ -160,3 +160,4 @@ vite.config.ts.timestamp-*
 dev-dist
 playwright-report
 test-results
+tests/e2e/shots.spec.ts
