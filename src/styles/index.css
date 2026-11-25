@@ -1,0 +1,129 @@
+@import 'tailwindcss';
+@import './print.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Clinical palette: paper-white surfaces, blue only for navigation, semantic colors only for medical meaning. */
+:root {
+  --mv-canvas: #f8fafc;
+  --mv-surface: #ffffff;
+  --mv-sunken: #f1f5f9;
+  --mv-border: #e2e8f0;
+  --mv-text: #0f172a;
+  --mv-muted: #475569;
+  --mv-accent: #0284c7;
+  --mv-accent-strong: #0369a1;
+  --mv-accent-tint: #e0f2fe;
+  --mv-accent-wash: #f0f9ff;
+  --mv-on-accent: #ffffff;
+  --mv-ok: #059669;
+  --mv-ok-text: #047857;
+  --mv-ok-bg: #ecfdf5;
+  --mv-warn: #d97706;
+  --mv-warn-text: #b45309;
+  --mv-warn-bg: #fffbeb;
+  --mv-crit: #dc2626;
+  --mv-crit-text: #b91c1c;
+  --mv-crit-bg: #fef2f2;
+  --mv-med: #7c3aed;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --mv-canvas: #0b1120;
+  --mv-surface: #111827;
+  --mv-sunken: #0f172a;
+  --mv-border: #1e293b;
+  --mv-text: #f1f5f9;
+  --mv-muted: #94a3b8;
+  --mv-accent: #38bdf8;
+  --mv-accent-strong: #38bdf8;
+  --mv-accent-tint: #0c2d48;
+  --mv-accent-wash: #0b2136;
+  --mv-on-accent: #0b1120;
+  --mv-ok: #34d399;
+  --mv-ok-text: #34d399;
+  --mv-ok-bg: #052e22;
+  --mv-warn: #fbbf24;
+  --mv-warn-text: #fbbf24;
+  --mv-warn-bg: #2a1f05;
+  --mv-crit: #f87171;
+  --mv-crit-text: #fca5a5;
+  --mv-crit-bg: #2c0f12;
+  --mv-med: #a78bfa;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-canvas: var(--mv-canvas);
+  --color-surface: var(--mv-surface);
+  --color-sunken: var(--mv-sunken);
+  --color-line: var(--mv-border);
+  --color-ink: var(--mv-text);
+  --color-muted: var(--mv-muted);
+  --color-accent: var(--mv-accent);
+  --color-accent-strong: var(--mv-accent-strong);
+  --color-accent-tint: var(--mv-accent-tint);
+  --color-accent-wash: var(--mv-accent-wash);
+  --color-on-accent: var(--mv-on-accent);
+  --color-ok: var(--mv-ok);
+  --color-ok-text: var(--mv-ok-text);
+  --color-ok-bg: var(--mv-ok-bg);
+  --color-warn: var(--mv-warn);
+  --color-warn-text: var(--mv-warn-text);
+  --color-warn-bg: var(--mv-warn-bg);
+  --color-crit: var(--mv-crit);
+  --color-crit-text: var(--mv-crit-text);
+  --color-crit-bg: var(--mv-crit-bg);
+  --color-med: var(--mv-med);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    background: var(--mv-canvas);
+    color: var(--mv-text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--mv-accent);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role='tab'],
+  summary {
+    cursor: pointer;
+  }
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes mv-dash {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+@keyframes mv-zone-pulse {
+  50% {
+    fill-opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

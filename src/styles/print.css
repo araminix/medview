@@ -1,0 +1,25 @@
+/* Printing shows only the print document rendered into #print-root (see features/print). */
+#print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  html,
+  body,
+  #root {
+    height: auto;
+    background: #fff !important;
+  }
+  body.mv-printing #root {
+    display: none !important;
+  }
+  body.mv-printing #print-root {
+    display: block;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

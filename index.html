@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; connect-src 'self'; img-src 'self' data: blob:; font-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; object-src 'none'; base-uri 'self';"
+    />
+    <meta name="description" content="Open and understand FHIR, HL7 v2 and C-CDA hospital files in your browser. Nothing ever leaves your computer." />
+    <meta name="theme-color" content="#0284C7" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <title>MedView — Private Medical-File Viewer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
