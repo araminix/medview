@@ -1,2 +1,76 @@
-# medview
-A 100% browser-only, offline-ready medical file viewer that turns messy hospital files (FHIR, HL7 v2, US C-CDA, EU IPS) into clean doctor-ready reports, interactive body &amp; link diagrams, and safe anonymized exports with zero servers and zero data leaving the device.
+# MedView
+
+**Open and understand any hospital file — without it ever leaving your computer.**
+
+MedView is a free, browser-only viewer for medical files. Drop a FHIR, HL7 v2 or C-CDA file and get a clean clinical report, an interactive body map, a resource graph and a one-click anonymizer. There is no server: the file is parsed in a Web Worker on your device and is gone when you close the tab.
+
+**Live app:** https://araminix.github.io/medview/
+
+## What it does
+
+| For | You get |
+|---|---|
+| Clinicians | Allergies pinned at the top, abnormal labs first with ↑/↓ and reference-range bars, a clean one-page print |
+| Patients | A readable summary of medications, labs and visits, plus a body map you can click to filter |
+| HealthTech developers | Auto-detected parsing with line-level warnings, a resource graph with PNG/SVG export, FHIRPath, and a PHI scrubber that keeps the file valid |
+
+Supported today: **FHIR R4/R5** (JSON and XML, bundles or single resources), **HL7 v2.x** pipe messages (ADT, ORU, ORM, VXU) and **US C-CDA** documents. Zip archives are opened automatically. Planned: EU IPS, OpenEHR, DICOM, Apple Health.
+
+## Privacy, and how to check it yourself
+
+- The file never leaves your device. There is no backend, no account, no cookies, no analytics and no external fonts.
+- A strict Content-Security-Policy blocks every connection to other origins.
+- Patient data lives only in memory. `localStorage` holds two UI preferences (theme, last tab) and nothing else.
+- **Clear File** terminates the worker that holds the file.
+
+Verify in ten seconds: open DevTools → Network, drop a file, and watch zero requests go out. Or turn off Wi-Fi and reload — the app keeps working, and the privacy panel turns green.
+
+This is enforced in CI: a Playwright test loads every format, visits every tab, runs the scrubber and the exports, and fails the build if a single request is made after the page has loaded.
+
+## The PHI scrubber
+
+*Hide Private Info* replaces names, masks the birth date down to the year, swaps identifiers for synthetic hashes, strips contact details and (optionally) masks provider names. It works on the raw text, so the output is still valid FHIR JSON, HL7 v2 or C-CDA XML, and lab values, units and codes are untouched.
+
+Known limit: a bare middle initial (the `J.` in `Marcus J. Delgado`) is kept, because replacing single letters across a file would damage clinical text. Free-text notes are swept for names, phone numbers, e-mails and SSN-like numbers, but no automatic scrubber can promise to catch every identifying phrase in narrative text — read the result before sharing it.
+
+## Development
+
+```bash
+pnpm install
+pnpm dev            # http://localhost:5173/medview/
+pnpm test           # unit tests (parsers, scrubber, engine, graph)
+pnpm build && pnpm test:e2e   # Playwright against the production build
+pnpm lint && pnpm typecheck
+```
+
+The first E2E run needs a browser: `pnpm exec playwright install chromium`.
+
+### Structure
+
+```
+src/
+  domain/      ClinicalRecord schema and clinical logic (dates, lab flags, body systems)
+  parsers/     fhir/ · hl7v2/ · ccda/ — each maps its format to a ClinicalRecord
+  scrubber/    PHI collection and replacement
+  engine/      the Web Worker that owns the open file, and its typed client
+  features/    landing · workspace · report · graph · dev · privacy · scrubber · print
+  components/  shared UI building blocks
+  samples/     three synthetic sample files (no real patient data)
+tests/
+  unit/        Vitest
+  e2e/         Playwright: privacy, offline, security, UI, performance
+```
+
+Every parser targets one schema, `ClinicalRecord` (`src/domain/types.ts`), and the UI only ever reads that. Adding a format means adding a parser, not a screen.
+
+### Deploying
+
+Pushing to `main` runs the full suite and deploys `dist/` to GitHub Pages. For a custom domain served from the root, build with `MEDVIEW_BASE=/ pnpm build`.
+
+## Disclaimer
+
+MedView is not a medical device and does not give medical advice. Always verify against the official hospital source.
+
+## License
+
+MIT © Araminix
