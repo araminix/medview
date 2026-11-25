@@ -1,5 +1,6 @@
 import { evalFhirPath } from '@medplum/core';
 import { summarizeRecord } from '@/domain/summary';
+import type { ClinicalRecord } from '@/domain/types';
 import { parseBytes, parseText, UnreadableFileError, type ParsedDocument } from '@/parsers';
 import { scrubText, type ScrubOptions } from '@/scrubber';
 import type { EngineApi, LoadStage, LoadedFile, QueryResult, RawSlice } from './api';
@@ -98,7 +99,11 @@ export class Engine implements EngineApi {
     return this.scrub(options).text;
   }
 
+  scrubbedRecord(options: ScrubOptions): ClinicalRecord {
+    return parseText(this.scrub(options).text).record;
+  }
+
   safeSummary(options: ScrubOptions): string {
-    return summarizeRecord(parseText(this.scrub(options).text).record);
+    return summarizeRecord(this.scrubbedRecord(options));
   }
 }

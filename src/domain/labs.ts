@@ -23,6 +23,13 @@ export function parseRefRange(input: string | undefined): RefRange {
   return { text };
 }
 
+/** Display text for numeric bounds: "3.5 – 5.1", "> 60", "< 200". */
+export function rangeText(low: number | string | undefined, high: number | string | undefined): string | undefined {
+  if (low !== undefined && high !== undefined) return `${low} – ${high}`;
+  if (low !== undefined) return `> ${low}`;
+  return high !== undefined ? `< ${high}` : undefined;
+}
+
 /** Numeric reading of a result. "<0.01" → 0.01, "Positive" → undefined. */
 export function parseNumeric(input: unknown): number | undefined {
   if (typeof input === 'number') return Number.isFinite(input) ? input : undefined;

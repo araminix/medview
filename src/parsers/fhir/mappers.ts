@@ -1,6 +1,6 @@
 import { classifyBodySystem } from '@/domain/bodySystems';
 import { calcAge, normalizeDate } from '@/domain/dates';
-import { classifyPanel, deriveFlag, flagFromCode, isVitalSign, parseNumeric, parseRefRange, type RefRange } from '@/domain/labs';
+import { classifyPanel, deriveFlag, flagFromCode, isVitalSign, parseNumeric, parseRefRange, rangeText, type RefRange } from '@/domain/labs';
 import type { RecordBuilder } from '@/domain/record';
 import type { Coding, GraphNodeKind, LabFlag, LabItem } from '@/domain/types';
 import { arr, compact, firstStr, isObj, num, objs, pick, pickStr, str, type Obj } from '../shared/access';
@@ -111,7 +111,7 @@ function readRange(r: Obj): RefRange {
   const high = num(pick(range, 'high.value'));
   const text = str(range.text);
   if (low === undefined && high === undefined) return parseRefRange(text);
-  return { low, high, text: text ?? compact([low, high].map((n) => (n === undefined ? undefined : String(n)))).join(' – ') };
+  return { low, high, text: text ?? rangeText(low, high) };
 }
 
 function worstFlag(flags: LabFlag[]): LabFlag {

@@ -38,6 +38,8 @@ export interface EngineApi {
   revertScrub(): LoadedFile;
   /** The whole file, anonymized, in its original syntax. */
   scrubbedText(options: ScrubOptions): string;
+  /** The anonymized record, without switching the current view to it. */
+  scrubbedRecord(options: ScrubOptions): ClinicalRecord;
   /** Plain-text clinical summary of the anonymized file. */
   safeSummary(options: ScrubOptions): string;
 }

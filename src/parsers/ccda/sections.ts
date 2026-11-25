@@ -1,5 +1,5 @@
 import { classifyBodySystem } from '@/domain/bodySystems';
-import { classifyPanel, deriveFlag, isAbnormal, parseNumeric, parseRefRange, type RefRange } from '@/domain/labs';
+import { classifyPanel, deriveFlag, isAbnormal, parseNumeric, parseRefRange, rangeText, type RefRange } from '@/domain/labs';
 import type { RecordBuilder } from '@/domain/record';
 import type { ClinicalStatus, GraphNodeKind, LabItem } from '@/domain/types';
 import { compact } from '../shared/access';
@@ -124,7 +124,7 @@ function readRange(observation: XmlElement): RefRange {
   const value = child(range, 'value');
   const low = attr(child(value, 'low'), 'value');
   const high = attr(child(value, 'high'), 'value');
-  if (low || high) return { low: parseNumeric(low), high: parseNumeric(high), text: compact([low, high]).join(' – ') };
+  if (low || high) return { low: parseNumeric(low), high: parseNumeric(high), text: rangeText(low, high) };
   return parseRefRange(textOf(child(range, 'text')));
 }
 
