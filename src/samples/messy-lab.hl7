@@ -1,0 +1,28 @@
+MSH|^~\&|LABSYS|NORTHGATE LAB|EHR|NORTHGATE CLINIC|20250411073015||ORU^R01|MSG00087412|P|2.5.1
+PID|1||NG-7730155^^^NORTHGATE^MR~000-45-6789^^^USSSA^SS||Hartmann^Greta^L||19590223|F|||88 Linden Court^Apt 4B^Madison^WI^53703^USA||(555) 013-4471|(555) 013-9902||M||ACC-55120|000-45-6789
+NK1|1|Hartmann^Jonas|SPO|88 Linden Court^^Madison^WI^53703|(555) 013-4480
+PV1|1|O|CLINIC^204^1^NORTHGATE CLINIC||||48213^Brandt^Emil^^^Dr.||||||||||||V20250411-0092|||||||||||||||||||||||||20250411064500
+AL1|1|DA|70618^Penicillin^RXNORM|SV|Anaphylaxis|20040612
+AL1|2|DA|1191^Aspirin^RXNORM|MO|Hives
+DG1|1||N18.30^Chronic kidney disease, stage 3 unspecified^I10|Chronic kidney disease, stage 3||A
+DG1|2||D50.9^Iron deficiency anemia, unspecified^I10|Iron deficiency anemia||A
+OBR|1|ORD-99120|LAB-442190|24323-8^Comprehensive metabolic panel^LN|||20250411070000|||||||||48213^Brandt^Emil^^^Dr.||||||20250411072800|||F
+OBX|1|NM|2345-7^Glucose^LN||104|mg/dL|70-99|H|||F|||20250411070000
+OBX|2|NM|2160-0^Creatinine^LN||1.9|mg/dL|0.6-1.1|H|||F|||20250411070000
+OBX|3|NM|33914-3^eGFR (CKD-EPI)^LN||28|mL/min/1.73m2|>60|LL|||F|||20250411070000
+OBX|4|NM|2823-3^Potassium^LN||5.4||3.5-5.1|H|||F|||20250411070000
+OBX|5|NM|2951-2^Sodium^LN||138|mmol/L|136-145|N|||F|||20250411070000
+OBX|6|NM|17861-6^Calcium^LN||8.2|mg/dL|8.6-10.2|L|||F|||20250411070000
+OBX|7|NM|1742-6^ALT^LN||22|U/L|<35||||F|||20250411070000
+OBX|8|NM|1975-2^Bilirubin, total^LN||pending|mg/dL|0.1-1.2||||P|||20250411070000
+NTE|1|L|Specimen slightly hemolyzed. Potassium may be falsely elevated. Called to Dr. Brandt at (555) 013-2200.
+OBR|2|ORD-99121|LAB-442191|58410-2^Complete blood count^LN|||20250411070000|||||||||48213^Brandt^Emil^^^Dr.||||||20250411072900|||F
+OBX|9|NM|718-7^Hemoglobin^LN||9.8|g/dL|12.0-15.5|L|||F|||20250411070000
+OBX|10|NM|4544-3^Hematocrit^LN||30.1|%|36.0-46.0|L|||F|||20250411070000
+OBX|11|NM|6690-2^WBC^LN||6.4|10*3/uL|4.5-11.0|N|||F|||20250411070000
+OBX|12|NM|777-3^Platelets^LN||412|10*3/uL|150-400|H|||F|||20259911070000
+OBX|13|NM|2276-4^Ferritin^LN||<8|ng/mL|15-150|L|||F|||20250411070000
+OBX|14|ST|5778-6^Urine color^LN||Dark yellow||||||F|||20250411070000
+OBX|15|CE|5804-0^Urine protein^LN||260385009^Positive^SCT|||A|||F|||20250411070000
+OBX|16|NM|4548-4^Hemoglobin A1c^LN|||%|4.0-5.6||||X
+ZZ9|1|local custom segment|ignored

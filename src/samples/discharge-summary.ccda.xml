@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic sample for MedView. Every person, identifier and address is invented. -->
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdtc="urn:hl7-org:sdtc">
+  <realmCode code="US"/>
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+  <templateId root="2.16.840.1.113883.10.20.22.1.8"/>
+  <id root="2.16.840.1.113883.19.5.99999.1" extension="DS-2025-0619-0042"/>
+  <code code="18842-5" displayName="Discharge summary" codeSystem="2.16.840.1.113883.6.1"/>
+  <title>Discharge Summary</title>
+  <effectiveTime value="20250619113000-0500"/>
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+  <languageCode code="en-US"/>
+  <recordTarget>
+    <patientRole>
+      <id root="2.16.840.1.113883.19.5.99999.2" extension="LGH-00391827"/>
+      <id root="2.16.840.1.113883.4.1" extension="000-78-9012"/>
+      <addr use="HP">
+        <streetAddressLine>1420 Harbor View Drive</streetAddressLine>
+        <city>Duluth</city>
+        <state>MN</state>
+        <postalCode>55802</postalCode>
+        <country>US</country>
+      </addr>
+      <telecom use="HP" value="tel:+1(555)010-7742"/>
+      <telecom value="mailto:eleanor.whitfield@example.org"/>
+      <patient>
+        <name use="L"><given>Eleanor</given><given>M.</given><family>Whitfield</family></name>
+        <administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1"/>
+        <birthTime value="19570309"/>
+      </patient>
+    </patientRole>
+  </recordTarget>
+  <author>
+    <time value="20250619113000-0500"/>
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.4.6" extension="1548273960"/>
+      <assignedPerson><name><prefix>Dr.</prefix><given>Samuel</given><family>Achterberg</family></name></assignedPerson>
+      <representedOrganization><name>Lakeshore General Hospital</name></representedOrganization>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="2.16.840.1.113883.19.5.99999"/>
+        <name>Lakeshore General Hospital</name>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <component>
+    <structuredBody>
+      <component>
+        <section>
+          <code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Allergies and Adverse Reactions</title>
+          <text><list><item><content ID="allergy1">Penicillin</content> — anaphylaxis (severe)</item><item><content ID="allergy2">Latex</content> — contact dermatitis (moderate)</item></list></text>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="active"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+                  <effectiveTime><low value="19980301"/></effectiveTime>
+                  <value xsi:type="CD" code="416098002" displayName="Drug allergy" codeSystem="2.16.840.1.113883.6.96"/>
+                  <participant typeCode="CSM">
+                    <participantRole classCode="MANU">
+                      <playingEntity classCode="MMAT">
+                        <code code="7980" displayName="Penicillin" codeSystem="2.16.840.1.113883.6.88"><originalText><reference value="#allergy1"/></originalText></code>
+                      </playingEntity>
+                    </participantRole>
+                  </participant>
+                  <entryRelationship typeCode="MFST" inversionInd="true">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId root="2.16.840.1.113883.10.20.22.4.9"/>
+                      <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+                      <value xsi:type="CD" code="39579001" displayName="Anaphylaxis" codeSystem="2.16.840.1.113883.6.96"/>
+                    </observation>
+                  </entryRelationship>
+                  <entryRelationship typeCode="SUBJ" inversionInd="true">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId root="2.16.840.1.113883.10.20.22.4.8"/>
+                      <code code="SEV" codeSystem="2.16.840.1.113883.5.4"/>
+                      <value xsi:type="CD" code="24484000" displayName="Severe" codeSystem="2.16.840.1.113883.6.96"/>
+                    </observation>
+                  </entryRelationship>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="active"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+                  <effectiveTime><low value="19980301"/></effectiveTime>
+                  <value xsi:type="CD" code="416098002" displayName="Drug allergy" codeSystem="2.16.840.1.113883.6.96"/>
+                  <participant typeCode="CSM">
+                    <participantRole classCode="MANU">
+                      <playingEntity classCode="MMAT">
+                        <code code="1314891" displayName="Latex" codeSystem="2.16.840.1.113883.6.88"><originalText><reference value="#allergy2"/></originalText></code>
+                      </playingEntity>
+                    </participantRole>
+                  </participant>
+                  <entryRelationship typeCode="MFST" inversionInd="true">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId root="2.16.840.1.113883.10.20.22.4.9"/>
+                      <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+                      <value xsi:type="CD" code="40275004" displayName="Contact dermatitis" codeSystem="2.16.840.1.113883.6.96"/>
+                    </observation>
+                  </entryRelationship>
+                  <entryRelationship typeCode="SUBJ" inversionInd="true">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId root="2.16.840.1.113883.10.20.22.4.8"/>
+                      <code code="SEV" codeSystem="2.16.840.1.113883.5.4"/>
+                      <value xsi:type="CD" code="24484000" displayName="Moderate" codeSystem="2.16.840.1.113883.6.96"/>
+                    </observation>
+                  </entryRelationship>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="10160-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Discharge Medications</title>
+          <text><paragraph>Medications at discharge, reconciled by pharmacy.</paragraph></text>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <statusCode code="active"/>
+              <effectiveTime xsi:type="IVL_TS"><low value="20250619"/></effectiveTime>
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A"><period value="24" unit="h"/></effectiveTime>
+              <routeCode code="C38288" displayName="Oral" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+              <doseQuantity value="40" unit="mg"/>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial><code code="200801" displayName="Furosemide 40 mg oral tablet" codeSystem="2.16.840.1.113883.6.88"/></manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <statusCode code="active"/>
+              <effectiveTime xsi:type="IVL_TS"><low value="20220110"/></effectiveTime>
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A"><period value="24" unit="h"/></effectiveTime>
+              <routeCode code="C38288" displayName="Oral" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+              <doseQuantity value="50" unit="mg"/>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial><code code="866427" displayName="Metoprolol succinate 50 mg extended-release tablet" codeSystem="2.16.840.1.113883.6.88"/></manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <statusCode code="active"/>
+              <effectiveTime xsi:type="IVL_TS"><low value="20190304"/></effectiveTime>
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A"><period value="24" unit="h"/></effectiveTime>
+              <routeCode code="C38288" displayName="Oral" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+              <doseQuantity value="50" unit="mg"/>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial><code code="979485" displayName="Losartan potassium 50 mg oral tablet" codeSystem="2.16.840.1.113883.6.88"/></manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <statusCode code="active"/>
+              <effectiveTime xsi:type="IVL_TS"><low value="20150822"/></effectiveTime>
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A"><period value="12" unit="h"/></effectiveTime>
+              <routeCode code="C38288" displayName="Oral" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+              <doseQuantity value="500" unit="mg"/>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial><code code="860975" displayName="Metformin 500 mg extended-release tablet" codeSystem="2.16.840.1.113883.6.88"/></manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <statusCode code="active"/>
+              <effectiveTime xsi:type="IVL_TS"><low value="20220110"/></effectiveTime>
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A"><period value="24" unit="h"/></effectiveTime>
+              <routeCode code="C38288" displayName="Oral" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+              <doseQuantity value="5" unit="mg"/>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial><code code="855332" displayName="Warfarin sodium 5 mg oral tablet" codeSystem="2.16.840.1.113883.6.88"/></manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <statusCode code="completed"/>
+              <effectiveTime xsi:type="IVL_TS"><low value="20240105"/><high value="20250615"/></effectiveTime>
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A"><period value="8" unit="h"/></effectiveTime>
+              <routeCode code="C38288" displayName="Oral" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+              <doseQuantity value="400" unit="mg"/>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial><code code="197361" displayName="Ibuprofen 400 mg oral tablet" codeSystem="2.16.840.1.113883.6.88"/></manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+            </substanceAdministration>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Problem List</title>
+          <text><paragraph>Active and resolved problems.</paragraph></text>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="active"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96"/>
+                  <effectiveTime><low value="20250615"/></effectiveTime>
+                  <value xsi:type="CD" code="I50.23" displayName="Acute on chronic systolic (congestive) heart failure" codeSystem="2.16.840.1.113883.6.90"/>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="active"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96"/>
+                  <effectiveTime><low value="20220108"/></effectiveTime>
+                  <value xsi:type="CD" code="I48.91" displayName="Unspecified atrial fibrillation" codeSystem="2.16.840.1.113883.6.90"/>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="active"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96"/>
+                  <effectiveTime><low value="20230511"/></effectiveTime>
+                  <value xsi:type="CD" code="N18.32" displayName="Chronic kidney disease, stage 3b" codeSystem="2.16.840.1.113883.6.90"/>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="active"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96"/>
+                  <effectiveTime><low value="20150820"/></effectiveTime>
+                  <value xsi:type="CD" code="E11.22" displayName="Type 2 diabetes mellitus with diabetic chronic kidney disease" codeSystem="2.16.840.1.113883.6.90"/>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="active"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96"/>
+                  <effectiveTime><low value="20240219"/></effectiveTime>
+                  <value xsi:type="CD" code="D63.1" displayName="Anemia in chronic kidney disease" codeSystem="2.16.840.1.113883.6.90"/>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <statusCode code="completed"/>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96"/>
+                  <effectiveTime><low value="20120401"/><high value="20180930"/></effectiveTime>
+                  <value xsi:type="CD" code="K21.9" displayName="Gastro-esophageal reflux disease without esophagitis" codeSystem="2.16.840.1.113883.6.90"/>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Results</title>
+          <text><paragraph>Laboratory results from this admission.</paragraph></text>
+          <entry>
+            <organizer classCode="BATTERY" moodCode="EVN">
+              <code code="24323-8" displayName="Comprehensive metabolic panel" codeSystem="2.16.840.1.113883.6.1"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20250619061500"/>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="2160-0" displayName="Creatinine" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="2.1" unit="mg/dL"/>
+                    <interpretationCode code="H" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="0.6" unit="mg/dL"/><high value="1.1" unit="mg/dL"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="33914-3" displayName="eGFR (CKD-EPI)" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="31" unit="mL/min/1.73m2"/>
+                    <interpretationCode code="L" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="60" unit="mL/min/1.73m2"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="2823-3" displayName="Potassium" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="4.6" unit="mmol/L"/>
+                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="3.5" unit="mmol/L"/><high value="5.1" unit="mmol/L"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="2951-2" displayName="Sodium" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="131" unit="mmol/L"/>
+                    <interpretationCode code="L" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="136" unit="mmol/L"/><high value="145" unit="mmol/L"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="2345-7" displayName="Glucose" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="138" unit="mg/dL"/>
+                    <interpretationCode code="H" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="70" unit="mg/dL"/><high value="99" unit="mg/dL"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="1742-6" displayName="ALT" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="24" unit="U/L"/>
+                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="7" unit="U/L"/><high value="35" unit="U/L"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+            </organizer>
+          </entry>
+          <entry>
+            <organizer classCode="BATTERY" moodCode="EVN">
+              <code code="58410-2" displayName="Complete blood count" codeSystem="2.16.840.1.113883.6.1"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20250619061500"/>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="718-7" displayName="Hemoglobin" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="10.1" unit="g/dL"/>
+                    <interpretationCode code="L" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="12.0" unit="g/dL"/><high value="15.5" unit="g/dL"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="6690-2" displayName="WBC" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="8.9" unit="10*3/uL"/>
+                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="4.5" unit="10*3/uL"/><high value="11.0" unit="10*3/uL"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="777-3" displayName="Platelets" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619061500"/>
+                    <value xsi:type="PQ" value="198" unit="10*3/uL"/>
+                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="150" unit="10*3/uL"/><high value="400" unit="10*3/uL"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+            </organizer>
+          </entry>
+          <entry>
+            <organizer classCode="BATTERY" moodCode="EVN">
+              <code code="33762-6" displayName="Cardiac markers" codeSystem="2.16.840.1.113883.6.1"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20250615193000"/>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="33762-6" displayName="NT-proBNP" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250615193000"/>
+                    <value xsi:type="PQ" value="4820" unit="pg/mL"/>
+                    <interpretationCode code="HH" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><high value="125" unit="pg/mL"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="89579-7" displayName="Troponin I, high sensitivity" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250615193000"/>
+                    <value xsi:type="PQ" value="18" unit="ng/L"/>
+                    <interpretationCode code="H" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><high value="16" unit="ng/L"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="6301-6" displayName="INR" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250615193000"/>
+                    <value xsi:type="PQ" value="2.4" unit="{INR}"/>
+                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="2.0" unit="{INR}"/><high value="3.0" unit="{INR}"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="4548-4" displayName="Hemoglobin A1c" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250615193000"/>
+                    <value xsi:type="PQ" value="7.3" unit="%"/>
+                    <interpretationCode code="H" codeSystem="2.16.840.1.113883.5.83"/><referenceRange><observationRange><value xsi:type="IVL_PQ"><low value="4.0" unit="%"/><high value="5.6" unit="%"/></value></observationRange></referenceRange>
+                  </observation>
+                </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Vital Signs</title>
+          <text><paragraph>Vital signs at discharge.</paragraph></text>
+          <entry>
+            <organizer classCode="BATTERY" moodCode="EVN">
+              <code code="46680005" displayName="Vital signs" codeSystem="2.16.840.1.113883.6.1"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20250619080000"/>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="8480-6" displayName="Systolic blood pressure" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619080000"/>
+                    <value xsi:type="PQ" value="118" unit="mm[Hg]"/>
+                    
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="8462-4" displayName="Diastolic blood pressure" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619080000"/>
+                    <value xsi:type="PQ" value="72" unit="mm[Hg]"/>
+                    
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="8867-4" displayName="Heart rate" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619080000"/>
+                    <value xsi:type="PQ" value="68" unit="/min"/>
+                    
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="2708-6" displayName="Oxygen saturation" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619080000"/>
+                    <value xsi:type="PQ" value="95" unit="%"/>
+                    
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="29463-7" displayName="Body weight" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619080000"/>
+                    <value xsi:type="PQ" value="71.8" unit="kg"/>
+                    
+                  </observation>
+                </component>
+                <component>
+                  <observation classCode="OBS" moodCode="EVN">
+                    <code code="8310-5" displayName="Body temperature" codeSystem="2.16.840.1.113883.6.1"/>
+                    <statusCode code="completed"/>
+                    <effectiveTime value="20250619080000"/>
+                    <value xsi:type="PQ" value="36.7" unit="Cel"/>
+                    
+                  </observation>
+                </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="46240-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Encounters</title>
+          <text><paragraph>Inpatient admission 15–19 June 2025.</paragraph></text>
+          <entry>
+            <encounter classCode="ENC" moodCode="EVN">
+              <code code="32485007" displayName="Hospital admission" codeSystem="2.16.840.1.113883.6.96"/>
+              <effectiveTime><low value="20250615184500"/><high value="20250619113000"/></effectiveTime>
+              <performer><assignedEntity><id root="2.16.840.1.113883.4.6" extension="1548273960"/><assignedPerson><name><prefix>Dr.</prefix><given>Samuel</given><family>Achterberg</family></name></assignedPerson></assignedEntity></performer>
+              <participant typeCode="LOC"><participantRole classCode="SDLOC"><playingEntity classCode="PLC"><name>Lakeshore General Hospital — Cardiology Unit</name></playingEntity></participantRole></participant>
+            </encounter>
+          </entry>
+          <entry>
+            <encounter classCode="ENC" moodCode="EVN">
+              <code code="185349003" displayName="Outpatient cardiology visit" codeSystem="2.16.840.1.113883.6.96"/>
+              <effectiveTime><low value="20250403100000"/><high value="20250403103000"/></effectiveTime>
+            </encounter>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="11369-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Immunizations</title>
+          <text><paragraph>Immunization history.</paragraph></text>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN" negationInd="false">
+              <statusCode code="completed"/>
+              <effectiveTime value="20241014"/>
+              <consumable><manufacturedProduct classCode="MANU"><manufacturedMaterial><code code="197" displayName="Influenza, high-dose, quadrivalent" codeSystem="2.16.840.1.113883.12.292"/></manufacturedMaterial></manufacturedProduct></consumable>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN" negationInd="false">
+              <statusCode code="completed"/>
+              <effectiveTime value="20230302"/>
+              <consumable><manufacturedProduct classCode="MANU"><manufacturedMaterial><code code="33" displayName="Pneumococcal polysaccharide PPV23" codeSystem="2.16.840.1.113883.12.292"/></manufacturedMaterial></manufacturedProduct></consumable>
+            </substanceAdministration>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="47519-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Procedures</title>
+          <text><paragraph>Procedures during this admission.</paragraph></text>
+          <entry>
+            <procedure classCode="PROC" moodCode="EVN">
+              <code code="40701008" displayName="Echocardiography" codeSystem="2.16.840.1.113883.6.96"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20250616"/>
+            </procedure>
+          </entry>
+          <entry>
+            <procedure classCode="PROC" moodCode="EVN">
+              <code code="29303009" displayName="Electrocardiographic procedure" codeSystem="2.16.840.1.113883.6.96"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20250615"/>
+            </procedure>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="8648-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+          <title>Hospital Course</title>
+          <text><paragraph>Mrs. Whitfield, a 68-year-old woman, was admitted with three days of worsening shortness of breath and leg swelling. She was treated with intravenous diuretics and lost 4.2 kg of fluid. Echocardiography showed an ejection fraction of 35%. Kidney function was monitored closely and stayed near her baseline.</paragraph><paragraph>She was discharged home in stable condition. Follow-up with Dr. Achterberg in one week; call (555) 010-3300 with weight gain above 1.5 kg in two days.</paragraph></text>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

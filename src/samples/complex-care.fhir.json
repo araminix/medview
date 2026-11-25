@@ -1,0 +1,2576 @@
+{
+  "resourceType": "Bundle",
+  "id": "medview-sample-complex-care",
+  "type": "collection",
+  "timestamp": "2025-09-18T15:00:00Z",
+  "entry": [
+    {
+      "fullUrl": "https://example.org/fhir/Patient/pat-delgado",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "pat-delgado",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Marcus J. Delgado, born 14 Aug 1968</div>"
+        },
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR"
+                }
+              ],
+              "text": "MRN"
+            },
+            "value": "MRN-48213907"
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "SS"
+                }
+              ],
+              "text": "SSN"
+            },
+            "value": "000-12-3456"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Delgado",
+            "given": [
+              "Marcus",
+              "J."
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "(555) 014-2290",
+            "use": "mobile"
+          },
+          {
+            "system": "email",
+            "value": "marcus.delgado@example.org"
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1968-08-14",
+        "address": [
+          {
+            "line": [
+              "2417 Alder Creek Road"
+            ],
+            "city": "Portland",
+            "state": "OR",
+            "postalCode": "97205",
+            "country": "US"
+          }
+        ],
+        "contact": [
+          {
+            "relationship": [
+              {
+                "text": "Spouse"
+              }
+            ],
+            "name": {
+              "family": "Delgado",
+              "given": [
+                "Renata"
+              ]
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "(555) 014-7781"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Practitioner/prac-okafor",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "prac-okafor",
+        "name": [
+          {
+            "family": "Okafor",
+            "given": [
+              "Ngozi"
+            ],
+            "prefix": [
+              "Dr."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Organization/org-riverside",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "org-riverside",
+        "name": "Riverside Community Hospital"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/AllergyIntolerance/alg-penicillin",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "alg-penicillin",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "criticality": "high",
+        "code": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "7980",
+              "display": "Penicillin"
+            }
+          ],
+          "text": "Penicillin"
+        },
+        "patient": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "39579001",
+                    "display": "Anaphylaxis"
+                  }
+                ],
+                "text": "Anaphylaxis"
+              }
+            ],
+            "severity": "severe"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/AllergyIntolerance/alg-latex",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "alg-latex",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "111088007",
+              "display": "Latex"
+            }
+          ],
+          "text": "Latex"
+        },
+        "patient": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "271807003",
+                    "display": "Skin rash"
+                  }
+                ],
+                "text": "Skin rash"
+              }
+            ],
+            "severity": "mild"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Encounter/enc-1",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-1",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "AMB"
+        },
+        "type": [
+          {
+            "text": "Annual diabetes review"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "participant": [
+          {
+            "individual": {
+              "reference": "Practitioner/prac-okafor",
+              "display": "Dr. Ngozi Okafor"
+            }
+          }
+        ],
+        "period": {
+          "start": "2025-03-12T09:00:00Z",
+          "end": "2025-03-12T09:40:00Z"
+        },
+        "serviceProvider": {
+          "reference": "Organization/org-riverside",
+          "display": "Riverside Community Hospital"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Encounter/enc-2",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-2",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "EMER"
+        },
+        "type": [
+          {
+            "text": "Emergency visit — chest tightness"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "participant": [
+          {
+            "individual": {
+              "reference": "Practitioner/prac-okafor",
+              "display": "Dr. Ngozi Okafor"
+            }
+          }
+        ],
+        "period": {
+          "start": "2025-06-02T22:15:00Z",
+          "end": "2025-06-03T03:30:00Z"
+        },
+        "serviceProvider": {
+          "reference": "Organization/org-riverside",
+          "display": "Riverside Community Hospital"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Encounter/enc-3",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-3",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "AMB"
+        },
+        "type": [
+          {
+            "text": "Cardiology follow-up"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "participant": [
+          {
+            "individual": {
+              "reference": "Practitioner/prac-okafor",
+              "display": "Dr. Ngozi Okafor"
+            }
+          }
+        ],
+        "period": {
+          "start": "2025-09-18T14:00:00Z",
+          "end": "2025-09-18T14:30:00Z"
+        },
+        "serviceProvider": {
+          "reference": "Organization/org-riverside",
+          "display": "Riverside Community Hospital"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Condition/cond-dm",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-dm",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "E11.9",
+              "display": "Type 2 diabetes mellitus without complications"
+            }
+          ],
+          "text": "Type 2 diabetes mellitus without complications"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "onsetDateTime": "2016-05-10"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Condition/cond-htn",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-htn",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "I10",
+              "display": "Essential (primary) hypertension"
+            }
+          ],
+          "text": "Essential (primary) hypertension"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-3"
+        },
+        "onsetDateTime": "2014-11-02"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Condition/cond-lipid",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-lipid",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "E78.5",
+              "display": "Hyperlipidemia, unspecified"
+            }
+          ],
+          "text": "Hyperlipidemia, unspecified"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "onsetDateTime": "2017-01-20"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Condition/cond-ckd",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-ckd",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "N18.2",
+              "display": "Chronic kidney disease, stage 2 (mild)"
+            }
+          ],
+          "text": "Chronic kidney disease, stage 2 (mild)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "onsetDateTime": "2023-08-14"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Condition/cond-oa",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-oa",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "M17.11",
+              "display": "Unilateral primary osteoarthritis, right knee"
+            }
+          ],
+          "text": "Unilateral primary osteoarthritis, right knee"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "onsetDateTime": "2021-03-03"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Condition/cond-pna",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-pna",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "resolved"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "J18.9",
+              "display": "Pneumonia, unspecified organism"
+            }
+          ],
+          "text": "Pneumonia, unspecified organism"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "onsetDateTime": "2022-12-05",
+        "abatementDateTime": "2023-01-10"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-hba1c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-hba1c",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "4548-4",
+              "display": "Hemoglobin A1c"
+            }
+          ],
+          "text": "Hemoglobin A1c"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 8.4,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 4,
+              "unit": "%"
+            },
+            "high": {
+              "value": 5.6,
+              "unit": "%"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-glucose",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-glucose",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2345-7",
+              "display": "Glucose [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Glucose [Mass/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 162,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 70,
+              "unit": "mg/dL"
+            },
+            "high": {
+              "value": 99,
+              "unit": "mg/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-ldl",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-ldl",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "13457-7",
+              "display": "LDL Cholesterol (calculated)"
+            }
+          ],
+          "text": "LDL Cholesterol (calculated)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 148,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "mg/dL"
+            },
+            "high": {
+              "value": 100,
+              "unit": "mg/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-hdl",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-hdl",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2085-9",
+              "display": "HDL Cholesterol"
+            }
+          ],
+          "text": "HDL Cholesterol"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 38,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "L"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 40,
+              "unit": "mg/dL"
+            },
+            "high": {
+              "value": 60,
+              "unit": "mg/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-chol",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-chol",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2093-3",
+              "display": "Cholesterol, Total"
+            }
+          ],
+          "text": "Cholesterol, Total"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 224,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "mg/dL"
+            },
+            "high": {
+              "value": 200,
+              "unit": "mg/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-trig",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-trig",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2571-8",
+              "display": "Triglycerides"
+            }
+          ],
+          "text": "Triglycerides"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 142,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "mg/dL"
+            },
+            "high": {
+              "value": 150,
+              "unit": "mg/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-creat",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-creat",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2160-0",
+              "display": "Creatinine"
+            }
+          ],
+          "text": "Creatinine"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 1.1,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.7,
+              "unit": "mg/dL"
+            },
+            "high": {
+              "value": 1.3,
+              "unit": "mg/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-egfr",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-egfr",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "33914-3",
+              "display": "eGFR (CKD-EPI)"
+            }
+          ],
+          "text": "eGFR (CKD-EPI)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 74,
+          "unit": "mL/min/1.73m2",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "L"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 90,
+              "unit": "mL/min/1.73m2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-alt",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-alt",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1742-6",
+              "display": "ALT (Alanine aminotransferase)"
+            }
+          ],
+          "text": "ALT (Alanine aminotransferase)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 31,
+          "unit": "U/L",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 7,
+              "unit": "U/L"
+            },
+            "high": {
+              "value": 56,
+              "unit": "U/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-ast",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-ast",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1920-8",
+              "display": "AST (Aspartate aminotransferase)"
+            }
+          ],
+          "text": "AST (Aspartate aminotransferase)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 28,
+          "unit": "U/L",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 10,
+              "unit": "U/L"
+            },
+            "high": {
+              "value": 40,
+              "unit": "U/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-tsh",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-tsh",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "3016-3",
+              "display": "TSH (Thyrotropin)"
+            }
+          ],
+          "text": "TSH (Thyrotropin)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "valueQuantity": {
+          "value": 2.1,
+          "unit": "mIU/L",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.4,
+              "unit": "mIU/L"
+            },
+            "high": {
+              "value": 4,
+              "unit": "mIU/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-hgb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-hgb",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "718-7",
+              "display": "Hemoglobin"
+            }
+          ],
+          "text": "Hemoglobin"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T08:30:00Z",
+        "valueQuantity": {
+          "value": 14.2,
+          "unit": "g/dL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 13.5,
+              "unit": "g/dL"
+            },
+            "high": {
+              "value": 17.5,
+              "unit": "g/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-wbc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-wbc",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "6690-2",
+              "display": "WBC (Leukocytes)"
+            }
+          ],
+          "text": "WBC (Leukocytes)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T08:30:00Z",
+        "valueQuantity": {
+          "value": 7.8,
+          "unit": "10*3/uL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 4.5,
+              "unit": "10*3/uL"
+            },
+            "high": {
+              "value": 11,
+              "unit": "10*3/uL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-plt",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-plt",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "777-3",
+              "display": "Platelets"
+            }
+          ],
+          "text": "Platelets"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T08:30:00Z",
+        "valueQuantity": {
+          "value": 245,
+          "unit": "10*3/uL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 150,
+              "unit": "10*3/uL"
+            },
+            "high": {
+              "value": 400,
+              "unit": "10*3/uL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-trop",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-trop",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "89579-7",
+              "display": "Troponin I, high sensitivity"
+            }
+          ],
+          "text": "Troponin I, high sensitivity"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T08:30:00Z",
+        "valueQuantity": {
+          "value": 9,
+          "unit": "ng/L",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "ng/L"
+            },
+            "high": {
+              "value": 20,
+              "unit": "ng/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-bnp",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-bnp",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "30934-4",
+              "display": "BNP (Natriuretic peptide B)"
+            }
+          ],
+          "text": "BNP (Natriuretic peptide B)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T08:30:00Z",
+        "valueQuantity": {
+          "value": 48,
+          "unit": "pg/mL",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "pg/mL"
+            },
+            "high": {
+              "value": 100,
+              "unit": "pg/mL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-k",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-k",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2823-3",
+              "display": "Potassium"
+            }
+          ],
+          "text": "Potassium"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T08:30:00Z",
+        "valueQuantity": {
+          "value": 5.9,
+          "unit": "mmol/L",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "HH"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 3.5,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 5.1,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/obs-na",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-na",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2951-2",
+              "display": "Sodium"
+            }
+          ],
+          "text": "Sodium"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T08:30:00Z",
+        "valueQuantity": {
+          "value": 139,
+          "unit": "mmol/L",
+          "system": "http://unitsofmeasure.org"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 136,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 145,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-bp-1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-bp-1",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85354-9",
+              "display": "Blood pressure"
+            }
+          ],
+          "text": "Blood pressure"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T09:05:00Z",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8480-6",
+                  "display": "Systolic blood pressure"
+                }
+              ],
+              "text": "Systolic blood pressure"
+            },
+            "valueQuantity": {
+              "value": 148,
+              "unit": "mmHg"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8462-4",
+                  "display": "Diastolic blood pressure"
+                }
+              ],
+              "text": "Diastolic blood pressure"
+            },
+            "valueQuantity": {
+              "value": 94,
+              "unit": "mmHg"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-bp-2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-bp-2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85354-9",
+              "display": "Blood pressure"
+            }
+          ],
+          "text": "Blood pressure"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T22:20:00Z",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8480-6",
+                  "display": "Systolic blood pressure"
+                }
+              ],
+              "text": "Systolic blood pressure"
+            },
+            "valueQuantity": {
+              "value": 162,
+              "unit": "mmHg"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8462-4",
+                  "display": "Diastolic blood pressure"
+                }
+              ],
+              "text": "Diastolic blood pressure"
+            },
+            "valueQuantity": {
+              "value": 98,
+              "unit": "mmHg"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-bp-3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-bp-3",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85354-9",
+              "display": "Blood pressure"
+            }
+          ],
+          "text": "Blood pressure"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-3"
+        },
+        "effectiveDateTime": "2025-09-18T14:05:00Z",
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8480-6",
+                  "display": "Systolic blood pressure"
+                }
+              ],
+              "text": "Systolic blood pressure"
+            },
+            "valueQuantity": {
+              "value": 134,
+              "unit": "mmHg"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8462-4",
+                  "display": "Diastolic blood pressure"
+                }
+              ],
+              "text": "Diastolic blood pressure"
+            },
+            "valueQuantity": {
+              "value": 84,
+              "unit": "mmHg"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-hr-1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-hr-1",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8867-4",
+              "display": "Heart rate"
+            }
+          ],
+          "text": "Heart rate"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T09:05:00Z",
+        "valueQuantity": {
+          "value": 78,
+          "unit": "/min"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-hr-2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-hr-2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8867-4",
+              "display": "Heart rate"
+            }
+          ],
+          "text": "Heart rate"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T22:20:00Z",
+        "valueQuantity": {
+          "value": 104,
+          "unit": "/min"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-spo2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-spo2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2708-6",
+              "display": "Oxygen saturation"
+            }
+          ],
+          "text": "Oxygen saturation"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "effectiveDateTime": "2025-06-02T22:20:00Z",
+        "valueQuantity": {
+          "value": 97,
+          "unit": "%"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-weight",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-weight",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "29463-7",
+              "display": "Body weight"
+            }
+          ],
+          "text": "Body weight"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T09:05:00Z",
+        "valueQuantity": {
+          "value": 96.4,
+          "unit": "kg"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Observation/vit-bmi",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "vit-bmi",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "39156-5",
+              "display": "Body mass index (BMI)"
+            }
+          ],
+          "text": "Body mass index (BMI)"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T09:05:00Z",
+        "valueQuantity": {
+          "value": 31.2,
+          "unit": "kg/m2"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/MedicationRequest/med-metformin",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-metformin",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "861007",
+              "display": "Metformin 500 mg oral tablet"
+            }
+          ],
+          "text": "Metformin 500 mg oral tablet"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "authoredOn": "2016-05-10",
+        "requester": {
+          "reference": "Practitioner/prac-okafor",
+          "display": "Dr. Ngozi Okafor"
+        },
+        "dosageInstruction": [
+          {
+            "timing": {
+              "repeat": {
+                "frequency": 2,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ],
+              "text": "Oral route"
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 500,
+                  "unit": "mg"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/MedicationRequest/med-lisinopril",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-lisinopril",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "314076",
+              "display": "Lisinopril 10 mg oral tablet"
+            }
+          ],
+          "text": "Lisinopril 10 mg oral tablet"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "authoredOn": "2014-11-02",
+        "requester": {
+          "reference": "Practitioner/prac-okafor",
+          "display": "Dr. Ngozi Okafor"
+        },
+        "dosageInstruction": [
+          {
+            "timing": {
+              "repeat": {
+                "frequency": 1,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ],
+              "text": "Oral route"
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 10,
+                  "unit": "mg"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/MedicationRequest/med-atorvastatin",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-atorvastatin",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "617311",
+              "display": "Atorvastatin 40 mg oral tablet"
+            }
+          ],
+          "text": "Atorvastatin 40 mg oral tablet"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "authoredOn": "2025-03-12",
+        "requester": {
+          "reference": "Practitioner/prac-okafor",
+          "display": "Dr. Ngozi Okafor"
+        },
+        "dosageInstruction": [
+          {
+            "timing": {
+              "repeat": {
+                "frequency": 1,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ],
+              "text": "Oral route"
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 40,
+                  "unit": "mg"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/MedicationRequest/med-empagliflozin",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-empagliflozin",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "1545653",
+              "display": "Empagliflozin 10 mg oral tablet"
+            }
+          ],
+          "text": "Empagliflozin 10 mg oral tablet"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "authoredOn": "2025-03-12",
+        "requester": {
+          "reference": "Practitioner/prac-okafor",
+          "display": "Dr. Ngozi Okafor"
+        },
+        "dosageInstruction": [
+          {
+            "timing": {
+              "repeat": {
+                "frequency": 1,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ],
+              "text": "Oral route"
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 10,
+                  "unit": "mg"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/MedicationRequest/med-aspirin",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-aspirin",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "243670",
+              "display": "Aspirin 81 mg oral tablet"
+            }
+          ],
+          "text": "Aspirin 81 mg oral tablet"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "authoredOn": "2025-06-03",
+        "requester": {
+          "reference": "Practitioner/prac-okafor",
+          "display": "Dr. Ngozi Okafor"
+        },
+        "dosageInstruction": [
+          {
+            "timing": {
+              "repeat": {
+                "frequency": 1,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ],
+              "text": "Oral route"
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 81,
+                  "unit": "mg"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/MedicationRequest/med-amoxicillin",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-amoxicillin",
+        "status": "completed",
+        "intent": "order",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "308182",
+              "display": "Amoxicillin 500 mg oral capsule"
+            }
+          ],
+          "text": "Amoxicillin 500 mg oral capsule"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "authoredOn": "2022-12-05",
+        "requester": {
+          "reference": "Practitioner/prac-okafor",
+          "display": "Dr. Ngozi Okafor"
+        },
+        "dosageInstruction": [
+          {
+            "timing": {
+              "repeat": {
+                "frequency": 3,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ],
+              "text": "Oral route"
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 500,
+                  "unit": "mg"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/DiagnosticReport/rep-lipid",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "rep-lipid",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "57698-3",
+              "display": "Lipid panel with direct LDL"
+            }
+          ],
+          "text": "Lipid panel with direct LDL"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-1"
+        },
+        "effectiveDateTime": "2025-03-12T08:30:00Z",
+        "performer": [
+          {
+            "reference": "Organization/org-riverside"
+          }
+        ],
+        "result": [
+          {
+            "reference": "Observation/obs-ldl"
+          },
+          {
+            "reference": "Observation/obs-hdl"
+          },
+          {
+            "reference": "Observation/obs-chol"
+          },
+          {
+            "reference": "Observation/obs-trig"
+          }
+        ],
+        "conclusion": "LDL above goal for a patient with diabetes. Statin intensity increased."
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Immunization/imm-flu",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "imm-flu",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "158",
+              "display": "Influenza, injectable, quadrivalent"
+            }
+          ],
+          "text": "Influenza, injectable, quadrivalent"
+        },
+        "patient": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "occurrenceDateTime": "2024-10-08"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Immunization/imm-covid",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "imm-covid",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "300",
+              "display": "COVID-19, mRNA, bivalent"
+            }
+          ],
+          "text": "COVID-19, mRNA, bivalent"
+        },
+        "patient": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "occurrenceDateTime": "2023-11-15"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/fhir/Procedure/proc-ecg",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "proc-ecg",
+        "status": "completed",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "29303009",
+              "display": "Electrocardiographic procedure"
+            }
+          ],
+          "text": "Electrocardiographic procedure"
+        },
+        "subject": {
+          "reference": "Patient/pat-delgado",
+          "display": "Marcus J. Delgado"
+        },
+        "encounter": {
+          "reference": "Encounter/enc-2"
+        },
+        "performedDateTime": "2025-06-02T22:40:00Z",
+        "performer": [
+          {
+            "actor": {
+              "reference": "Practitioner/prac-991"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

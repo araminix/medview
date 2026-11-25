@@ -1,0 +1,80 @@
+import { parseCcda } from './ccda/parseCcda';
+import { decodeFile, stripBom } from './decode';
+import { detectSyntax } from './detect';
+import { parseFhir } from './fhir/parseFhir';
+import { fhirXmlToJson } from './fhir/xmlToJson';
+import { parseHl7 } from './hl7v2/parseHl7';
+import { isObj, type Obj } from './shared/access';
+import { parseXml, serializeXml, type XmlElement } from './shared/xml';
+import { UnreadableFileError, type ParsedDocument } from './types';
+
+export { UnreadableFileError, type ParsedDocument } from './types';
+
+const FHIR_NAMESPACE = 'http://hl7.org/fhir';
+const COMING_SOON: Record<string, string> = { HealthData: 'Apple Health exports', composition: 'OpenEHR compositions' };
+
+function lineOfOffset(text: string, offset: number): number {
+  let line = 1;
+  for (let i = 0; i < offset && i < text.length; i += 1) if (text.charCodeAt(i) === 10) line += 1;
+  return line;
+}
+
+function parseJson(text: string): ParsedDocument {
+  let root: unknown;
+  try {
+    root = JSON.parse(text);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    const position = /position (\d+)/.exec(message)?.[1];
+    const where = position ? `Problem near line ${lineOfOffset(text, Number(position))}.` : 'The file may have been cut off while downloading.';
+    throw new UnreadableFileError('This JSON file is damaged or incomplete', where);
+  }
+  if (isObj(root) && typeof root.resourceType === 'string') return parseFhir(root, 'json');
+  if (isObj(root) && ('archetype_node_id' in root || '_type' in root)) {
+    throw new UnreadableFileError('OpenEHR compositions are not supported yet', 'OpenEHR support is planned for a later version.');
+  }
+  throw new UnreadableFileError('This JSON file is not a FHIR resource', 'A FHIR file has a "resourceType" such as Bundle or Patient.');
+}
+
+function parseXmlDocument(text: string): ParsedDocument {
+  const document = parseXml(text);
+  const root = document.documentElement!;
+  if (root.localName === 'ClinicalDocument') return parseCcda(document);
+  if (root.namespaceURI === FHIR_NAMESPACE) {
+    const origin = new WeakMap<Obj, XmlElement>();
+    return parseFhir(fhirXmlToJson(root, origin), 'xml', (resource) => {
+      const element = origin.get(resource);
+      return element ? serializeXml(element) : undefined;
+    });
+  }
+  const planned = COMING_SOON[root.localName ?? ''];
+  if (planned) throw new UnreadableFileError(`${planned} are not supported yet`, 'Support is planned for a later version.');
+  throw new UnreadableFileError(`Unrecognized XML document <${root.localName}>`, 'MedView reads FHIR XML and C-CDA (<ClinicalDocument>) files.');
+}
+
+/** Detects the format from content and parses it into the universal ClinicalRecord. */
+export function parseText(text: string): ParsedDocument {
+  // A BOM or blank lines before an XML declaration would otherwise be a fatal XML error.
+  const body = stripBom(text).trimStart();
+  switch (detectSyntax(body)) {
+    case 'json':
+      return parseJson(body);
+    case 'xml':
+      return parseXmlDocument(body);
+    case 'hl7':
+      return parseHl7(body);
+    default:
+      throw new UnreadableFileError(
+        body.trim() ? 'This file format is not recognized' : 'This file is empty',
+        'MedView reads FHIR (JSON or XML), HL7 v2 and C-CDA files.',
+      );
+  }
+}
+
+/** Entry point for dropped files: decode bytes (BOM, encodings, zip) and parse. */
+export function parseBytes(bytes: Uint8Array): { document: ParsedDocument; text: string } {
+  const { text, archiveNote } = decodeFile(bytes);
+  const document = parseText(text);
+  if (archiveNote) document.record.meta.warnings.unshift({ message: archiveNote, severity: 'info' });
+  return { document, text };
+}
