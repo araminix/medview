@@ -66,5 +66,5 @@ export class RecordBuilder {
 }
 
 export function plural(count: number, noun: string): string {
-  return `${count} ${noun}${count === 1 ? '' : 's'}`;
+  return `${count.toLocaleString('en-US')} ${noun}${count === 1 ? '' : 's'}`;
 }

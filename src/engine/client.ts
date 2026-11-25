@@ -1,4 +1,16 @@
+import workerUrl from './engine.worker?worker&url';
 import type { EngineApi, EngineMessage, EngineMethod, EngineRequest, LoadStage } from './api';
+
+/**
+ * The worker script is fetched once during startup and kept as an in-memory blob. Every
+ * later worker (after Cancel or Clear File) starts from that copy, so wiping memory never
+ * causes a network request. The dev server serves unbundled modules, which cannot run from a blob.
+ */
+const workerScript: Promise<string> = import.meta.env.DEV
+  ? Promise.resolve(workerUrl)
+  : fetch(workerUrl)
+      .then((response) => response.blob())
+      .then((blob) => URL.createObjectURL(new Blob([blob], { type: 'text/javascript' })));
 
 /** Error raised by the engine with a user-facing message and an optional technical hint. */
 export class EngineError extends Error {
@@ -32,8 +44,8 @@ export class EngineClient {
   private readonly pending = new Map<number, Pending>();
   private nextId = 1;
 
-  private spawn(): Worker {
-    const worker = new Worker(new URL('./engine.worker.ts', import.meta.url), { type: 'module', name: 'medview-engine' });
+  private async spawn(): Promise<Worker> {
+    const worker = new Worker(await workerScript, { type: 'module', name: 'medview-engine' });
     worker.onmessage = (event: MessageEvent<EngineMessage>) => this.receive(event.data);
     worker.onerror = () => this.failAll(new EngineError('The file engine stopped unexpectedly', 'The file may be too large for this device.'));
     return worker;
@@ -70,12 +82,15 @@ export class EngineClient {
     const request: EngineRequest = { id, method, args };
     return new Promise<ReturnType<EngineApi[M]>>((resolve, reject) => {
       this.pending.set(id, { resolve: resolve as (value: unknown) => void, reject, onProgress });
-      this.worker.postMessage(request, transfer);
+      this.worker.then(
+        (worker) => worker.postMessage(request, transfer),
+        () => this.failAll(new EngineError('The file engine could not start', 'Reload the page and try again.')),
+      );
     });
   }
 
   reset(): void {
-    this.worker.terminate();
+    void this.worker.then((worker) => worker.terminate());
     this.failAll(new CancelledError());
     this.worker = this.spawn();
   }
