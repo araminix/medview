@@ -4,7 +4,8 @@
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 /* Clinical palette: paper-white surfaces, blue only for navigation, semantic colors only for medical meaning. */
-:root {
+:root,
+[data-theme='light'] {
   --mv-canvas: #f8fafc;
   --mv-surface: #ffffff;
   --mv-sunken: #f1f5f9;
@@ -126,4 +127,17 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Narrative HTML that came from the file (already sanitized). */
+.narrative :is(p, ul, ol, table) {
+  margin-block: 0.35rem;
+}
+.narrative :is(ul, ol) {
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.narrative :is(td, th) {
+  border: 1px solid var(--mv-border);
+  padding: 0.2rem 0.5rem;
 }
