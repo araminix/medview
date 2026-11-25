@@ -141,3 +141,14 @@
   border: 1px solid var(--mv-border);
   padding: 0.2rem 0.5rem;
 }
+
+/* xyflow chrome follows the clinical palette in both themes. */
+.react-flow {
+  --xy-background-color: var(--mv-canvas);
+  --xy-controls-button-background-color: var(--mv-surface);
+  --xy-controls-button-background-color-hover: var(--mv-sunken);
+  --xy-controls-button-color: var(--mv-text);
+  --xy-controls-button-border-color: var(--mv-border);
+  --xy-edge-label-background-color: var(--mv-surface);
+  --xy-edge-label-color: var(--mv-muted);
+}
