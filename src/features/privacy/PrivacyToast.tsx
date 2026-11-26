@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '@/app/store';
 import { preferences } from '@/lib/preferences';
+import { t } from '@/i18n';
 
 /** A quiet first-visit note instead of a cookie wall. Remembered with a single non-sensitive flag. */
 export function PrivacyToast() {
@@ -15,9 +16,9 @@ export function PrivacyToast() {
   };
 
   return (
-    <div data-testid="privacy-toast" className="no-print fixed bottom-4 left-4 z-30 flex max-w-sm items-center gap-2 rounded-lg border border-line bg-surface py-2 pr-2 pl-3.5 text-[13px] text-ink shadow-lg">
+    <div data-testid="privacy-toast" className="no-print fixed bottom-4 start-4 z-30 flex max-w-sm items-center gap-2 rounded-lg border border-line bg-surface py-2 pe-2 ps-3.5 text-[13px] text-ink shadow-lg">
       <span>
-        <strong className="font-semibold">Privacy note:</strong> zero servers, zero cookies, zero uploads.
+        <strong className="font-semibold">{t('toast.lead')}</strong> {t('toast.text')}
       </span>
       <button
         type="button"
@@ -27,9 +28,9 @@ export function PrivacyToast() {
         }}
         className="font-semibold whitespace-nowrap text-accent-strong hover:underline"
       >
-        Verify →
+        {t('toast.verify')}
       </button>
-      <button type="button" onClick={dismiss} aria-label="Dismiss privacy note" className="rounded p-1 text-muted hover:text-ink">
+      <button type="button" onClick={dismiss} aria-label={t('toast.dismiss')} className="rounded p-1 text-muted hover:text-ink">
         <X size={14} />
       </button>
     </div>

@@ -7,6 +7,7 @@ import { SimpleReport } from '../report/SimpleReport';
 import { SummaryView } from '../summary/SummaryView';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
+import { t } from '@/i18n';
 
 export function WorkspacePage() {
   const tab = useApp((state) => state.tab);
@@ -17,10 +18,10 @@ export function WorkspacePage() {
       <TopBar onToggleSidebar={() => setSidebarOpen((open) => !open)} />
       <div className="relative flex min-h-0 flex-1">
         <aside
-          aria-label="Patient summary"
+          aria-label={t('side.label')}
           className={cx(
-            'no-print z-20 w-64 shrink-0 border-r border-line bg-surface lg:static lg:block',
-            sidebarOpen ? 'absolute inset-y-0 left-0 shadow-xl' : 'hidden',
+            'no-print z-20 w-64 shrink-0 border-e border-line bg-surface lg:static lg:block',
+            sidebarOpen ? 'absolute inset-y-0 start-0 shadow-xl' : 'hidden',
           )}
         >
           <Sidebar onNavigate={() => setSidebarOpen(false)} />

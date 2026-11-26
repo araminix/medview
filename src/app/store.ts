@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { BodySystem, ClinicalRecord } from '@/domain/types';
 import type { LoadStage } from '@/engine/api';
 import { CancelledError, engine, EngineError } from '@/engine/client';
+import { directionOf, setActiveLanguage, type LanguageCode } from '@/i18n';
 import { preferences, type Theme, type WorkspaceTab } from '@/lib/preferences';
 import { DEFAULT_SCRUB_OPTIONS, type ScrubOptions } from '@/scrubber';
 
@@ -29,6 +30,7 @@ interface Session {
 
 interface AppState extends Session {
   theme: Theme;
+  lang: LanguageCode;
   tab: WorkspaceTab;
   openFile(file: File): Promise<void>;
   openText(text: string, name: string): Promise<void>;
@@ -36,6 +38,7 @@ interface AppState extends Session {
   clearFile(): void;
   dismissError(): void;
   setTheme(theme: Theme): void;
+  setLang(lang: LanguageCode): void;
   setTab(tab: WorkspaceTab): void;
   setBodyFilter(system: BodySystem | undefined): void;
   selectSource(id: string | undefined): void;
@@ -62,6 +65,13 @@ function applyTheme(theme: Theme): void {
   document.documentElement.dataset.theme = theme;
 }
 
+/** Text direction is set on <html>, so the whole layout mirrors for right-to-left languages. */
+function applyLanguage(lang: LanguageCode): void {
+  setActiveLanguage(lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = directionOf(lang);
+}
+
 export const useApp = create<AppState>((set, get) => {
   const load = async (name: string, size: number, read: () => Promise<Uint8Array>) => {
     set({ ...EMPTY_SESSION, status: 'loading', stage: 'reading', file: { name, size } });
@@ -78,10 +88,13 @@ export const useApp = create<AppState>((set, get) => {
 
   const theme = preferences.theme();
   applyTheme(theme);
+  const lang = preferences.lang();
+  applyLanguage(lang);
 
   return {
     ...EMPTY_SESSION,
     theme,
+    lang,
     tab: preferences.tab(),
 
     openFile: (file) => load(file.name, file.size, async () => new Uint8Array(await file.arrayBuffer())),
@@ -104,6 +117,11 @@ export const useApp = create<AppState>((set, get) => {
       preferences.setTheme(next);
       applyTheme(next);
       set({ theme: next });
+    },
+    setLang: (next) => {
+      preferences.setLang(next);
+      applyLanguage(next);
+      set({ lang: next });
     },
     setTab: (tab) => {
       preferences.setTab(tab);

@@ -1,7 +1,8 @@
 import { byDateDesc } from '../dates';
 import { isAbnormal, rangeText } from '../labs';
 import type { ClinicalRecord, ConditionItem, LabItem } from '../types';
-import { OXYGEN_TOPIC, TOPICS, type LabRule, type Topic } from './topics';
+import { ltr, t, tList } from '@/i18n';
+import { OXYGEN_TOPIC, topicKeys, TOPICS, type LabRule, type Topic } from './topics';
 import type { Evidence, Finding, PlainSummary, Urgency } from './types';
 
 const URGENCY_ORDER: Urgency[] = ['emergency', 'soon', 'routine'];
@@ -24,10 +25,10 @@ function directionOf(lab: LabItem): 'high' | 'low' | undefined {
 function describeResult(plain: string, lab: LabItem): Evidence {
   const direction = directionOf(lab);
   const range = lab.refText ?? rangeText(lab.refLow, lab.refHigh);
-  const comparison = direction === 'high' ? 'higher than the usual range' : direction === 'low' ? 'lower than the usual range' : 'outside the usual range';
+  const comparison = t(direction === 'high' ? 'evidence.higher' : direction === 'low' ? 'evidence.lower' : 'evidence.outside');
   return {
-    label: `${plain}: ${lab.valueText}${lab.unit ? ` ${lab.unit}` : ''}`,
-    detail: range ? `${comparison} (${range})` : comparison,
+    label: `${plain}: ${ltr(`${lab.valueText}${lab.unit ? ` ${lab.unit}` : ''}`)}`,
+    detail: range ? `${comparison} (${ltr(range)})` : comparison,
     date: lab.date,
   };
 }
@@ -43,19 +44,19 @@ const isGramsPerLitre = (lab: LabItem) => /g\/l$/i.test(lab.unit ?? '');
 export function redFlag(lab: LabItem): string | undefined {
   const { value: v, name } = lab;
   if (v !== undefined) {
-    if (/potassium/i.test(name) && (v >= 6 || v <= 2.5)) return 'Potassium at this level can disturb the heart rhythm.';
-    if (/sodium/i.test(name) && (v <= 120 || v >= 160)) return 'Sodium at this level can affect the brain.';
+    if (/potassium/i.test(name) && (v >= 6 || v <= 2.5)) return t('redflag.potassium');
+    if (/sodium/i.test(name) && (v <= 120 || v >= 160)) return t('redflag.sodium');
     if (/glucose/i.test(name)) {
       const [low, high] = isMillimolar(lab) ? [3, 22.2] : [54, 400];
-      if (v <= low) return 'Blood sugar this low can cause fainting or seizures.';
-      if (v >= high) return 'Blood sugar this high can become dangerous quickly.';
+      if (v <= low) return t('redflag.glucoseLow');
+      if (v >= high) return t('redflag.glucoseHigh');
     }
-    if (/h[a]?emoglobin(?! a1c)|\bhgb\b/i.test(name) && v <= (isGramsPerLitre(lab) ? 70 : 7)) return 'Hemoglobin this low means the blood carries very little oxygen.';
-    if (/egfr|glomerular/i.test(name) && v < 15) return 'Kidney filtering this low needs specialist care.';
-    if (/oxygen saturation|spo2/i.test(name) && v <= 90) return 'Oxygen this low means the body is not getting enough air.';
+    if (/h[a]?emoglobin(?! a1c)|\bhgb\b/i.test(name) && v <= (isGramsPerLitre(lab) ? 70 : 7)) return t('redflag.hemoglobin');
+    if (/egfr|glomerular/i.test(name) && v < 15) return t('redflag.egfr');
+    if (/oxygen saturation|spo2/i.test(name) && v <= 90) return t('redflag.oxygen');
   }
-  if (/troponin/i.test(name) && isAbnormal(lab.flag)) return 'A raised heart-strain marker can be a sign of a heart attack.';
-  if (lab.flag === 'critical') return 'The laboratory marked this result as critical.';
+  if (/troponin/i.test(name) && isAbnormal(lab.flag)) return t('redflag.troponin');
+  if (lab.flag === 'critical') return t('redflag.critical');
   return undefined;
 }
 
@@ -79,16 +80,10 @@ class Drafts {
 
   findings(): Finding[] {
     return [...this.byTopic.values()]
-      .map(({ topic, evidence, urgency, urgentReason }): Finding => ({
-        id: topic.id,
-        title: topic.title,
-        meaning: topic.meaning,
-        selfCare: topic.selfCare,
-        askDoctor: topic.askDoctor,
-        evidence,
-        urgency,
-        urgentReason,
-      }))
+      .map(({ topic, evidence, urgency, urgentReason }): Finding => {
+        const keys = topicKeys(topic.id);
+        return { id: topic.id, title: t(keys.title), meaning: t(keys.meaning), selfCare: tList(keys.selfCare), askDoctor: tList(keys.askDoctor), evidence, urgency, urgentReason };
+      })
       .sort((a, b) => URGENCY_ORDER.indexOf(a.urgency) - URGENCY_ORDER.indexOf(b.urgency));
   }
 }
@@ -130,18 +125,18 @@ function readVitals(vitals: LabItem[], drafts: Drafts): void {
     const severe = pressure.systolic >= 180 || pressure.diastolic >= 120;
     drafts.add(
       BLOOD_PRESSURE,
-      { label: `Blood pressure: ${pressure.systolic}/${pressure.diastolic} mmHg`, detail: 'higher than the usual goal of below 140/90', date: pressure.date },
+      { label: t('evidence.bloodPressure', { value: ltr(`${pressure.systolic}/${pressure.diastolic}`) }), detail: t('evidence.bloodPressureDetail'), date: pressure.date },
       severe ? 'emergency' : 'soon',
-      severe ? 'Blood pressure this high can damage the heart and brain.' : undefined,
+      severe ? t('redflag.bloodPressure') : undefined,
     );
   }
   const oxygen = latest.find((v) => /oxygen saturation|spo2/i.test(v.name));
   if (oxygen?.value !== undefined && oxygen.value <= 92) {
-    drafts.add(OXYGEN_TOPIC, { label: `Blood oxygen: ${oxygen.valueText} %`, detail: 'lower than the usual 95% or more', date: oxygen.date }, redFlag(oxygen) ? 'emergency' : 'soon', redFlag(oxygen));
+    drafts.add(OXYGEN_TOPIC, { label: t('evidence.oxygen', { value: oxygen.valueText }), detail: t('evidence.oxygenDetail'), date: oxygen.date }, redFlag(oxygen) ? 'emergency' : 'soon', redFlag(oxygen));
   }
   const bmi = latest.find((v) => /\bbmi\b|body mass index/i.test(v.name));
   if (bmi?.value !== undefined && bmi.value >= 30) {
-    drafts.add(WEIGHT, { label: `Body mass index (BMI): ${bmi.valueText}`, detail: 'above the healthy range of 18.5 – 25', date: bmi.date }, 'routine');
+    drafts.add(WEIGHT, { label: t('evidence.bmi', { value: bmi.valueText }), detail: t('evidence.bmiDetail'), date: bmi.date }, 'routine');
   }
 }
 
@@ -158,7 +153,7 @@ export function buildPlainSummary(record: ClinicalRecord): PlainSummary {
   for (const condition of record.conditions) {
     if (condition.status === 'inactive') continue;
     const topic = topicForCondition(condition);
-    if (topic) drafts.add(topic, { label: `Diagnosis on record: ${condition.name}`, date: condition.onset }, 'routine');
+    if (topic) drafts.add(topic, { label: t('evidence.diagnosis', { name: condition.name }), date: condition.onset }, 'routine');
     else otherConditions.push(condition.name);
   }
 
@@ -166,7 +161,7 @@ export function buildPlainSummary(record: ClinicalRecord): PlainSummary {
     if (!isAbnormal(lab.flag)) continue;
     const match = ruleForLab(lab);
     const reason = redFlag(lab);
-    if (match) drafts.add(match.topic, describeResult(match.rule.plain, lab), reason ? 'emergency' : 'soon', reason);
+    if (match) drafts.add(match.topic, describeResult(t(match.rule.plain), lab), reason ? 'emergency' : 'soon', reason);
     else otherResults.push(describeResult(lab.name, lab));
   }
 

@@ -1,5 +1,8 @@
 import { formatCoding } from './codes';
-import { byDateDesc, formatDate } from './dates';
+import { byDateDesc } from './dates';
+
+/** ISO dates are unambiguous for the tools and people this summary is pasted to. */
+const formatDate = (iso: string | undefined) => iso?.slice(0, 10) ?? 'undated';
 import { isAbnormal } from './labs';
 import type { ClinicalRecord, LabItem } from './types';
 

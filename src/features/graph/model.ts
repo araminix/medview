@@ -1,5 +1,7 @@
 import dagre from '@dagrejs/dagre';
 import type { GraphEdge, GraphNode, GraphNodeKind } from '@/domain/types';
+import { t } from '@/i18n';
+import { kindLabel } from '@/i18n/format';
 
 export const NODE_WIDTH = 210;
 export const NODE_HEIGHT = 54;
@@ -7,30 +9,25 @@ export const NODE_HEIGHT = 54;
 export const MAX_NODES = 200;
 const CLUSTER_THRESHOLD = 12;
 
-export interface KindStyle {
-  label: string;
-  /** CSS colour of the left accent strip. */
-  color: string;
-}
-
-export const KIND_STYLES: Record<GraphNodeKind, KindStyle> = {
-  patient: { label: 'Patient', color: 'var(--mv-text)' },
-  encounter: { label: 'Encounters', color: 'var(--mv-accent)' },
-  condition: { label: 'Conditions', color: 'var(--mv-warn)' },
-  observation: { label: 'Observations', color: 'var(--mv-ok)' },
-  medication: { label: 'Medications', color: 'var(--mv-med)' },
-  allergy: { label: 'Allergies', color: 'var(--mv-crit)' },
-  report: { label: 'Reports', color: '#0891b2' },
-  practitioner: { label: 'Practitioners', color: '#64748b' },
-  organization: { label: 'Organizations', color: '#64748b' },
-  immunization: { label: 'Immunizations', color: '#0d9488' },
-  procedure: { label: 'Procedures', color: '#4f46e5' },
-  other: { label: 'Other', color: '#94a3b8' },
+/** CSS colour of each node type's accent strip. Type names live in the dictionaries. */
+export const KIND_COLORS: Record<GraphNodeKind, string> = {
+  patient: 'var(--mv-text)',
+  encounter: 'var(--mv-accent)',
+  condition: 'var(--mv-warn)',
+  observation: 'var(--mv-ok)',
+  medication: 'var(--mv-med)',
+  allergy: 'var(--mv-crit)',
+  report: '#0891b2',
+  practitioner: '#64748b',
+  organization: '#64748b',
+  immunization: '#0d9488',
+  procedure: '#4f46e5',
+  other: '#94a3b8',
 };
 
 /** Abnormal findings are always crimson, whatever their type. */
 export function nodeColor(node: Pick<GraphNode, 'kind' | 'abnormal'>): string {
-  return node.abnormal ? 'var(--mv-crit)' : KIND_STYLES[node.kind].color;
+  return node.abnormal ? 'var(--mv-crit)' : KIND_COLORS[node.kind];
 }
 
 export interface GraphFilters {
@@ -77,8 +74,8 @@ function cluster(nodes: GraphNode[], edges: GraphEdge[]): GraphView {
     view.push({
       id,
       kind,
-      label: `${KIND_STYLES[kind].label} × ${members.length.toLocaleString('en-US')}`,
-      sublabel: abnormal ? `${abnormal.toLocaleString('en-US')} abnormal · grouped` : 'Grouped — filter to expand',
+      label: t('graph.clusterLabel', { kind: kindLabel(kind), count: members.length.toLocaleString('en-US') }),
+      sublabel: abnormal ? t('graph.clusterAbnormal', { count: abnormal.toLocaleString('en-US') }) : t('graph.clusterHint'),
       abnormal: false,
       clusterSize: members.length,
     });

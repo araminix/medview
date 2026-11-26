@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { cx } from '@/lib/browser';
+import { t } from '@/i18n';
 
 interface ModalProps {
   title: string;
@@ -48,7 +49,7 @@ export function Modal({ title, subtitle, onClose, children, footer, size = 'lg' 
             </h2>
             {subtitle && <p className="mt-0.5 text-sm text-muted">{subtitle}</p>}
           </div>
-          <button type="button" onClick={onClose} aria-label="Close" className="ml-auto rounded-md p-1.5 text-muted hover:bg-sunken hover:text-ink">
+          <button type="button" onClick={onClose} aria-label={t('common.close')} className="ms-auto rounded-md p-1.5 text-muted hover:bg-sunken hover:text-ink">
             <X size={18} />
           </button>
         </header>

@@ -2,6 +2,7 @@ import { Play, Search } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { cx } from '@/lib/browser';
+import { t } from '@/i18n';
 
 export type QueryMode = 'search' | 'fhirpath';
 
@@ -33,7 +34,7 @@ export function QueryBar({ fhir, mode, onModeChange, keyword, onKeywordChange, o
     <div className="border-b border-line bg-surface px-3 py-2">
       <div className="flex items-center gap-2">
         {fhir && (
-          <div role="radiogroup" aria-label="Query mode" className="flex shrink-0 rounded-md border border-line p-0.5">
+          <div role="radiogroup" aria-label={t('dev.queryMode')} className="flex shrink-0 rounded-md border border-line p-0.5">
             {(['search', 'fhirpath'] as const).map((value) => (
               <button
                 key={value}
@@ -44,22 +45,22 @@ export function QueryBar({ fhir, mode, onModeChange, keyword, onKeywordChange, o
                 onClick={() => onModeChange(value)}
                 className={cx('rounded px-2.5 py-1 text-xs font-medium', mode === value ? 'bg-accent-tint text-accent-strong' : 'text-muted hover:text-ink')}
               >
-                {value === 'search' ? 'Keyword' : 'FHIRPath'}
+                {value === 'search' ? t('dev.keyword') : 'FHIRPath'}
               </button>
             ))}
           </div>
         )}
         {mode === 'search' ? (
           <label className="relative min-w-0 flex-1">
-            <span className="sr-only">Search the raw file</span>
-            <Search size={15} className="absolute top-1/2 left-2.5 -translate-y-1/2 text-muted" />
+            <span className="sr-only">{t('dev.searchLabel')}</span>
+            <Search size={15} className="absolute top-1/2 start-2.5 -translate-y-1/2 text-muted" />
             <input
               type="search"
               value={keyword}
               data-testid="keyword-input"
               onChange={(event) => onKeywordChange(event.target.value)}
-              placeholder="Search codes, names, values…"
-              className="h-9 w-full rounded-md border border-line bg-surface pr-3 pl-8 text-sm text-ink"
+              placeholder={t('dev.searchPlaceholder')}
+              className="h-9 w-full rounded-md border border-line bg-surface pe-3 ps-8 text-sm text-ink"
             />
           </label>
         ) : (
@@ -71,23 +72,24 @@ export function QueryBar({ fhir, mode, onModeChange, keyword, onKeywordChange, o
             }}
           >
             <label className="min-w-0 flex-1">
-              <span className="sr-only">FHIRPath expression</span>
+              <span className="sr-only">{t('dev.fhirpathLabel')}</span>
               <input
                 value={expression}
                 data-testid="fhirpath-input"
                 onChange={(event) => setExpression(event.target.value)}
                 spellCheck={false}
+                dir="ltr"
                 className="h-9 w-full rounded-md border border-line bg-surface px-3 font-mono text-xs text-ink"
               />
             </label>
             <Button type="submit" variant="primary" data-testid="fhirpath-run">
-              <Play size={14} /> Run
+              <Play size={14} className="rtl:rotate-180" /> {t('dev.run')}
             </Button>
           </form>
         )}
       </div>
       {mode === 'fhirpath' && (
-        <div className="mt-2 flex flex-wrap gap-1.5">
+        <div className="mt-2 flex flex-wrap gap-1.5" dir="ltr">
           {PRESETS.map((preset) => (
             <button
               key={preset}

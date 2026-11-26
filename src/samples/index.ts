@@ -3,8 +3,7 @@ import fhir from './complex-care.fhir.json?raw';
 import hl7 from './messy-lab.hl7?raw';
 
 export interface SampleFile {
-  id: string;
-  label: string;
+  id: 'ccda' | 'fhir' | 'hl7';
   fileName: string;
   content: string;
 }
@@ -14,7 +13,7 @@ export interface SampleFile {
  * never triggers a network request.
  */
 export const SAMPLES: SampleFile[] = [
-  { id: 'ccda', label: 'US Hospital Discharge (C-CDA XML)', fileName: 'discharge-summary.ccda.xml', content: ccda },
-  { id: 'fhir', label: 'Complex Care Bundle (FHIR R4 JSON)', fileName: 'complex-care.fhir.json', content: fhir },
-  { id: 'hl7', label: 'Messy Lab Result Message (HL7 v2)', fileName: 'messy-lab.hl7', content: hl7 },
+  { id: 'ccda', fileName: 'discharge-summary.ccda.xml', content: ccda },
+  { id: 'fhir', fileName: 'complex-care.fhir.json', content: fhir },
+  { id: 'hl7', fileName: 'messy-lab.hl7', content: hl7 },
 ];

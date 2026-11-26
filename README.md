@@ -16,6 +16,16 @@ MedView is a free, browser-only viewer for medical files. Drop a FHIR, HL7 v2 or
 
 Supported today: **FHIR R4/R5** (JSON and XML, bundles or single resources), **HL7 v2.x** pipe messages (ADT, ORU, ORM, VXU) and **US C-CDA** documents. Zip archives are opened automatically. Planned: EU IPS, OpenEHR, DICOM, Apple Health.
 
+## Languages
+
+The interface and the health guidance are available in **English, فارسی (Persian) and Türkçe (Turkish)**; the browser language is used on a first visit and the choice is remembered. Persian is laid out right to left. Three things deliberately stay the same in every language:
+
+- Dates use the Gregorian calendar and numbers use Western digits, so a value always reads exactly as in the source file.
+- Code, raw payloads and the resource diagram stay left to right.
+- Content that comes from the file (lab names, drug names, diagnoses) and the technical parse warnings are shown as written.
+
+All dictionaries are bundled, so switching language makes no network request. To add a language, add a file in `src/i18n/locales/` — TypeScript reports any key it is missing — and list it in `src/i18n/languages.ts`.
+
 ## Privacy, and how to check it yourself
 
 - The file never leaves your device. There is no backend, no account, no cookies, no analytics and no external fonts.
@@ -59,6 +69,7 @@ src/
   parsers/     fhir/ · hl7v2/ · ccda/ — each maps its format to a ClinicalRecord
   scrubber/    PHI collection and replacement
   engine/      the Web Worker that owns the open file, and its typed client
+  i18n/        dictionaries (en, fa, tr), translation and locale-aware formatting
   features/    landing · workspace · report · graph · dev · privacy · scrubber · print
   components/  shared UI building blocks
   samples/     three synthetic sample files (no real patient data)

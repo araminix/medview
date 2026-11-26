@@ -20,7 +20,7 @@ export function Card({ id, title, aside, actions, children, className, flush }: 
         <header className="flex items-center gap-2 border-b border-line px-4 py-2.5">
           <h2 className="text-sm font-semibold text-ink">{title}</h2>
           {aside && <span className="tnum text-xs text-muted">{aside}</span>}
-          {actions && <div className="ml-auto flex items-center gap-2">{actions}</div>}
+          {actions && <div className="ms-auto flex items-center gap-2">{actions}</div>}
         </header>
       )}
       <div className={flush ? '' : 'p-4'}>{children}</div>

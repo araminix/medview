@@ -103,6 +103,21 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
+  /*
+   * Persian: Inter comes first so digits, units and codes keep their clinical look and
+   * spacing; it has no Arabic-script glyphs, so Persian text falls through to Estedad.
+   */
+  html:lang(fa) body {
+    font-family: 'Inter Variable', 'Estedad Variable', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.7;
+  }
+  /*
+   * Text taken from the file (names, drug names) uses dir="auto" so mixed scripts read
+   * correctly, but it must stay aligned with the column it sits in.
+   */
+  html[dir='rtl'] [dir='auto']:not([dir='ltr'] [dir='auto']) {
+    text-align: right;
+  }
   :focus-visible {
     outline: 2px solid var(--mv-accent);
     outline-offset: 2px;

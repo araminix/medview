@@ -1,5 +1,7 @@
 import type { KeyboardEvent, ReactNode } from 'react';
 import { BODY_SYSTEMS } from '@/domain/bodySystems';
+import { t } from '@/i18n';
+import { bodySystemLabel } from '@/i18n/format';
 import type { ZoneSummary, ZoneTone } from '@/domain/selectors';
 import type { BodySystem } from '@/domain/types';
 import { cx } from '@/lib/browser';
@@ -10,7 +12,6 @@ const TONE_COLOR: Record<ZoneTone, string> = {
   attention: 'var(--mv-warn)',
   abnormal: 'var(--mv-crit)',
 };
-const TONE_LABEL: Record<ZoneTone, string> = { none: 'no records', normal: 'normal records', attention: 'active condition', abnormal: 'abnormal results' };
 
 /** The eight clickable zones, drawn on a 200×420 silhouette. */
 const ZONE_SHAPES: Record<Exclude<BodySystem, 'general'>, ReactNode> = {
@@ -63,13 +64,13 @@ export function BodyMap({ zones, selected, onSelect, interactive = true }: BodyM
 
   return (
     <div className="flex items-start gap-4">
-      <svg viewBox="0 0 200 420" className="h-72 w-auto shrink-0" role="group" aria-label="Body map">
+      <svg viewBox="0 0 200 420" className="h-72 w-auto shrink-0" role="group" aria-label={t('body.label')}>
         <path d={SILHOUETTE} fill="var(--mv-sunken)" stroke="var(--mv-border)" strokeWidth="1.5" />
         {(Object.keys(ZONE_SHAPES) as Array<keyof typeof ZONE_SHAPES>).map((system) => {
           const zone = zones[system];
           const tone = zone?.tone ?? 'none';
           const active = tone !== 'none';
-          const info = BODY_SYSTEMS.find((s) => s.id === system)!;
+          const label = bodySystemLabel(system);
           return (
             <g
               key={system}
@@ -79,7 +80,7 @@ export function BodyMap({ zones, selected, onSelect, interactive = true }: BodyM
               role={interactive ? 'button' : undefined}
               tabIndex={interactive && active ? 0 : undefined}
               aria-pressed={interactive ? selected === system : undefined}
-              aria-label={`${info.label}: ${zone?.count ?? 0} records, ${TONE_LABEL[tone]}`}
+              aria-label={t('zone.aria', { system: label, count: zone?.count ?? 0, tone: t(`zone.${tone}`) })}
               onClick={interactive && active ? () => toggle(system) : undefined}
               onKeyDown={interactive && active ? onKey(system) : undefined}
               fill={TONE_COLOR[tone]}
@@ -88,7 +89,7 @@ export function BodyMap({ zones, selected, onSelect, interactive = true }: BodyM
               strokeWidth={selected === system ? 2 : 1}
               className={cx('outline-none', interactive && active && 'cursor-pointer hover:animate-[mv-zone-pulse_1.2s_ease-in-out_infinite] focus-visible:stroke-(--mv-text)')}
             >
-              <title>{`${info.label} — ${zone?.count ?? 0} records`}</title>
+              <title>{t('zone.title', { system: label, count: zone?.count ?? 0 })}</title>
               {ZONE_SHAPES[system]}
             </g>
           );
@@ -97,24 +98,24 @@ export function BodyMap({ zones, selected, onSelect, interactive = true }: BodyM
 
       <ul className="min-w-0 flex-1 space-y-0.5 text-[13px]">
         {BODY_SYSTEMS.map((system) => {
-          const zone = zones[system.id];
+          const zone = zones[system];
           if (!zone) return null;
           const content = (
             <>
               <span className="size-2.5 shrink-0 rounded-full" style={{ background: TONE_COLOR[zone.tone] }} aria-hidden="true" />
-              <span className="min-w-0 flex-1 truncate text-left">{system.label}</span>
+              <span className="min-w-0 flex-1 truncate text-start">{bodySystemLabel(system)}</span>
               <span className="tnum text-muted">{zone.count}</span>
             </>
           );
           return (
-            <li key={system.id}>
+            <li key={system}>
               {interactive ? (
                 <button
                   type="button"
-                  data-testid={`zone-${system.id}`}
-                  aria-pressed={selected === system.id}
-                  onClick={() => toggle(system.id)}
-                  className={cx('flex w-full items-center gap-2 rounded-md px-2 py-1 hover:bg-sunken', selected === system.id && 'bg-accent-tint font-semibold text-accent-strong')}
+                  data-testid={`zone-${system}`}
+                  aria-pressed={selected === system}
+                  onClick={() => toggle(system)}
+                  className={cx('flex w-full items-center gap-2 rounded-md px-2 py-1 hover:bg-sunken', selected === system && 'bg-accent-tint font-semibold text-accent-strong')}
                 >
                   {content}
                 </button>

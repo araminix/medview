@@ -21,9 +21,9 @@ export interface TopicContent {
   /** One or two sentences on what this means for the body. */
   meaning: string;
   /** Everyday habits that generally help. Food and lifestyle only — never medicines. */
-  selfCare: string[];
+  selfCare: readonly string[];
   /** Questions worth bringing to a doctor or pharmacist. */
-  askDoctor: string[];
+  askDoctor: readonly string[];
 }
 
 export interface Finding extends TopicContent {

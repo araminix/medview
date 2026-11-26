@@ -3,23 +3,8 @@ import type { ReactNode } from 'react';
 import { Modal } from '@/components/Modal';
 import { cx } from '@/lib/browser';
 import { useOnline } from '@/lib/useOnline';
+import { t, tList } from '@/i18n';
 import { REPO_URL } from '../landing/LandingPage';
-
-const POLICY = [
-  'Your files never leave your device.',
-  'Zero backend servers receive, process, or store your files.',
-  'Zero cookies, zero analytics, zero third-party trackers, zero external fonts.',
-  'Files live only in temporary browser memory — refreshing or closing the tab erases everything permanently.',
-];
-
-const GUARANTEES = [
-  'Strict Content-Security-Policy blocking every external connection',
-  'Parsing and anonymizing run in a local Web Worker',
-  'Zero localStorage / IndexedDB writes for patient data',
-  'Reproducible public GitHub Actions deployment',
-];
-
-const VERIFY_STEPS = ['Open DevTools (F12) and switch to the Network tab.', 'Drop a file into MedView.', 'Confirm that 0 requests are sent.'];
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -43,11 +28,10 @@ function AirplaneProof() {
       {online ? <Wifi size={20} className="mt-0.5 shrink-0 text-muted" /> : <WifiOff size={20} className="mt-0.5 shrink-0 text-ok" />}
       {online ? (
         <p className="text-sm text-ink">
-          <strong className="font-semibold">Test it yourself:</strong> disconnect Wi-Fi or enable Airplane Mode right now. This box turns green and everything keeps
-          working.
+          <strong className="font-semibold">{t('privacy.proofLead')}</strong> {t('privacy.proofOnline')}
         </p>
       ) : (
-        <p className="text-sm font-semibold text-ok-text">✓ OFFLINE VERIFIED — Your browser has no internet and MedView is running 100% locally.</p>
+        <p className="text-sm font-semibold text-ok-text">{t('privacy.proofOffline')}</p>
       )}
     </div>
   );
@@ -55,11 +39,11 @@ function AirplaneProof() {
 
 export function PrivacyModal({ onClose }: { onClose(): void }) {
   return (
-    <Modal title="Privacy & offline proof" subtitle="No cookie wall, no account, nothing to accept. Here is exactly what happens to your file." onClose={onClose} size="md">
+    <Modal title={t('privacy.title')} subtitle={t('privacy.subtitle')} onClose={onClose} size="md">
       <div className="space-y-5 p-5" data-testid="privacy-modal">
-        <Block title="Privacy policy, in plain English">
+        <Block title={t('privacy.policyTitle')}>
           <ul className="space-y-1.5 text-sm text-ink">
-            {POLICY.map((line) => (
+            {tList('privacy.policy').map((line) => (
               <li key={line} className="flex gap-2">
                 <ShieldCheck size={16} className="mt-0.5 shrink-0 text-ok" /> {line}
               </li>
@@ -67,8 +51,8 @@ export function PrivacyModal({ onClose }: { onClose(): void }) {
             <li className="flex gap-2">
               <ShieldCheck size={16} className="mt-0.5 shrink-0 text-ok" />
               <span>
-                The code is open source and publicly auditable at{' '}
-                <a href={REPO_URL} target="_blank" rel="noreferrer" className="font-medium text-accent-strong underline">
+                {t('privacy.source')}{' '}
+                <a href={REPO_URL} target="_blank" rel="noreferrer" dir="ltr" className="font-medium text-accent-strong underline">
                   github.com/araminix/medview
                 </a>
                 .
@@ -77,13 +61,13 @@ export function PrivacyModal({ onClose }: { onClose(): void }) {
           </ul>
         </Block>
 
-        <Block title="Live airplane-mode proof">
+        <Block title={t('privacy.proofTitle')}>
           <AirplaneProof />
         </Block>
 
-        <Block title="Technical guarantees">
+        <Block title={t('privacy.guaranteesTitle')}>
           <ul className="grid gap-1.5 text-sm text-ink sm:grid-cols-2">
-            {GUARANTEES.map((line) => (
+            {tList('privacy.guarantees').map((line) => (
               <li key={line} className="flex gap-2">
                 <Check size={16} className="mt-0.5 shrink-0 text-ok" /> {line}
               </li>
@@ -91,9 +75,9 @@ export function PrivacyModal({ onClose }: { onClose(): void }) {
           </ul>
         </Block>
 
-        <Block title="Verify it in 10 seconds">
-          <ol className="list-decimal space-y-1 pl-5 text-sm text-ink">
-            {VERIFY_STEPS.map((step) => (
+        <Block title={t('privacy.verifyTitle')}>
+          <ol className="list-decimal space-y-1 ps-5 text-sm text-ink">
+            {tList('privacy.verifySteps').map((step) => (
               <li key={step}>{step}</li>
             ))}
           </ol>

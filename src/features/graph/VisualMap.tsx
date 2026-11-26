@@ -8,8 +8,10 @@ import type { GraphNodeKind } from '@/domain/types';
 import { cx, downloadBlob } from '@/lib/browser';
 import { ClinicalNode, type ClinicalFlowNode } from './ClinicalNode';
 import { buildSvg, svgToPng } from './exportImage';
-import { buildView, connectedIds, KIND_STYLES, layout, nodeColor, type Direction } from './model';
+import { buildView, connectedIds, KIND_COLORS, layout, nodeColor, type Direction } from './model';
 import { NodeDrawer } from './NodeDrawer';
+import { activeDirection, t } from '@/i18n';
+import { kindLabel } from '@/i18n/format';
 
 const NODE_TYPES = { clinical: ClinicalNode };
 /** Fitting never zooms out so far that labels become unreadable; larger graphs are panned instead. */
@@ -96,21 +98,21 @@ function Canvas() {
               hiddenKinds.has(kind) ? 'border-line text-muted line-through opacity-60' : 'border-line bg-surface text-ink',
             )}
           >
-            <span className="size-2 rounded-full" style={{ background: KIND_STYLES[kind].color }} aria-hidden="true" />
-            {KIND_STYLES[kind].label}
+            <span className="size-2 rounded-full" style={{ background: KIND_COLORS[kind] }} aria-hidden="true" />
+            {kindLabel(kind)}
           </button>
         ))}
-        <label className="ml-1 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-xs font-medium text-ink has-checked:border-crit has-checked:bg-crit-bg has-checked:text-crit-text">
+        <label className="ms-1 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-xs font-medium text-ink has-checked:border-crit has-checked:bg-crit-bg has-checked:text-crit-text">
           <input type="checkbox" data-testid="abnormal-only" className="size-3.5 accent-(--mv-crit)" checked={abnormalOnly} onChange={(event) => setAbnormalOnly(event.target.checked)} />
-          Abnormal only
+          {t('graph.abnormalOnly')}
         </label>
-        <div className="ml-auto flex flex-wrap items-center gap-1.5">
-          <Button size="sm" onClick={() => setDirection(direction === 'LR' ? 'TB' : 'LR')} data-testid="toggle-direction" title="Switch layout direction">
+        <div className="ms-auto flex flex-wrap items-center gap-1.5">
+          <Button size="sm" onClick={() => setDirection(direction === 'LR' ? 'TB' : 'LR')} data-testid="toggle-direction" title={t('graph.switch')}>
             {direction === 'LR' ? <ArrowLeftRight size={14} /> : <ArrowDownUp size={14} />}
-            {direction === 'LR' ? 'Left → Right' : 'Top → Bottom'}
+            {t(direction === 'LR' ? 'graph.leftRight' : 'graph.topBottom')}
           </Button>
           <Button size="sm" onClick={() => void flow.fitView(FIT)}>
-            <Maximize size={14} /> Fit view
+            <Maximize size={14} /> {t('graph.fit')}
           </Button>
           <Button size="sm" onClick={() => void downloadPng()} data-testid="download-png">
             <Download size={14} /> PNG
@@ -123,11 +125,12 @@ function Canvas() {
 
       {view.clustered && (
         <p data-testid="cluster-note" className="border-b border-line bg-warn-bg px-4 py-1.5 text-xs text-warn-text">
-          This file has {record.graph.nodes.length.toLocaleString('en-US')} linked items. Large groups are shown as one node to keep the diagram responsive.
+          {t('graph.clusterNote', { count: record.graph.nodes.length.toLocaleString('en-US') })}
         </p>
       )}
 
-      <div className="relative min-h-0 flex-1 bg-canvas">
+      {/* The diagram itself keeps one geometry in every language; only its labels are translated. */}
+      <div className="relative min-h-0 flex-1 bg-canvas" dir="ltr">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -144,7 +147,11 @@ function Canvas() {
           <Background color="var(--mv-border)" gap={24} />
           <Controls showInteractive={false} />
         </ReactFlow>
-        {selectedNode && <NodeDrawer node={selectedNode} onClose={() => setSelected(undefined)} />}
+        {selectedNode && (
+          <div dir={activeDirection()}>
+            <NodeDrawer node={selectedNode} onClose={() => setSelected(undefined)} />
+          </div>
+        )}
       </div>
     </div>
   );

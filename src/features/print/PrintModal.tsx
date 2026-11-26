@@ -9,17 +9,9 @@ import type { ClinicalRecord } from '@/domain/types';
 import { engine } from '@/engine/client';
 import { useAsync } from '@/lib/useAsync';
 import { DEFAULT_PRINT_OPTIONS, PrintDocument, type PrintOptions } from './PrintDocument';
+import { t } from '@/i18n';
 
-const TOGGLES: Array<{ key: keyof PrintOptions; label: string; indent?: boolean }> = [
-  { key: 'header', label: 'Patient header & allergies' },
-  { key: 'labs', label: 'Laboratory results' },
-  { key: 'abnormalOnly', label: 'Abnormal labs only', indent: true },
-  { key: 'medications', label: 'Active medications' },
-  { key: 'conditions', label: 'Active conditions / diagnoses' },
-  { key: 'bodyMap', label: 'Clinical body map snapshot' },
-  { key: 'timeline', label: 'Historical visits timeline' },
-  { key: 'anonymize', label: 'Anonymize patient info before printing' },
-];
+const TOGGLES: Array<keyof PrintOptions> = ['header', 'labs', 'abnormalOnly', 'medications', 'conditions', 'bodyMap', 'timeline', 'anonymize'];
 
 /** The record to print: the anonymized one when requested and not already on screen. */
 function usePrintRecord(anonymize: boolean): ClinicalRecord {
@@ -52,31 +44,31 @@ export function PrintModal({ onClose }: { onClose(): void }) {
 
   return (
     <Modal
-      title="Print / save as PDF"
-      subtitle="Choose what goes on paper. Choose “Save as PDF” in the print dialog to keep a file."
+      title={t('print.title')}
+      subtitle={t('print.subtitle')}
       onClose={onClose}
       size="xl"
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
-            Close
+            {t('common.close')}
           </Button>
           <Button variant="primary" onClick={() => setPrinting(true)} data-testid="print-now">
-            <Printer size={15} /> Print / Save as PDF
+            <Printer size={15} /> {t('print.now')}
           </Button>
         </>
       }
     >
       <div className="grid md:grid-cols-[17rem_minmax(0,1fr)]" data-testid="print-modal">
-        <fieldset className="border-b border-line p-3 md:border-r md:border-b-0">
-          <legend className="sr-only">Sections to print</legend>
+        <fieldset className="border-b border-line p-3 md:border-e md:border-b-0">
+          <legend className="sr-only">{t('print.legend')}</legend>
           {TOGGLES.map((toggle) => (
-            <div key={toggle.key} className={toggle.indent ? 'pl-6' : ''}>
+            <div key={toggle} className={toggle === 'abnormalOnly' ? 'ps-6' : ''}>
               <Checkbox
-                checked={options[toggle.key]}
-                disabled={(toggle.key === 'abnormalOnly' && !options.labs) || (toggle.key === 'anonymize' && alreadyScrubbed)}
-                onChange={(checked) => setOptions({ ...options, [toggle.key]: checked })}
-                label={toggle.label}
+                checked={options[toggle]}
+                disabled={(toggle === 'abnormalOnly' && !options.labs) || (toggle === 'anonymize' && alreadyScrubbed)}
+                onChange={(checked) => setOptions({ ...options, [toggle]: checked })}
+                label={t(`print.${toggle}`)}
               />
             </div>
           ))}

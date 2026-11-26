@@ -1,28 +1,7 @@
 import type { BodySystem, Coding } from './types';
 
-export interface BodySystemInfo {
-  id: BodySystem;
-  /** Clinician label. */
-  label: string;
-  /** Plain-language label for patients. */
-  plain: string;
-}
-
-export const BODY_SYSTEMS: BodySystemInfo[] = [
-  { id: 'neuro', label: 'Head / Neuro', plain: 'Brain & nerves' },
-  { id: 'cardio', label: 'Heart / Cardio', plain: 'Heart & circulation' },
-  { id: 'respiratory', label: 'Lungs / Respiratory', plain: 'Lungs & breathing' },
-  { id: 'gi', label: 'Liver / GI', plain: 'Liver & digestion' },
-  { id: 'renal', label: 'Kidneys / Renal', plain: 'Kidneys & urinary' },
-  { id: 'blood', label: 'Blood / Labs', plain: 'Blood' },
-  { id: 'endocrine', label: 'Endocrine / Metabolic', plain: 'Hormones & metabolism' },
-  { id: 'musculoskeletal', label: 'Musculoskeletal', plain: 'Bones, joints & muscles' },
-  { id: 'general', label: 'General / Systemic', plain: 'General' },
-];
-
-export function bodySystemLabel(id: BodySystem): string {
-  return BODY_SYSTEMS.find((s) => s.id === id)?.label ?? id;
-}
+/** The eight body-map zones plus the catch-all, in display order. Labels live in the dictionaries. */
+export const BODY_SYSTEMS: BodySystem[] = ['neuro', 'cardio', 'respiratory', 'gi', 'renal', 'blood', 'endocrine', 'musculoskeletal', 'general'];
 
 /** ICD-10 chapter ranges → body zone. D50–D89 is the only sub-chapter split we need. */
 function fromIcd10(code: string): BodySystem | undefined {

@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { classifyBodySystem } from '@/domain/bodySystems';
-import { calcAge, formatDate, normalizeDate } from '@/domain/dates';
+import { calcAge, normalizeDate } from '@/domain/dates';
+import { formatDate } from '@/i18n/format';
 import { classifyPanel, deriveFlag, parseNumeric, parseRefRange } from '@/domain/labs';
 import { describeFrequency } from '@/parsers/fhir/dosage';
 

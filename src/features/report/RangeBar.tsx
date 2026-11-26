@@ -1,6 +1,7 @@
 import type { LabItem } from '@/domain/types';
 import { isAbnormal } from '@/domain/labs';
 import { cx } from '@/lib/browser';
+import { t } from '@/i18n';
 
 /** Where the normal band sits inside the bar, in percent. */
 const BAND = { start: 25, end: 75 };
@@ -20,14 +21,18 @@ function position(value: number, low: number | undefined, high: number | undefin
 /** Low | Normal | High strip with a marker at the patient's value. */
 export function RangeBar({ lab }: { lab: LabItem }) {
   if (lab.value === undefined || (lab.refLow === undefined && lab.refHigh === undefined)) {
-    return <span className="text-xs text-muted">{lab.refText ?? '—'}</span>;
+    return (
+      <bdi dir="ltr" className="text-xs text-muted">
+        {lab.refText ?? '—'}
+      </bdi>
+    );
   }
   const left = position(lab.value, lab.refLow, lab.refHigh);
   const abnormal = isAbnormal(lab.flag);
   const hasLow = lab.refLow !== undefined;
   const hasHigh = lab.refHigh !== undefined;
   return (
-    <div className="w-full min-w-28" title={`Reference: ${lab.refText ?? ''}`}>
+    <div className="w-full min-w-28" dir="ltr" title={t('report.reference', { range: lab.refText ?? '' })}>
       <div className="relative h-2 rounded-full bg-sunken">
         <div
           className="absolute inset-y-0 bg-ok/30"

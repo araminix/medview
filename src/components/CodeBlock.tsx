@@ -23,11 +23,11 @@ interface CodeBlockProps {
   wrap?: boolean;
 }
 
-/** Raw payload viewer. Content is rendered as text nodes, never as HTML. */
+/** Raw payload viewer. Content is rendered as text nodes, never as HTML, and always left to right. */
 export const CodeBlock = memo(function CodeBlock({ code, syntax, className, wrap = true }: CodeBlockProps) {
   const tokens = useMemo(() => tokenize(code, code.length > HIGHLIGHT_LIMIT ? 'text' : syntax), [code, syntax]);
   return (
-    <pre data-testid="code-block" className={cx('overflow-auto bg-sunken p-3 font-mono text-xs leading-relaxed text-ink', wrap ? 'break-all whitespace-pre-wrap' : 'whitespace-pre', className)}>
+    <pre data-testid="code-block" dir="ltr" className={cx('overflow-auto bg-sunken p-3 font-mono text-xs leading-relaxed text-ink', wrap ? 'break-all whitespace-pre-wrap' : 'whitespace-pre', className)}>
       <code>
         {tokens.map((token, index) =>
           token.kind === 'plain' ? token.text : (

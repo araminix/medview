@@ -1,5 +1,6 @@
 import type { GraphEdge } from '@/domain/types';
 import { NODE_HEIGHT, NODE_WIDTH, type Direction, type Positioned, type ViewNode } from './model';
+import { term } from '@/i18n';
 
 const PADDING = 24;
 
@@ -50,8 +51,8 @@ export function buildSvg(nodes: ViewNode[], edges: GraphEdge[], positions: Map<s
       `<g transform="translate(${x} ${y})">`,
       `<rect width="${NODE_WIDTH}" height="${NODE_HEIGHT}" rx="6" fill="${palette.surface}" stroke="${palette.border}"/>`,
       `<rect width="5" height="${NODE_HEIGHT}" rx="2" fill="${color}"/>`,
-      `<text x="16" y="22" font-size="13" font-weight="600" fill="${palette.text}">${escapeXml(truncate(node.label, 26))}</text>`,
-      `<text x="16" y="40" font-size="11" fill="${palette.muted}">${escapeXml(truncate(node.sublabel ?? '', 32))}</text>`,
+      `<text x="16" y="22" font-size="13" font-weight="600" fill="${palette.text}">${escapeXml(truncate(term(node.label), 26))}</text>`,
+      `<text x="16" y="40" font-size="11" fill="${palette.muted}">${escapeXml(truncate(term(node.sublabel), 32))}</text>`,
       '</g>',
     ].join('');
   });

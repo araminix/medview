@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import type { SourceRef } from '@/domain/types';
 import { cx } from '@/lib/browser';
+import { t } from '@/i18n';
 
 /** Entries rendered per group; the rest are reachable through search. */
 const GROUP_LIMIT = 250;
@@ -24,7 +25,7 @@ export function SourceTree({ sources, matches, selected, onSelect }: SourceTreeP
     return [...byType];
   }, [sources, matches]);
 
-  if (groups.length === 0) return <p className="p-4 text-sm text-muted">No matches.</p>;
+  if (groups.length === 0) return <p className="p-4 text-sm text-muted">{t('dev.noMatches')}</p>;
 
   return (
     <div data-testid="source-tree">
@@ -42,14 +43,15 @@ export function SourceTree({ sources, matches, selected, onSelect }: SourceTreeP
                   data-testid="source-item"
                   aria-current={selected === source.id}
                   onClick={() => onSelect(source.id)}
-                  className={cx('block w-full truncate px-3 py-1 pl-6 text-left text-[13px]', selected === source.id ? 'bg-accent-tint font-medium text-accent-strong' : 'text-ink hover:bg-sunken')}
+                  className={cx('block w-full truncate px-3 py-1 ps-6 text-start text-[13px]', selected === source.id ? 'bg-accent-tint font-medium text-accent-strong' : 'text-ink hover:bg-sunken')}
                   title={source.id}
+                  dir="auto"
                 >
                   {source.label}
                 </button>
               </li>
             ))}
-            {items.length > GROUP_LIMIT && <li className="px-6 py-1 text-xs text-muted">+{(items.length - GROUP_LIMIT).toLocaleString('en-US')} more — narrow with search</li>}
+            {items.length > GROUP_LIMIT && <li className="px-6 py-1 text-xs text-muted">{t('dev.more', { count: (items.length - GROUP_LIMIT).toLocaleString('en-US') })}</li>}
           </ul>
         </details>
       ))}

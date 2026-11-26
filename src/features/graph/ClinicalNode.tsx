@@ -2,6 +2,7 @@ import { Handle, Position, type Node, type NodeProps } from '@xyflow/react';
 import { memo } from 'react';
 import { cx } from '@/lib/browser';
 import { NODE_HEIGHT, NODE_WIDTH, nodeColor, type Direction, type ViewNode } from './model';
+import { term } from '@/i18n';
 
 export type ClinicalNodeData = { node: ViewNode; direction: Direction; dimmed: boolean };
 export type ClinicalFlowNode = Node<ClinicalNodeData, 'clinical'>;
@@ -23,8 +24,12 @@ export const ClinicalNode = memo(function ClinicalNode({ data, selected }: NodeP
       )}
     >
       <Handle type="target" position={horizontal ? Position.Left : Position.Top} className="!size-1.5 !border-0 !bg-muted" />
-      <p className="truncate text-[13px] leading-tight font-semibold text-ink">{node.label}</p>
-      <p className="tnum truncate text-[11px] text-muted">{node.sublabel}</p>
+      <p className="truncate text-[13px] leading-tight font-semibold text-ink" dir="auto">
+        {term(node.label)}
+      </p>
+      <p className="tnum truncate text-[11px] text-muted" dir="auto">
+        {term(node.sublabel)}
+      </p>
       <Handle type="source" position={horizontal ? Position.Right : Position.Bottom} className="!size-1.5 !border-0 !bg-muted" />
     </div>
   );

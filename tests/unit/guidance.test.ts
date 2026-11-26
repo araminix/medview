@@ -1,7 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import { medicinePurpose } from '@/domain/guidance/medicines';
 import { buildPlainSummary, redFlag } from '@/domain/guidance/summarize';
-import { TOPICS } from '@/domain/guidance/topics';
+import { OXYGEN_TOPIC, topicKeys, TOPICS } from '@/domain/guidance/topics';
+import { dictionaryOf } from '@/i18n';
+import { en } from '@/i18n/locales/en';
 import type { LabItem } from '@/domain/types';
 import { recordOf, sample } from './helpers';
 
@@ -73,23 +75,33 @@ describe('red flags', () => {
   });
 });
 
-describe('safety of the advice itself', () => {
-  const advice = TOPICS.flatMap((t) => t.selfCare).join('\n');
-
-  test('never tells the reader to start, stop or dose a medicine on their own', () => {
-    // Medicines appear only as "ask first" or "take as prescribed" — never as a recommendation.
-    for (const line of advice.split('\n').filter((l) => /tablet|pill|supplement|ibuprofen|naproxen|painkiller|medicine|pain relief|inhaler/i.test(l))) {
-      expect(line, line).toMatch(/ask|unless your doctor|as prescribed|as instructed|as shown|tell (the|every)|within the dose|on your own|every day/i);
-    }
-  });
+describe.each(['en', 'fa', 'tr'] as const)('advice wording (%s)', (lang) => {
+  const dictionary = dictionaryOf(lang);
+  const topics = [...TOPICS, OXYGEN_TOPIC].map((topic) => topicKeys(topic.id));
 
   test('every topic explains itself and offers something to do and to ask', () => {
-    for (const topic of TOPICS) {
-      expect(topic.meaning.length, topic.id).toBeGreaterThan(40);
-      expect(topic.selfCare.length, topic.id).toBeGreaterThan(0);
-      expect(topic.askDoctor.length, topic.id).toBeGreaterThan(0);
+    for (const keys of topics) {
+      expect(String(dictionary[keys.title]).length, keys.title).toBeGreaterThan(8);
+      expect(String(dictionary[keys.meaning]).length, keys.meaning).toBeGreaterThan(40);
+      expect(dictionary[keys.selfCare].length, keys.selfCare).toBeGreaterThan(0);
+      expect(dictionary[keys.askDoctor].length, keys.askDoctor).toBeGreaterThan(0);
     }
   });
+
+  test('offers the same number of tips and questions as the English source', () => {
+    for (const keys of topics) {
+      expect(dictionary[keys.selfCare], keys.selfCare).toHaveLength(en[keys.selfCare].length);
+      expect(dictionary[keys.askDoctor], keys.askDoctor).toHaveLength(en[keys.askDoctor].length);
+    }
+  });
+});
+
+test('English advice never tells the reader to start, stop or dose a medicine on their own', () => {
+  const advice = [...TOPICS, OXYGEN_TOPIC].flatMap((topic) => en[topicKeys(topic.id).selfCare]);
+  // Medicines appear only as "ask first" or "take as prescribed" — never as a recommendation.
+  for (const line of advice.filter((l) => /tablet|pill|supplement|ibuprofen|naproxen|painkiller|medicine|pain relief|inhaler/i.test(l))) {
+    expect(line, line).toMatch(/ask|unless your doctor|as prescribed|as instructed|as shown|tell (the|every)|within the dose|on your own|every day/i);
+  }
 });
 
 test('explains what common medicines are for', () => {

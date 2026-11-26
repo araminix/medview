@@ -1,3 +1,4 @@
+import { t, term } from '@/i18n';
 import { classifyMedication } from './bodySystems';
 import { byDateDesc } from './dates';
 import { isAbnormal } from './labs';
@@ -80,20 +81,20 @@ export function buildTimeline(record: ClinicalRecord): TimelineEvent[] {
       id: e.id,
       date: e.start,
       kind: encounterKind(e),
-      title: e.title,
-      detail: [e.kind !== e.title ? e.kind : undefined, e.location, e.provider, e.reason].filter(Boolean).join(' · ') || undefined,
+      title: term(e.title),
+      detail: [e.kind !== e.title ? term(e.kind) : undefined, e.location, e.provider, e.reason].filter(Boolean).join(' · ') || undefined,
       sourceId: e.sourceId,
     })),
-    ...record.procedures.map((p) => ({ id: p.id, date: p.date, kind: 'procedure' as const, title: p.name, detail: 'Procedure', sourceId: p.sourceId })),
-    ...record.immunizations.map((i) => ({ id: i.id, date: i.date, kind: 'immunization' as const, title: i.name, detail: 'Immunization', sourceId: i.sourceId })),
+    ...record.procedures.map((p) => ({ id: p.id, date: p.date, kind: 'procedure' as const, title: p.name, detail: t('kind.procedure'), sourceId: p.sourceId })),
+    ...record.immunizations.map((i) => ({ id: i.id, date: i.date, kind: 'immunization' as const, title: i.name, detail: t('kind.immunization'), sourceId: i.sourceId })),
     ...[...labDays].map(([day, labs]) => {
       const abnormal = labs.filter((l) => isAbnormal(l.flag)).length;
       return {
         id: `labs-${day}`,
         date: day,
         kind: 'labs' as const,
-        title: `${labs.length} lab result${labs.length === 1 ? '' : 's'}`,
-        detail: abnormal ? `${abnormal} outside the reference range` : 'All within range',
+        title: t('timeline.labs', { count: labs.length }),
+        detail: abnormal ? t('timeline.outside', { count: abnormal }) : t('timeline.within'),
       };
     }),
   ];
@@ -109,15 +110,15 @@ export interface SectionLink {
 /** Sidebar jump links with item counts; empty sections are left out. */
 export function sectionLinks(record: ClinicalRecord): SectionLink[] {
   const links: SectionLink[] = [
-    { id: 'overview', label: 'Overview & Abnormal Flags' },
-    { id: 'labs', label: 'Labs & Biomarkers', count: record.labs.length },
-    { id: 'medications', label: 'Medications', count: record.medications.length },
-    { id: 'conditions', label: 'Conditions / Diagnoses', count: record.conditions.length },
-    { id: 'vitals', label: 'Vitals', count: record.vitals.length },
-    { id: 'timeline', label: 'Visits / Timeline', count: record.encounters.length },
-    { id: 'immunizations', label: 'Immunizations & Procedures', count: record.immunizations.length + record.procedures.length },
-    { id: 'notes', label: 'Notes & Documents', count: record.documents.length },
-    { id: 'warnings', label: 'Parse Warnings', count: record.meta.warnings.length },
+    { id: 'overview', label: t('section.overview') },
+    { id: 'labs', label: t('section.labs'), count: record.labs.length },
+    { id: 'medications', label: t('section.medications'), count: record.medications.length },
+    { id: 'conditions', label: t('section.conditions'), count: record.conditions.length },
+    { id: 'vitals', label: t('section.vitals'), count: record.vitals.length },
+    { id: 'timeline', label: t('section.timeline'), count: record.encounters.length },
+    { id: 'immunizations', label: t('section.immunizations'), count: record.immunizations.length + record.procedures.length },
+    { id: 'notes', label: t('section.notes'), count: record.documents.length },
+    { id: 'warnings', label: t('section.warnings'), count: record.meta.warnings.length },
   ];
   return links.filter((link) => link.count === undefined || link.count > 0);
 }

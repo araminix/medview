@@ -1,3 +1,4 @@
+import { t } from '@/i18n';
 export function Logo({ compact = false }: { compact?: boolean }) {
   return (
     <span className="inline-flex items-center gap-2">
@@ -6,7 +7,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
         <path d="M12 34h10l5-14 8 26 6-18 3 6h8" fill="none" stroke="var(--mv-on-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       <span className="text-[15px] font-semibold tracking-tight text-ink">
-        MedView{!compact && <span className="ml-1.5 font-normal text-muted">by Araminix</span>}
+        MedView{!compact && <span className="ms-1.5 font-normal text-muted">{t('logo.by')}</span>}
       </span>
     </span>
   );

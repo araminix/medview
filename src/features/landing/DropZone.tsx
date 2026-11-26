@@ -3,7 +3,9 @@ import { useRef, useState, type DragEvent } from 'react';
 import { useApp } from '@/app/store';
 import { Button } from '@/components/Button';
 import { cx } from '@/lib/browser';
+import { t } from '@/i18n';
 
+const EXTENSIONS = '.json · .xml · .hl7 · .txt · .ccda · .zip';
 const ACCEPT = '.json,.xml,.hl7,.txt,.ccda,.cda,.zip,application/json,text/xml,text/plain,application/zip';
 
 export function DropZone() {
@@ -37,9 +39,9 @@ export function DropZone() {
         )}
       >
         {pasting ? (
-          <div className="mx-auto max-w-2xl text-left">
+          <div className="mx-auto max-w-2xl text-start">
             <label htmlFor="paste-area" className="text-sm font-medium text-ink">
-              Paste FHIR JSON, HL7 v2 or C-CDA XML
+              {t('drop.pasteLabel')}
             </label>
             <textarea
               id="paste-area"
@@ -48,28 +50,31 @@ export function DropZone() {
               spellCheck={false}
               autoFocus
               placeholder={'MSH|^~\\&|LAB|…   or   { "resourceType": "Bundle", … }'}
+              dir="ltr"
               className="mt-2 h-40 w-full resize-y rounded-md border border-line bg-surface p-3 font-mono text-xs text-ink"
             />
             <div className="mt-3 flex gap-2">
               <Button variant="primary" disabled={!pasted.trim()} onClick={() => void openText(pasted, 'pasted-text.txt')}>
-                Open pasted text
+                {t('drop.open')}
               </Button>
               <Button variant="ghost" onClick={() => setPasting(false)}>
-                Back to file drop
+                {t('drop.back')}
               </Button>
             </div>
           </div>
         ) : (
           <>
             <FileUp size={32} className="mx-auto text-accent-strong" aria-hidden="true" />
-            <p className="mt-3 text-base font-semibold text-ink">Drop a medical file here</p>
-            <p className="mt-1 text-sm text-muted">.json · .xml · .hl7 · .txt · .ccda · .zip — the format is detected automatically</p>
+            <p className="mt-3 text-base font-semibold text-ink">{t('drop.title')}</p>
+            <p className="mt-1 text-sm text-muted">
+              <bdi dir="ltr">{EXTENSIONS}</bdi> — {t('drop.hint')}
+            </p>
             <div className="mt-5 flex flex-wrap justify-center gap-2">
               <Button variant="primary" onClick={() => input.current?.click()}>
-                Choose a file
+                {t('drop.choose')}
               </Button>
               <Button onClick={() => setPasting(true)}>
-                <ClipboardPaste size={15} /> Paste text instead
+                <ClipboardPaste size={15} /> {t('drop.paste')}
               </Button>
             </div>
           </>
