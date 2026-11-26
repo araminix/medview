@@ -184,14 +184,30 @@ export interface RecordMeta {
   version?: string;
   /** Human format badge, e.g. "FHIR R4 · 142 resources". */
   summary: string;
-  syntax: 'json' | 'xml' | 'hl7';
+  syntax: 'json' | 'xml' | 'hl7' | 'dicom';
   /** True when the file is FHIR underneath, so FHIRPath queries can run on it. */
   fhirPath?: boolean;
   warnings: ParseWarning[];
 }
 
+/** What a DICOM file or series holds, for the image viewer. The pictures themselves stay in the engine. */
+export interface ImagingInfo {
+  /** Number of pictures that can be shown, across the files of the series. */
+  frames: number;
+  width: number;
+  height: number;
+  /** True for greyscale pictures, whose brightness window can be changed. */
+  greyscale: boolean;
+  /** Why no picture can be shown, when none can. */
+  unavailable?: string;
+  /** Facts about the study and the scanner, in reading order. */
+  details: IdItem[];
+}
+
 export interface ClinicalRecord {
   meta: RecordMeta;
+  /** Present for DICOM files only. */
+  imaging?: ImagingInfo;
   patient: PatientInfo;
   allergies: AllergyItem[];
   labs: LabItem[];

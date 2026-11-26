@@ -1,10 +1,17 @@
 import type { ClinicalRecord } from '@/domain/types';
+import type { FrameImage, RenderOptions } from '@/parsers/dicom/pixels';
 import type { ScrubChange, ScrubOptions } from '@/scrubber';
 
 export interface LoadedFile {
   record: ClinicalRecord;
   /** True while the anonymized version of the file is the one being shown. */
   scrubbed: boolean;
+}
+
+/** The anonymized file as it is downloaded: text in the original syntax, one DICOM file, or a zip of a DICOM series. */
+export interface ScrubbedFile {
+  content: string | Uint8Array;
+  kind: 'text' | 'dicom' | 'zip';
 }
 
 export interface RawSlice {
@@ -37,7 +44,9 @@ export interface EngineApi {
   applyScrub(options: ScrubOptions): LoadedFile;
   revertScrub(): LoadedFile;
   /** The whole file, anonymized, in its original syntax. */
-  scrubbedText(options: ScrubOptions): string;
+  scrubbedFile(options: ScrubOptions): ScrubbedFile;
+  /** One picture of a DICOM file, drawn with the file's brightness window or a change to it. */
+  imageFrame(index: number, options?: RenderOptions): FrameImage | undefined;
   /** The anonymized record, without switching the current view to it. */
   scrubbedRecord(options: ScrubOptions): ClinicalRecord;
   /** Plain-text clinical summary of the anonymized file. */

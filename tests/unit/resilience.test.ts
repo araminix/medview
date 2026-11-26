@@ -129,7 +129,7 @@ describe('auto-detection', () => {
   test('flags formats planned for later versions', () => {
     const dicom = new Uint8Array(140);
     dicom.set([0x44, 0x49, 0x43, 0x4d], 128);
-    expect(failure(() => parseBytes(dicom)).message).toBe('DICOM images are not supported yet');
+    expect(parseBytes(dicom).document.record.meta.format).toBe('dicom');
     expect(parseText('<HealthData locale="en_US"></HealthData>').record.meta.format).toBe('apple-health');
   });
 

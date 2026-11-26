@@ -1,8 +1,10 @@
 import { unzipSync } from 'fflate';
 import { CLINICAL_RECORD, convertHealthExport, isHealthExport } from './appleHealth';
+import type { NamedBytes } from './dicom/parseDicom';
+import { isDicom } from './dicom/reader';
 import { UnreadableFileError } from './types';
 
-const SUPPORTED = 'MedView reads FHIR (JSON or XML), HL7 v2, C-CDA, IPS and Apple Health files.';
+const SUPPORTED = 'MedView reads FHIR (JSON or XML), HL7 v2, C-CDA, IPS, openEHR, Apple Health and DICOM files.';
 
 function startsWith(bytes: Uint8Array, signature: number[], offset = 0): boolean {
   return signature.every((byte, i) => bytes[offset + i] === byte);
@@ -21,9 +23,6 @@ const BINARY_SIGNATURES: Array<[kind: string, signature: number[], offset?: numb
 ];
 
 function rejectBinary(bytes: Uint8Array): void {
-  if (startsWith(bytes, [0x44, 0x49, 0x43, 0x4d], 128)) {
-    throw new UnreadableFileError('DICOM images are not supported yet', 'DICOM viewing is planned for a later version.');
-  }
   const known = BINARY_SIGNATURES.find(([, signature, offset]) => startsWith(bytes, signature, offset));
   if (known) throw new UnreadableFileError(`This looks like ${known[0]}, not a medical record file`, SUPPORTED);
 }
@@ -72,7 +71,7 @@ export interface DecodedFile {
 /** Turns dropped bytes into text: rejects binaries, unpacks zip archives, strips the BOM. */
 export function decodeFile(bytes: Uint8Array): DecodedFile {
   if (bytes.length === 0) throw new UnreadableFileError('This file is empty');
-  if (startsWith(bytes, [0x50, 0x4b, 0x03, 0x04])) return decodeArchive(bytes);
+  if (startsWith(bytes, ZIP)) return decodeArchive(bytes);
   rejectBinary(bytes);
   // An Apple Health export can be too large for one string; it is read in pieces and reduced.
   if (isHealthExport(new TextDecoder().decode(bytes.subarray(0, 20000)))) return { text: convertHealthExport(bytes) };
@@ -110,4 +109,29 @@ function decodeHealthArchive([name, content]: [string, Uint8Array], entries: Arr
   });
   const records = clinical.length ? ` with ${clinical.length} clinical record${clinical.length === 1 ? '' : 's'}` : '';
   return { text: convertHealthExport(content, clinical), archiveNote: `Opened "${name}" from the Apple Health archive${records}` };
+}
+
+const ZIP = [0x50, 0x4b, 0x03, 0x04];
+/** Files in a study archive that are certainly not DICOM images, so they need not be unpacked to check. */
+const NOT_DICOM = /\.(json|xml|hl7|txt|ccda|cda|ccd|pdf|jpe?g|png|gif|bmp|html?|css|js|exe|dll|inf|ico|md|csv)$|(^|\/)(DICOMDIR|__MACOSX)/i;
+
+export interface DicomInput {
+  files: NamedBytes[];
+  /** Present when the files came out of a zip archive. */
+  archiveNote?: string;
+}
+
+/** The DICOM files in what was dropped: the file itself, or the images inside a zip archive of a study. */
+export function dicomFiles(bytes: Uint8Array): DicomInput | undefined {
+  if (isDicom(bytes)) return { files: [{ name: 'image.dcm', bytes }] };
+  if (!startsWith(bytes, ZIP)) return undefined;
+  let unpacked: Record<string, Uint8Array>;
+  try {
+    unpacked = unzipSync(bytes, { filter: (file) => !NOT_DICOM.test(file.name) && file.originalSize > 132 });
+  } catch {
+    return undefined;
+  }
+  const files = Object.entries(unpacked).flatMap(([name, content]) => (isDicom(content) ? [{ name, bytes: content }] : []));
+  if (files.length === 0) return undefined;
+  return { files, archiveNote: `Opened ${files.length} DICOM image${files.length === 1 ? '' : 's'} from the archive` };
 }

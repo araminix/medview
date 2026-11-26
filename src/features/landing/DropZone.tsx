@@ -6,7 +6,7 @@ import { cx } from '@/lib/browser';
 import { t } from '@/i18n';
 
 const EXTENSIONS = '.json · .xml · .hl7 · .txt · .ccda · .zip';
-const ACCEPT = '.json,.xml,.hl7,.txt,.ccda,.cda,.zip,application/json,text/xml,text/plain,application/zip';
+const ACCEPT = '.json,.xml,.hl7,.txt,.ccda,.cda,.zip,.dcm,.dicom,application/json,text/xml,text/plain,application/zip,application/dicom';
 
 export function DropZone() {
   const openFile = useApp((state) => state.openFile);

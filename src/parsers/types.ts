@@ -1,4 +1,5 @@
 import type { ClinicalRecord } from '@/domain/types';
+import type { FrameImage, RenderOptions } from './dicom/pixels';
 
 /** What every format parser returns to the engine. */
 export interface ParsedDocument {
@@ -7,6 +8,8 @@ export interface ParsedDocument {
   getSource(id: string): string | undefined;
   /** Parsed FHIR JSON root, when the document is FHIR — the FHIRPath evaluation context. */
   fhirRoot?: unknown;
+  /** Draws one picture of a DICOM file or series. */
+  renderFrame?(index: number, options?: RenderOptions): FrameImage | undefined;
 }
 
 /** Thrown for input that cannot be read at all; the UI shows the message in a friendly banner. */

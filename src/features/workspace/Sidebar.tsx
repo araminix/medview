@@ -18,11 +18,11 @@ function PatientCard({ record }: { record: ClinicalRecord }) {
       <p className="mt-0.5 text-base leading-snug font-semibold text-ink" data-testid="patient-name" dir="auto">
         {patient.name ?? t('side.noName')}
       </p>
-      <dl className="mt-2 space-y-1 text-[13px]">
+      <dl className="mt-2 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-[13px]">
         {facts.map(([label, value]) =>
           value ? (
-            <div key={`${label}-${value}`} className="flex gap-2">
-              <dt className="w-12 shrink-0 text-muted">{label}</dt>
+            <div key={`${label}-${value}`} className="contents">
+              <dt className="max-w-24 text-muted">{label}</dt>
               <dd className="tnum min-w-0 break-words text-ink" dir="auto">
                 {value}
               </dd>

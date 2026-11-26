@@ -12,7 +12,7 @@ import { digits, t } from '@/i18n';
 
 const OPTIONS: Array<keyof ScrubOptions> = ['names', 'birthDate', 'ids', 'contacts', 'providers'];
 
-const MIME: Record<string, string> = { json: 'application/json', xml: 'application/xml', hl7: 'text/plain' };
+const MIME: Record<string, string> = { json: 'application/json', xml: 'application/xml', hl7: 'text/plain', dicom: 'application/dicom', zip: 'application/zip' };
 
 /**
  * Inserts ".scrubbed" before the extension: report.json → report.scrubbed.json. A file MedView converted
@@ -73,8 +73,11 @@ export function ScrubberModal({ onClose }: { onClose(): void }) {
   const total = changes.reduce((sum, change) => sum + change.count, 0);
 
   const download = async () => {
-    const text = await engine.call('scrubbedText', options);
-    downloadBlob(text, scrubbedName(file?.name ?? 'medical-file', record?.meta.syntax), MIME[record?.meta.syntax ?? 'hl7']);
+    const { content, kind } = await engine.call('scrubbedFile', options);
+    const name = scrubbedName(file?.name ?? 'medical-file', record?.meta.syntax);
+    // A DICOM study that came as an archive goes back out as one.
+    const part = typeof content === 'string' ? content : new Uint8Array(content);
+    downloadBlob(part, kind === 'zip' ? name.replace(/\.[^.]+$/, '.zip') : name, MIME[kind === 'text' ? (record?.meta.syntax ?? 'hl7') : kind]);
   };
 
   const copySummary = async () => {
@@ -136,6 +139,7 @@ export function ScrubberModal({ onClose }: { onClose(): void }) {
           <p className="border-b border-line bg-canvas px-3 py-2 text-xs text-muted" aria-live="polite">
             {loading ? t('scrub.scanning') : t('scrub.count', { total, values: changes.length })}
           </p>
+          {record?.imaging && <p className="border-b border-line px-3 py-2 text-xs text-warn-text" data-testid="scrub-dicom-note">{t('scrub.dicomNote')}</p>}
           <DiffPreview changes={changes} loading={loading} />
         </div>
       </div>

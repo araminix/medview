@@ -1,6 +1,7 @@
 import { convertHealthExport, isHealthExport } from './appleHealth';
 import { parseCcda } from './ccda/parseCcda';
-import { decodeFile, stripBom } from './decode';
+import { decodeFile, dicomFiles, stripBom } from './decode';
+import { parseDicom, type NamedBytes } from './dicom/parseDicom';
 import { detectSyntax } from './detect';
 import { parseFhir } from './fhir/parseFhir';
 import { fhirXmlToJson } from './fhir/xmlToJson';
@@ -12,6 +13,7 @@ import { parseXml, serializeXml, type XmlElement } from './shared/xml';
 import { UnreadableFileError, type ParsedDocument } from './types';
 
 export { UnreadableFileError, type ParsedDocument } from './types';
+export { parseDicom, type NamedBytes } from './dicom/parseDicom';
 
 const FHIR_NAMESPACE = 'http://hl7.org/fhir';
 
@@ -78,13 +80,20 @@ export function parseText(text: string): ParsedDocument {
     default:
       throw new UnreadableFileError(
         body.trim() ? 'This file format is not recognized' : 'This file is empty',
-        'MedView reads FHIR (JSON or XML), HL7 v2, C-CDA, IPS and Apple Health files.',
+        'MedView reads FHIR (JSON or XML), HL7 v2, C-CDA, IPS, openEHR, Apple Health and DICOM files.',
       );
   }
 }
 
 /** Entry point for dropped files: decode bytes (BOM, encodings, zip) and parse. */
-export function parseBytes(bytes: Uint8Array, onDecoded?: () => void): { document: ParsedDocument; text: string } {
+export function parseBytes(bytes: Uint8Array, onDecoded?: () => void): { document: ParsedDocument; text: string; files?: NamedBytes[] } {
+  const dicom = dicomFiles(bytes);
+  if (dicom) {
+    onDecoded?.();
+    const { text, ...document } = parseDicom(dicom.files);
+    if (dicom.archiveNote) document.record.meta.warnings.unshift({ message: dicom.archiveNote, severity: 'info' });
+    return { document, text, files: dicom.files };
+  }
   const { text, archiveNote } = decodeFile(bytes);
   onDecoded?.();
   const document = parseText(text);

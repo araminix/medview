@@ -34,6 +34,7 @@ interface AppState extends Session {
   tab: WorkspaceTab;
   openFile(file: File): Promise<void>;
   openText(text: string, name: string): Promise<void>;
+  openBytes(bytes: Uint8Array, name: string): Promise<void>;
   cancelLoad(): void;
   clearFile(): void;
   dismissError(): void;
@@ -77,7 +78,9 @@ export const useApp = create<AppState>((set, get) => {
     set({ ...EMPTY_SESSION, status: 'loading', stage: 'reading', file: { name, size } });
     try {
       const { record, scrubbed } = await engine.load(await read(), (stage) => set({ stage }));
-      set({ status: 'ready', record, scrubbed, stage: undefined });
+      // A scan opens on its pictures; any other file returns to the tab the reader last chose.
+      const tab = record.imaging ? 'images' : get().tab === 'images' ? preferences.tab() : get().tab;
+      set({ status: 'ready', record, scrubbed, stage: undefined, tab });
     } catch (error) {
       if (error instanceof CancelledError) return;
       const message = error instanceof EngineError ? error.message : 'This file could not be opened';
@@ -102,6 +105,7 @@ export const useApp = create<AppState>((set, get) => {
       const bytes = new TextEncoder().encode(text);
       return load(name, bytes.length, async () => bytes);
     },
+    openBytes: (bytes, name) => load(name, bytes.length, async () => bytes),
     cancelLoad: () => {
       engine.reset();
       set(EMPTY_SESSION);
@@ -124,7 +128,7 @@ export const useApp = create<AppState>((set, get) => {
       set({ lang: next });
     },
     setTab: (tab) => {
-      preferences.setTab(tab);
+      if (tab !== 'images') preferences.setTab(tab);
       set({ tab });
     },
     setBodyFilter: (bodyFilter) => set({ bodyFilter }),

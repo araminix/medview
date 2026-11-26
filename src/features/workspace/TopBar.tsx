@@ -13,11 +13,13 @@ import { activeDirection, t } from '@/i18n';
 const TABS: WorkspaceTab[] = ['summary', 'report', 'map', 'dev'];
 
 function Tabs() {
+  const hasImages = useRecord().imaging !== undefined;
+  const tabs: WorkspaceTab[] = hasImages ? ['images', ...TABS] : TABS;
   const tab = useApp((state) => state.tab);
   const setTab = useApp((state) => state.setTab);
   return (
     <div role="tablist" aria-label={t('tabs.label')} className="flex gap-1">
-      {TABS.map((id) => (
+      {tabs.map((id) => (
         <button
           key={id}
           type="button"
@@ -28,13 +30,13 @@ function Tabs() {
           tabIndex={tab === id ? 0 : -1}
           onClick={() => setTab(id)}
           onKeyDown={(event) => {
-            const index = TABS.indexOf(tab);
+            const index = tabs.indexOf(tab);
             // Arrow keys follow the visual order, which is mirrored in right-to-left languages.
             const forward = activeDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
             const backward = forward === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight';
             const step = event.key === forward ? 1 : event.key === backward ? -1 : 0;
             if (!step) return;
-            const next = TABS[(index + step + TABS.length) % TABS.length];
+            const next = tabs[(index + step + tabs.length) % tabs.length];
             setTab(next);
             document.getElementById(`tab-${next}`)?.focus();
           }}

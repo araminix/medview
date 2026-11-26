@@ -5,7 +5,8 @@ import { detectLanguage, isLanguage, type LanguageCode } from '@/i18n/languages'
  * Patient data never goes through this module.
  */
 export type Theme = 'light' | 'dark';
-export type WorkspaceTab = 'summary' | 'report' | 'map' | 'dev';
+/** `images` exists for DICOM files only, so it is never the remembered tab. */
+export type WorkspaceTab = 'summary' | 'report' | 'map' | 'dev' | 'images';
 
 const KEYS = { theme: 'medview:theme', tab: 'medview:tab', lang: 'medview:lang', privacyNoteSeen: 'medview:privacy-note-seen' } as const;
 

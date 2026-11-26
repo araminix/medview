@@ -1,13 +1,18 @@
 import { evalFhirPath } from '@medplum/core';
+import { zipSync } from 'fflate';
 import { summarizeRecord } from '@/domain/summary';
 import type { ClinicalRecord } from '@/domain/types';
-import { parseBytes, parseText, UnreadableFileError, type ParsedDocument } from '@/parsers';
-import { scrubText, type ScrubOptions } from '@/scrubber';
-import type { EngineApi, LoadStage, LoadedFile, QueryResult, RawSlice } from './api';
+import { parseBytes, parseDicom, parseText, UnreadableFileError, type NamedBytes, type ParsedDocument } from '@/parsers';
+import type { FrameImage, RenderOptions } from '@/parsers/dicom/pixels';
+import { scrubText, type ScrubChange, type ScrubOptions } from '@/scrubber';
+import { scrubDicom } from '@/scrubber/dicom';
+import type { EngineApi, LoadStage, LoadedFile, QueryResult, RawSlice, ScrubbedFile } from './api';
 
 interface Loaded {
   text: string;
   document: ParsedDocument;
+  /** The dropped DICOM files, kept so they can be anonymized byte for byte. */
+  files?: NamedBytes[];
 }
 
 const MAX_QUERY_VALUES = 200;
@@ -74,10 +79,21 @@ export class Engine implements EngineApi {
     }
   }
 
-  private scrub(options: ScrubOptions) {
-    const { text, document } = this.original ?? this.active;
+  /** The anonymized file and what was changed in it. DICOM is rewritten byte for byte; everything else as text. */
+  private scrub(options: ScrubOptions): { loaded: () => Loaded; changes: ScrubChange[]; text: string; files?: NamedBytes[] } {
+    const { text, document, files } = this.original ?? this.active;
+    if (files) {
+      const changes = new Map<string, ScrubChange>();
+      const scrubbed = files.map(({ name, bytes }) => ({ name, bytes: scrubDicom(bytes, options, changes) }));
+      const loaded = () => {
+        const { text: dump, ...parsed } = parseDicom(scrubbed);
+        return { text: dump, document: parsed, files: scrubbed };
+      };
+      return { loaded, changes: [...changes.values()], text, files: scrubbed };
+    }
     // The parsed FHIR root is only reusable for JSON; XML is re-read by the scrubber.
-    return scrubText(text, options, document.record.meta.syntax === 'json' ? document.fhirRoot : undefined);
+    const result = scrubText(text, options, document.record.meta.syntax === 'json' ? document.fhirRoot : undefined);
+    return { loaded: () => ({ text: result.text, document: parseText(result.text) }), changes: result.changes, text: result.text };
   }
 
   previewScrub(options: ScrubOptions) {
@@ -85,8 +101,7 @@ export class Engine implements EngineApi {
   }
 
   applyScrub(options: ScrubOptions): LoadedFile {
-    const { text } = this.scrub(options);
-    this.current = { text, document: parseText(text) };
+    this.current = this.scrub(options).loaded();
     return this.snapshot();
   }
 
@@ -95,12 +110,19 @@ export class Engine implements EngineApi {
     return this.snapshot();
   }
 
-  scrubbedText(options: ScrubOptions): string {
-    return this.scrub(options).text;
+  scrubbedFile(options: ScrubOptions): ScrubbedFile {
+    const { text, files } = this.scrub(options);
+    if (!files) return { content: text, kind: 'text' };
+    if (files.length === 1) return { content: files[0].bytes, kind: 'dicom' };
+    return { content: zipSync(Object.fromEntries(files.map(({ name, bytes }) => [name, bytes])), { level: 0 }), kind: 'zip' };
+  }
+
+  imageFrame(index: number, options?: RenderOptions): FrameImage | undefined {
+    return this.active.document.renderFrame?.(index, options);
   }
 
   scrubbedRecord(options: ScrubOptions): ClinicalRecord {
-    return parseText(this.scrub(options).text).record;
+    return this.scrub(options).loaded().document.record;
   }
 
   safeSummary(options: ScrubOptions): string {

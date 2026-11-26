@@ -1,4 +1,4 @@
-export type Syntax = 'json' | 'xml' | 'hl7' | 'text';
+export type Syntax = 'json' | 'xml' | 'hl7' | 'dicom' | 'text';
 export type TokenKind = 'key' | 'string' | 'number' | 'keyword' | 'tag' | 'attr' | 'punct' | 'plain';
 
 export interface Token {
@@ -19,6 +19,11 @@ const RULES: Record<Exclude<Syntax, 'text'>, Array<[TokenKind, RegExp]>> = {
     ['tag', /<\/?[\w:.-]+|\/?>/y],
     ['string', /"[^"]*"|'[^']*'/y],
     ['attr', /[\w:.-]+(?==)/y],
+  ],
+  dicom: [
+    ['tag', /\([0-9A-F]{4},[0-9A-F]{4}\)/y],
+    ['keyword', /(?<=\) )[A-Z]{2}(?= )/y],
+    ['key', /(?<=\) [A-Z]{2} )\w+(?=:)/y],
   ],
   hl7: [
     ['tag', /^[A-Z][A-Z0-9]{2}(?=\||$)/my],

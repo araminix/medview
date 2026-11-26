@@ -14,8 +14,7 @@ import { t } from '@/i18n';
 import { translateError } from '@/i18n/errors';
 
 export const REPO_URL = 'https://github.com/araminix/medview';
-const ACTIVE_FORMATS = ['FHIR R4/R5', 'HL7 v2', 'US C-CDA', 'EU IPS', 'Apple Health', 'openEHR'];
-const PLANNED_FORMATS = ['DICOM'];
+const ACTIVE_FORMATS = ['FHIR R4/R5', 'HL7 v2', 'US C-CDA', 'EU IPS', 'Apple Health', 'openEHR', 'DICOM'];
 
 function ErrorBanner() {
   const error = useApp((state) => state.error);
@@ -57,6 +56,7 @@ function TrustChallenge() {
 export function LandingPage() {
   const status = useApp((state) => state.status);
   const openText = useApp((state) => state.openText);
+  const openBytes = useApp((state) => state.openBytes);
 
   return (
     <div className="flex min-h-full flex-col">
@@ -101,7 +101,7 @@ export function LandingPage() {
                 type="button"
                 disabled={status === 'loading'}
                 data-testid={`sample-${sample.id}`}
-                onClick={() => void openText(sample.content, sample.fileName)}
+                onClick={() => void (typeof sample.content === 'string' ? openText(sample.content, sample.fileName) : openBytes(sample.content(), sample.fileName))}
                 className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-accent-strong hover:border-accent hover:bg-accent-wash disabled:opacity-50"
               >
                 {t(`landing.sample.${sample.id}`)}
@@ -117,11 +117,6 @@ export function LandingPage() {
           {ACTIVE_FORMATS.map((format) => (
             <Pill key={format} tone="accent">
               {format}
-            </Pill>
-          ))}
-          {PLANNED_FORMATS.map((format) => (
-            <Pill key={format} title={t('landing.soonTitle')}>
-              {t('landing.soon', { format })}
             </Pill>
           ))}
         </div>
