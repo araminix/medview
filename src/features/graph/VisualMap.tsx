@@ -1,5 +1,5 @@
 import '@xyflow/react/dist/style.css';
-import { Background, Controls, MarkerType, ReactFlow, ReactFlowProvider, useReactFlow, type Edge } from '@xyflow/react';
+import { Background, Controls, MarkerType, ReactFlow, ReactFlowProvider, useNodesInitialized, useReactFlow, type Edge } from '@xyflow/react';
 import { ArrowDownUp, ArrowLeftRight, Download, Maximize } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useApp, useRecord } from '@/app/store';
@@ -64,11 +64,11 @@ function Canvas() {
     [view, chain],
   );
 
-  // Re-fit whenever the set of nodes or the layout direction changes.
+  // Re-fit whenever the set of nodes or the layout direction changes — once xyflow has measured them.
+  const measured = useNodesInitialized();
   useEffect(() => {
-    const frame = requestAnimationFrame(() => void flow.fitView(FIT));
-    return () => cancelAnimationFrame(frame);
-  }, [flow, positions]);
+    if (measured) void flow.fitView(FIT);
+  }, [flow, positions, measured]);
 
   const toggleKind = (kind: GraphNodeKind) => {
     const next = new Set(hiddenKinds);
@@ -134,7 +134,6 @@ function Canvas() {
           nodeTypes={NODE_TYPES}
           nodesConnectable={false}
           nodesDraggable={false}
-          onlyRenderVisibleElements
           minZoom={0.05}
           proOptions={{ hideAttribution: true }}
           onNodeMouseEnter={(_, node) => setHovered(node.id)}
