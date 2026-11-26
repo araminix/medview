@@ -56,8 +56,9 @@ export function scanHealthExport(chunks: Iterable<string>): HealthScan {
     for (const [, tag, source] of complete.matchAll(TAG)) {
       const attrs = attributes(source);
       if (tag === 'Record') addRecord(scan, attrs);
-      else if (tag === 'ClinicalRecord') attrs.resourceFilePath && scan.clinicalFiles.push(attrs.resourceFilePath);
-      else if (tag === 'ExportDate') scan.exportDate = isoDate(attrs.value);
+      else if (tag === 'ClinicalRecord') {
+        if (attrs.resourceFilePath) scan.clinicalFiles.push(attrs.resourceFilePath);
+      } else if (tag === 'ExportDate') scan.exportDate = isoDate(attrs.value);
       else {
         scan.birthDate = isoDate(attrs.HKCharacteristicTypeIdentifierDateOfBirth);
         scan.sex = attrs.HKCharacteristicTypeIdentifierBiologicalSex;
