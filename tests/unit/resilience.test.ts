@@ -126,7 +126,7 @@ describe('auto-detection', () => {
     expect(failure(() => parseText('just some notes')).message).toBe('This file format is not recognized');
   });
 
-  test('flags formats planned for later versions', () => {
+  test('opens the formats added in version 2', () => {
     const dicom = new Uint8Array(140);
     dicom.set([0x44, 0x49, 0x43, 0x4d], 128);
     expect(parseBytes(dicom).document.record.meta.format).toBe('dicom');

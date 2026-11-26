@@ -122,7 +122,7 @@ export function ImageView() {
           {imaging.details.map((detail) => (
             <div key={detail.label} className="flex gap-3 px-4 py-2">
               <dt className="w-28 shrink-0 text-muted">{term(detail.label)}</dt>
-              <dd className="min-w-0 break-words text-ink">{/^\d+$/.test(detail.value) ? digits(detail.value) : ltr(term(detail.value))}</dd>
+              <dd className="min-w-0 break-words text-ink">{/^\d+$/.test(detail.value) ? digits(detail.value) : ltr(detail.value)}</dd>
             </div>
           ))}
         </dl>

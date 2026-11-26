@@ -2,7 +2,7 @@
 
 **Open and understand any hospital file — without it ever leaving your computer.**
 
-MedView is a free, browser-only viewer for medical files. Drop a FHIR, HL7 v2 or C-CDA file and get a clean clinical report, an interactive body map, a resource graph and a one-click anonymizer. There is no server: the file is parsed in a Web Worker on your device and is gone when you close the tab.
+MedView is a free, browser-only viewer for medical files. Drop a hospital file, an Apple Health export or a scan and get a clean clinical report, an interactive body map, a resource graph, an image viewer and a one-click anonymizer. There is no server: the file is parsed in a Web Worker on your device and is gone when you close the tab.
 
 **Live app:** https://araminix.github.io/medview/
 
@@ -22,7 +22,21 @@ MedView is a free, browser-only viewer for medical files. Drop a FHIR, HL7 v2 or
 | Patients | **My Summary**: what is wrong, how serious it is and what you can do, in everyday words — plus a body map you can click to filter |
 | HealthTech developers | Auto-detected parsing with line-level warnings, a resource graph with PNG/SVG export, FHIRPath, and a PHI scrubber that keeps the file valid |
 
-Supported today: **FHIR R4/R5** (JSON and XML, bundles or single resources), **HL7 v2.x** pipe messages (ADT, ORU, ORM, VXU) and **US C-CDA** documents. Zip archives are opened automatically. Planned: EU IPS, OpenEHR, DICOM, Apple Health.
+## Formats
+
+The format is detected from the content, never from the file name. Zip archives are opened automatically.
+
+| Format | What is read |
+|---|---|
+| **FHIR R4 / R5** | JSON and XML, bundles or single resources |
+| **HL7 v2.x** | Pipe messages: ADT, ORU, ORM, VXU |
+| **US C-CDA** | Continuity of care and discharge documents |
+| **EU IPS** | International Patient Summary documents. "No known allergies" and similar statements are shown as notes, not as findings |
+| **openEHR** | Canonical compositions in JSON or XML: vital signs, laboratory results, problems, allergies, medication, procedures. The flat and structured web-template formats are not read |
+| **Apple Health** | `export.zip` or `export.xml` from an iPhone. The file is read in pieces, so very large exports work: each measurement shows its latest reading, daily totals are a 30-day average, and the clinical records inside the export are merged in. It is converted to a FHIR bundle on your device, so FHIRPath and the scrubber work on it |
+| **DICOM** | One file, or a zip of a study. Uncompressed and RLE pictures are decoded here and baseline JPEG by the browser, with brightness and contrast for greyscale scans. JPEG 2000, JPEG-LS and lossless JPEG show their details but not their picture |
+
+The image viewer is for looking, not for diagnosis: it is not calibrated like a radiology workstation.
 
 ## Languages
 
@@ -53,7 +67,9 @@ It is rule-based and runs on your device. It does not diagnose, and it deliberat
 
 ## The PHI scrubber
 
-*Hide Private Info* replaces names, masks the birth date down to the year, swaps identifiers for synthetic hashes, strips contact details and (optionally) masks provider names. It works on the raw text, so the output is still valid FHIR JSON, HL7 v2 or C-CDA XML, and lab values, units and codes are untouched.
+*Hide Private Info* replaces names, masks the birth date down to the year, swaps identifiers for synthetic hashes, strips contact details and (optionally) masks provider names. It works on the raw text, so the output is still valid FHIR JSON, HL7 v2, C-CDA or openEHR, and lab values, units and codes are untouched.
+
+A DICOM file is rewritten in place instead: each private value is overwritten by a stand-in of the same length, so the file keeps its size and its picture. Text burned into the picture itself, unique study identifiers and vendor-specific fields are **not** changed. A zipped study is downloaded as a zip again.
 
 Known limit: a bare middle initial (the `J.` in `Marcus J. Delgado`) is kept, because replacing single letters across a file would damage clinical text. Free-text notes are swept for names, phone numbers, e-mails and SSN-like numbers, but no automatic scrubber can promise to catch every identifying phrase in narrative text — read the result before sharing it.
 
@@ -74,13 +90,13 @@ The first E2E run needs a browser: `pnpm exec playwright install chromium`.
 ```
 src/
   domain/      ClinicalRecord schema and clinical logic (dates, lab flags, body systems)
-  parsers/     fhir/ · hl7v2/ · ccda/ — each maps its format to a ClinicalRecord
+  parsers/     fhir/ · hl7v2/ · ccda/ · openehr/ · appleHealth/ · dicom/ — each maps its format to a ClinicalRecord
   scrubber/    PHI collection and replacement
   engine/      the Web Worker that owns the open file, and its typed client
   i18n/        dictionaries (en, fa, tr), translation and locale-aware formatting
-  features/    landing · workspace · report · graph · dev · privacy · scrubber · print
+  features/    landing · workspace · summary · report · graph · imaging · dev · privacy · scrubber · print
   components/  shared UI building blocks
-  samples/     three synthetic sample files (no real patient data)
+  samples/     seven synthetic sample files (no real patient data); `scripts/` rebuilds them
 tests/
   unit/        Vitest
   e2e/         Playwright: privacy, offline, security, UI, performance
