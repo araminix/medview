@@ -6,6 +6,12 @@ MedView is a free, browser-only viewer for medical files. Drop a FHIR, HL7 v2 or
 
 **Live app:** https://araminix.github.io/medview/
 
+<a href="https://araminix.github.io/medview/"><img src="docs/images/report-light.png" alt="MedView's report: abnormal results first with their reference ranges, active conditions, allergies and a body map" width="820"></a>
+
+| Dark theme | Visual Map |
+|---|---|
+| <img src="docs/images/report-dark.png" alt="The report in the dark theme" width="400"> | <img src="docs/images/visual-map.png" alt="The visual map: a patient linked to two visits and the abnormal results found at each" width="400"> |
+
 ## What it does
 
 | For | You get |
