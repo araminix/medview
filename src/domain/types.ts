@@ -185,6 +185,8 @@ export interface RecordMeta {
   /** Human format badge, e.g. "FHIR R4 · 142 resources". */
   summary: string;
   syntax: 'json' | 'xml' | 'hl7';
+  /** True when the file is FHIR underneath, so FHIRPath queries can run on it. */
+  fhirPath?: boolean;
   warnings: ParseWarning[];
 }
 

@@ -28,6 +28,7 @@ export const en = {
   'landing.sample.ccda': 'US Hospital Discharge (C-CDA XML)',
   'landing.sample.fhir': 'Complex Care Bundle (FHIR R4 JSON)',
   'landing.sample.hl7': 'Messy Lab Result Message (HL7 v2)',
+  'landing.sample.ips': 'European Patient Summary (IPS)',
   'landing.online': 'Online',
   'landing.challengeOnline': "Don't trust us? Turn off your Wi-Fi right now and drop your file — MedView still works 100%.",
   'landing.challengeOffline': 'Your browser has no internet connection, and MedView is still fully working.',

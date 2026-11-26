@@ -80,6 +80,7 @@ export const tr: Dictionary = {
   'landing.sample.ccda': 'Hastane Taburcu Özeti (C-CDA XML)',
   'landing.sample.fhir': 'Karmaşık Bakım Paketi (FHIR R4 JSON)',
   'landing.sample.hl7': 'Dağınık Laboratuvar Sonuç Mesajı (HL7 v2)',
+  'landing.sample.ips': 'Avrupa Hasta Özeti (IPS)',
   'landing.online': 'Çevrimiçi',
   'landing.challengeOnline': 'Bize güvenmiyor musunuz? Wi-Fi\'yi hemen kapatın ve dosyanızı bırakın — MedView yine %100 çalışır.',
   'landing.challengeOffline': 'Tarayıcınızın internet bağlantısı yok ve MedView hâlâ eksiksiz çalışıyor.',

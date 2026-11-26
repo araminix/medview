@@ -82,6 +82,7 @@ export const fa: Dictionary = {
   'landing.sample.ccda': 'خلاصه ترخیص بیمارستان (C‑CDA XML)',
   'landing.sample.fhir': 'پرونده مراقبت پیچیده (FHIR R4 JSON)',
   'landing.sample.hl7': 'پیام نامرتب نتیجه آزمایش (HL7 v2)',
+  'landing.sample.ips': 'خلاصه پرونده اروپایی (IPS)',
   'landing.online': 'آنلاین',
   'landing.challengeOnline': 'به ما اعتماد ندارید؟ همین حالا وای‌فای را خاموش کنید و فایلتان را رها کنید — MedView همچنان کامل کار می‌کند.',
   'landing.challengeOffline': 'مرورگر شما به اینترنت وصل نیست و MedView همچنان کامل کار می‌کند.',

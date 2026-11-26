@@ -1,0 +1,751 @@
+{
+  "resourceType": "Bundle",
+  "id": "ips-devries",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips"
+    ]
+  },
+  "identifier": {
+    "system": "urn:oid:2.16.528.1.1007.3.3",
+    "value": "ips-2025-000142"
+  },
+  "type": "document",
+  "timestamp": "2025-09-05T10:20:00+02:00",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:comp-ips",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "comp-ips",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips"
+          ]
+        },
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "60591-5",
+              "display": "Patient summary Document"
+            }
+          ],
+          "text": "Patient summary Document"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "date": "2025-09-05T10:20:00+02:00",
+        "author": [
+          {
+            "reference": "urn:uuid:prac-jansen",
+            "display": "Dr. Pieter Jansen"
+          }
+        ],
+        "custodian": {
+          "reference": "urn:uuid:org-huisarts",
+          "display": "Huisartsenpraktijk Jordaan"
+        },
+        "title": "International Patient Summary",
+        "section": [
+          {
+            "title": "Allergies and Intolerances",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "48765-2",
+                  "display": "Allergies and Intolerances"
+                }
+              ],
+              "text": "Allergies and Intolerances"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Severe peanut allergy (anaphylaxis). Carries an adrenaline auto-injector.</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:alg-peanut"
+              }
+            ]
+          },
+          {
+            "title": "Medication Summary",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "10160-0",
+                  "display": "Medication Summary"
+                }
+              ],
+              "text": "Medication Summary"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Levothyroxine 75 microgram, every morning</li><li>Salbutamol inhaler, when needed</li></ul></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:med-levo"
+              },
+              {
+                "reference": "urn:uuid:med-salbutamol"
+              }
+            ]
+          },
+          {
+            "title": "Problem List",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11450-4",
+                  "display": "Problem List"
+                }
+              ],
+              "text": "Problem List"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Hypothyroidism since 2016; asthma since childhood, well controlled.</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:cond-thyroid"
+              },
+              {
+                "reference": "urn:uuid:cond-asthma"
+              }
+            ]
+          },
+          {
+            "title": "History of Past Illness",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11348-0",
+                  "display": "History of Past Illness"
+                }
+              ],
+              "text": "History of Past Illness"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Left wrist fracture in 2019, healed.</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:cond-fracture"
+              }
+            ]
+          },
+          {
+            "title": "Immunizations",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11369-6",
+                  "display": "Immunizations"
+                }
+              ],
+              "text": "Immunizations"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Tetanus booster 2019; COVID-19 vaccine 2023.</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:imm-tetanus"
+              },
+              {
+                "reference": "urn:uuid:imm-covid"
+              }
+            ]
+          },
+          {
+            "title": "History of Procedures",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "47519-4",
+                  "display": "History of Procedures"
+                }
+              ],
+              "text": "History of Procedures"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No known procedures.</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:proc-none"
+              }
+            ]
+          },
+          {
+            "title": "Results",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "30954-2",
+                  "display": "Results"
+                }
+              ],
+              "text": "Results"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>TSH slightly raised in September 2025; other results within range.</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:obs-tsh"
+              },
+              {
+                "reference": "urn:uuid:obs-ft4"
+              },
+              {
+                "reference": "urn:uuid:obs-hb"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:pat-devries",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "pat-devries",
+        "identifier": [
+          {
+            "type": {
+              "text": "BSN"
+            },
+            "system": "http://fhir.nl/fhir/NamingSystem/bsn",
+            "value": "999911120"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "de Vries",
+            "given": [
+              "Anna"
+            ]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1975-11-03",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+31 20 555 0142"
+          },
+          {
+            "system": "email",
+            "value": "anna.devries@example.nl"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "Keizersgracht 221"
+            ],
+            "city": "Amsterdam",
+            "postalCode": "1016 DV",
+            "country": "NL"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:prac-jansen",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "prac-jansen",
+        "name": [
+          {
+            "family": "Jansen",
+            "given": [
+              "Pieter"
+            ],
+            "prefix": [
+              "Dr."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:org-huisarts",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "org-huisarts",
+        "name": "Huisartsenpraktijk Jordaan"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:alg-peanut",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "alg-peanut",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "active"
+            }
+          ]
+        },
+        "criticality": "high",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "91935009",
+              "display": "Allergy to peanut"
+            }
+          ],
+          "text": "Allergy to peanut"
+        },
+        "patient": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "39579001",
+                    "display": "Anaphylaxis"
+                  }
+                ],
+                "text": "Anaphylaxis"
+              }
+            ],
+            "severity": "severe"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cond-thyroid",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-thyroid",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "40930008",
+              "display": "Hypothyroidism"
+            }
+          ],
+          "text": "Hypothyroidism"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "onsetDateTime": "2016-05-10"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cond-asthma",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-asthma",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "195967001",
+              "display": "Asthma"
+            }
+          ],
+          "text": "Asthma"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "onsetDateTime": "1989-09-01"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cond-fracture",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-fracture",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "resolved"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "263102004",
+              "display": "Fracture of left wrist"
+            }
+          ],
+          "text": "Fracture of left wrist"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "onsetDateTime": "2019-01-20",
+        "abatementDateTime": "2019-04-02"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:med-levo",
+      "resource": {
+        "resourceType": "MedicationStatement",
+        "id": "med-levo",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.whocc.no/atc",
+              "code": "H03AA01",
+              "display": "Levothyroxine 75 microgram tablet"
+            }
+          ],
+          "text": "Levothyroxine 75 microgram tablet"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "effectivePeriod": {
+          "start": "2016-05-17"
+        },
+        "dosage": [
+          {
+            "text": "1 tablet every morning",
+            "timing": {
+              "repeat": {
+                "frequency": 1,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral"
+                }
+              ],
+              "text": "Oral"
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 75,
+                  "unit": "ug"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:med-salbutamol",
+      "resource": {
+        "resourceType": "MedicationStatement",
+        "id": "med-salbutamol",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.whocc.no/atc",
+              "code": "R03AC02",
+              "display": "Salbutamol 100 microgram inhaler"
+            }
+          ],
+          "text": "Salbutamol 100 microgram inhaler"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "effectivePeriod": {
+          "start": "2010-03-01"
+        },
+        "dosage": [
+          {
+            "text": "2 puffs when needed",
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Inhalation"
+                }
+              ],
+              "text": "Inhalation"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:imm-tetanus",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "imm-tetanus",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://www.whocc.no/atc",
+              "code": "J07AM01",
+              "display": "Tetanus toxoid"
+            }
+          ],
+          "text": "Tetanus toxoid"
+        },
+        "patient": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "occurrenceDateTime": "2019-01-20"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:imm-covid",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "imm-covid",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://www.whocc.no/atc",
+              "code": "J07BN01",
+              "display": "COVID-19 mRNA vaccine"
+            }
+          ],
+          "text": "COVID-19 mRNA vaccine"
+        },
+        "patient": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "occurrenceDateTime": "2023-10-12"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:proc-none",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "proc-none",
+        "status": "unknown",
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/uv/ips/CodeSystem/absent-unknown-uv-ips",
+              "code": "no-known-procedures",
+              "display": "No known procedures"
+            }
+          ],
+          "text": "No known procedures"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-tsh",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-tsh",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "3016-3",
+              "display": "Thyrotropin (TSH)"
+            }
+          ],
+          "text": "Thyrotropin (TSH)"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "effectiveDateTime": "2025-09-04",
+        "valueQuantity": {
+          "value": 6.8,
+          "unit": "mIU/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.4
+            },
+            "high": {
+              "value": 4
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "H"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-ft4",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-ft4",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14920-3",
+              "display": "Free thyroxine (FT4)"
+            }
+          ],
+          "text": "Free thyroxine (FT4)"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "effectiveDateTime": "2025-09-04",
+        "valueQuantity": {
+          "value": 13.1,
+          "unit": "pmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 10
+            },
+            "high": {
+              "value": 23
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-hb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-hb",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "718-7",
+              "display": "Hemoglobin"
+            }
+          ],
+          "text": "Hemoglobin"
+        },
+        "subject": {
+          "reference": "urn:uuid:pat-devries",
+          "display": "Anna de Vries"
+        },
+        "effectiveDateTime": "2025-09-04",
+        "valueQuantity": {
+          "value": 8.4,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 7.5
+            },
+            "high": {
+              "value": 10
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

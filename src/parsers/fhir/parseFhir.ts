@@ -2,6 +2,7 @@ import { plural, RecordBuilder } from '@/domain/record';
 import { isObj, objs, pick, str, type Obj } from '../shared/access';
 import type { ParsedDocument } from '../types';
 import { UnreadableFileError } from '../types';
+import { absentStatement, isPatientSummary } from './ips';
 import { describeUnmapped, FHIR_MAPPERS, type FhirContext } from './mappers';
 
 interface Entry {
@@ -108,8 +109,9 @@ export function parseFhir(root: unknown, syntax: 'json' | 'xml', rawOf?: (resour
   }
   const entries = collectEntries(root);
   const resolveEntry = buildResolver(entries);
-  const format = detectVersion(entries);
-  const builder = new RecordBuilder({ format, version: format === 'fhir-r5' ? 'R5' : 'R4', syntax });
+  const fhirVersion = detectVersion(entries);
+  const summaryDocument = isPatientSummary(root);
+  const builder = new RecordBuilder({ format: summaryDocument ? 'eu-ips' : fhirVersion, version: fhirVersion === 'fhir-r5' ? 'R5' : 'R4', syntax, fhirPath: true });
   const byResource = new Map<Obj, Entry>(entries.map((e) => [e.resource, e]));
   const ctx: FhirContext = {
     builder,
@@ -122,6 +124,13 @@ export function parseFhir(root: unknown, syntax: 'json' | 'xml', rawOf?: (resour
 
   for (const entry of entries) {
     const type = str(entry.resource.resourceType) ?? 'Unknown';
+    const absent = absentStatement(entry.resource);
+    if (absent) {
+      // "No known allergies" is a statement about the record, not an allergy.
+      builder.warn(`The file states: ${absent}`, entry.id, { severity: 'info' });
+      builder.addSource({ id: entry.id, type, label: absent });
+      continue;
+    }
     let mapped = describeUnmapped(entry.resource);
     try {
       mapped = (FHIR_MAPPERS[type] ?? describeUnmapped)(entry.resource, ctx);
@@ -136,7 +145,7 @@ export function parseFhir(root: unknown, syntax: 'json' | 'xml', rawOf?: (resour
   if (isBundle && !builder.record.patient.sourceId) builder.warn('No Patient resource found in bundle');
 
   const sourceById = new Map(entries.map((e) => [e.id, e.resource]));
-  const version = format === 'fhir-r5' ? 'FHIR R5' : 'FHIR R4';
+  const version = `${summaryDocument ? 'IPS · ' : ''}${fhirVersion === 'fhir-r5' ? 'FHIR R5' : 'FHIR R4'}`;
   return {
     record: builder.finish(`${version} · ${isBundle ? plural(entries.length, 'resource') : String(root.resourceType)}`),
     fhirRoot: root,

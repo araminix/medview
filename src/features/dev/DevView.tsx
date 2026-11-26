@@ -82,7 +82,7 @@ export function DevView() {
   const record = useRecord();
   const selected = useApp((state) => state.selectedSource);
   const selectSource = useApp((state) => state.selectSource);
-  const isFhir = record.meta.format.startsWith('fhir');
+  const isFhir = record.meta.fhirPath === true;
   const [mode, setMode] = useState<QueryMode>('search');
   const [keyword, setKeyword] = useState('');
   const [expression, setExpression] = useState<string>();
