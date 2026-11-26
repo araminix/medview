@@ -82,6 +82,7 @@ export const tr: Dictionary = {
   'landing.sample.hl7': 'Dağınık Laboratuvar Sonuç Mesajı (HL7 v2)',
   'landing.sample.ips': 'Avrupa Hasta Özeti (IPS)',
   'landing.sample.apple': 'Apple Sağlık Dışa Aktarımı (iPhone)',
+  'landing.sample.openehr': 'Diyabet Kontrolü (openEHR)',
   'landing.online': 'Çevrimiçi',
   'landing.challengeOnline': 'Bize güvenmiyor musunuz? Wi-Fi\'yi hemen kapatın ve dosyanızı bırakın — MedView yine %100 çalışır.',
   'landing.challengeOffline': 'Tarayıcınızın internet bağlantısı yok ve MedView hâlâ eksiksiz çalışıyor.',

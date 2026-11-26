@@ -191,3 +191,28 @@ export function collectCcda(root: XmlElement, pii: PiiDictionary): void {
     }
   });
 }
+
+/** Keys of an openEHR composition whose "name" is a person or an organization (PARTY_IDENTIFIED). */
+const OPENEHR_PEOPLE = new Set(['composer', 'performer', 'provider', 'committer', 'subject']);
+const OPENEHR_ORGANIZATIONS = new Set(['health_care_facility']);
+
+/**
+ * Walks a canonical openEHR composition. It holds no patient demographics by design, so what there is
+ * to hide are the clinicians, the facility, their identifiers and any identifier values recorded.
+ */
+export function collectOpenEhr(root: unknown, pii: PiiDictionary): void {
+  const walk = (value: unknown, key: string): void => {
+    if (Array.isArray(value)) {
+      value.forEach((item) => walk(item, key));
+      return;
+    }
+    if (!isObj(value)) return;
+    const name = str(value.name);
+    if (name && OPENEHR_ORGANIZATIONS.has(key)) pii.organization(name);
+    else if (name && OPENEHR_PEOPLE.has(key)) pii.person(key === 'subject' ? 'patient' : 'provider', { text: name });
+    if (key === 'identifiers') pii.id(str(value.id), true);
+    if (str(value._type)?.toUpperCase() === 'DV_IDENTIFIER') pii.id(str(value.id));
+    for (const [childKey, child] of Object.entries(value)) if (typeof child === 'object') walk(child, childKey);
+  };
+  walk(root, '');
+}
