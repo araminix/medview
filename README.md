@@ -18,9 +18,9 @@ Supported today: **FHIR R4/R5** (JSON and XML, bundles or single resources), **H
 
 ## Languages
 
-The interface and the health guidance are available in **English, فارسی (Persian) and Türkçe (Turkish)**; the browser language is used on a first visit and the choice is remembered. Persian is laid out right to left. Three things deliberately stay the same in every language:
+The interface and the health guidance are available in **English, فارسی (Persian) and Türkçe (Turkish)**; the browser language is used on a first visit and the choice is remembered. Persian is laid out right to left. A few things are deliberate:
 
-- Dates use the Gregorian calendar and numbers use Western digits, so a value always reads exactly as in the source file.
+- Persian shows dates in the Jalali (Solar Hijri) calendar and numbers in Persian digits; English and Turkish use the Gregorian calendar and Western digits. Codes, units and identifiers (`HbA1c`, `mL/min/1.73m2`, an MRN) are never converted.
 - Code, raw payloads and the resource diagram stay left to right.
 - Content that comes from the file (lab names, drug names, diagnoses) and the technical parse warnings are shown as written.
 

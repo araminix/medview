@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { SourceRef } from '@/domain/types';
 import { cx } from '@/lib/browser';
-import { t } from '@/i18n';
+import { digits, t } from '@/i18n';
 
 /** Entries rendered per group; the rest are reachable through search. */
 const GROUP_LIMIT = 250;
@@ -33,7 +33,7 @@ export function SourceTree({ sources, matches, selected, onSelect }: SourceTreeP
         <details key={type} open={groups.length <= 12 || Boolean(matches)} className="border-b border-line">
           <summary className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-ink select-none hover:bg-sunken">
             <span className="min-w-0 flex-1 truncate font-mono">{type}</span>
-            <span className="tnum font-normal text-muted">{items.length}</span>
+            <span className="tnum font-normal text-muted">{digits(items.length)}</span>
           </summary>
           <ul>
             {items.slice(0, GROUP_LIMIT).map((source) => (

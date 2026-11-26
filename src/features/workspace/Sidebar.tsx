@@ -1,6 +1,6 @@
 import { ShieldAlert, ShieldCheck } from 'lucide-react';
 import { useApp, useRecord } from '@/app/store';
-import { ltr, t, term } from '@/i18n';
+import { digits, ltr, t, term } from '@/i18n';
 import { formatDate } from '@/i18n/format';
 import { sectionLinks } from '@/domain/selectors';
 import type { ClinicalRecord } from '@/domain/types';
@@ -88,7 +88,7 @@ export function Sidebar({ onNavigate }: { onNavigate(): void }) {
                 className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-start text-[13px] text-ink hover:bg-accent-tint hover:text-accent-strong"
               >
                 <span className="min-w-0 flex-1 truncate">{link.label}</span>
-                {link.count !== undefined && <span className="tnum text-xs text-muted">{link.count}</span>}
+                {link.count !== undefined && <span className="tnum text-xs text-muted">{digits(link.count)}</span>}
               </button>
             </li>
           ))}

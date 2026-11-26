@@ -1,7 +1,7 @@
 import type { LabItem } from '@/domain/types';
 import { isAbnormal } from '@/domain/labs';
 import { cx } from '@/lib/browser';
-import { t } from '@/i18n';
+import { digits, t } from '@/i18n';
 
 /** Where the normal band sits inside the bar, in percent. */
 const BAND = { start: 25, end: 75 };
@@ -23,7 +23,7 @@ export function RangeBar({ lab }: { lab: LabItem }) {
   if (lab.value === undefined || (lab.refLow === undefined && lab.refHigh === undefined)) {
     return (
       <bdi dir="ltr" className="text-xs text-muted">
-        {lab.refText ?? '—'}
+        {lab.refText ? digits(lab.refText) : '—'}
       </bdi>
     );
   }
@@ -32,7 +32,7 @@ export function RangeBar({ lab }: { lab: LabItem }) {
   const hasLow = lab.refLow !== undefined;
   const hasHigh = lab.refHigh !== undefined;
   return (
-    <div className="w-full min-w-28" dir="ltr" title={t('report.reference', { range: lab.refText ?? '' })}>
+    <div className="w-full min-w-28" dir="ltr" title={t('report.reference', { range: digits(lab.refText) })}>
       <div className="relative h-2 rounded-full bg-sunken">
         <div
           className="absolute inset-y-0 bg-ok/30"
@@ -44,8 +44,8 @@ export function RangeBar({ lab }: { lab: LabItem }) {
         />
       </div>
       <div className="tnum mt-1 flex justify-between text-[11px] text-muted">
-        <span style={{ marginLeft: `${BAND.start - 6}%` }}>{hasLow ? lab.refLow : ''}</span>
-        <span style={{ marginRight: `${100 - BAND.end - 6}%` }}>{hasHigh ? lab.refHigh : ''}</span>
+        <span style={{ marginLeft: `${BAND.start - 6}%` }}>{hasLow ? digits(lab.refLow) : ''}</span>
+        <span style={{ marginRight: `${100 - BAND.end - 6}%` }}>{hasHigh ? digits(lab.refHigh) : ''}</span>
       </div>
     </div>
   );

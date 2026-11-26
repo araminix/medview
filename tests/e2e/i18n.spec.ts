@@ -42,11 +42,16 @@ test.describe('Persian (right to left)', () => {
     await expect(page.getByTestId('summary-overall')).toContainText('رسیدگی فوری پزشکی');
     const sugar = page.locator('[data-topic="blood-sugar"]');
     await expect(sugar).toContainText('قند خون شما بالاست');
-    await expect(sugar).toContainText('بعد از غذا 10 تا 15 دقیقه پیاده‌روی کنید');
-    // Numbers and ranges are isolated, so "4 – 5.6" can never be displayed as "5.6 – 4".
+    await expect(sugar).toContainText('بعد از غذا ۱۰ تا ۱۵ دقیقه پیاده‌روی کنید');
+    // Numbers and ranges are isolated, so "۴ – ۵٫۶" can never be displayed reversed.
     const html = await sugar.innerHTML();
-    expect(html).toContain(`${LRI}8.4 %${PDI}`);
-    expect(html).toContain(`${LRI}4 – 5.6${PDI}`);
+    expect(html).toContain(`${LRI}۸٫۴ %${PDI}`);
+    expect(html).toContain(`${LRI}۴ – ۵٫۶${PDI}`);
+    // Dates are Jalali, digits Persian; codes and identifiers stay as written.
+    await expect(page.getByTestId('patient-card')).toContainText('۲۳ مرداد ۱۳۴۷');
+    await expect(page.getByTestId('patient-card')).toContainText('۵۸ ساله');
+    await expect(page.getByTestId('patient-card')).toContainText('MRN-48213907');
+    await expect(sugar).toContainText('۲۲ اسفند ۱۴۰۳');
     await expect(page.getByTestId('summary-medicines')).toContainText('معمولاً به پایین آوردن قند خون کمک می‌کند');
   });
 

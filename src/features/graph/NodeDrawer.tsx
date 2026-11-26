@@ -3,7 +3,7 @@ import { useApp, useRecord } from '@/app/store';
 import { Button } from '@/components/Button';
 import { CodeBlock } from '@/components/CodeBlock';
 import { formatCoding } from '@/domain/codes';
-import { ltr, t, term } from '@/i18n';
+import { digits, ltr, t, term } from '@/i18n';
 import { bodySystemLabel, flagLabel, formatDate, kindLabel, statusLabel } from '@/i18n/format';
 import type { ClinicalRecord } from '@/domain/types';
 import { engine } from '@/engine/client';
@@ -18,7 +18,7 @@ function describe(record: ClinicalRecord, sourceId: string): Array<[string, stri
   const condition = record.conditions.find((c) => c.sourceId === sourceId);
   const encounter = record.encounters.find((e) => e.sourceId === sourceId);
   const allergy = record.allergies.find((a) => a.sourceId === sourceId);
-  if (lab) facts.push([t('fact.result'), ltr(`${lab.valueText} ${lab.unit ?? ''}`)], [t('fact.flag'), flagLabel(lab.flag)], [t('fact.reference'), lab.refText && ltr(lab.refText)], [t('fact.date'), formatDate(lab.date, true)], [t('fact.bodySystem'), bodySystemLabel(lab.bodySystem)]);
+  if (lab) facts.push([t('fact.result'), ltr(`${digits(lab.valueText)} ${lab.unit ?? ''}`)], [t('fact.flag'), flagLabel(lab.flag)], [t('fact.reference'), lab.refText && ltr(digits(lab.refText))], [t('fact.date'), formatDate(lab.date, true)], [t('fact.bodySystem'), bodySystemLabel(lab.bodySystem)]);
   if (med) facts.push([t('fact.dosage'), med.dosage], [t('fact.status'), statusLabel(med.status)], [t('fact.since'), med.date && formatDate(med.date)], [t('fact.prescriber'), med.prescriber]);
   if (condition) facts.push([t('fact.status'), statusLabel(condition.status)], [t('fact.onset'), condition.onset && formatDate(condition.onset)], [t('fact.bodySystem'), bodySystemLabel(condition.bodySystem)]);
   if (encounter) facts.push([t('fact.type'), term(encounter.kind)], [t('fact.from'), formatDate(encounter.start, true)], [t('fact.to'), encounter.end && formatDate(encounter.end, true)], [t('fact.location'), encounter.location], [t('fact.provider'), encounter.provider]);

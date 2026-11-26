@@ -8,7 +8,7 @@ import { engine } from '@/engine/client';
 import { copyText, downloadBlob } from '@/lib/browser';
 import { useAsync } from '@/lib/useAsync';
 import type { ScrubChange, ScrubOptions } from '@/scrubber';
-import { t } from '@/i18n';
+import { digits, t } from '@/i18n';
 
 const OPTIONS: Array<keyof ScrubOptions> = ['names', 'birthDate', 'ids', 'contacts', 'providers'];
 
@@ -44,7 +44,7 @@ function DiffPreview({ changes, loading }: { changes: ScrubChange[]; loading: bo
             <td dir="ltr" className="px-3 py-1.5 text-start font-mono text-xs break-all text-ok-text">
               {change.replacement}
             </td>
-            <td className="tnum px-3 py-1.5 text-end text-muted">{change.count}×</td>
+            <td className="tnum px-3 py-1.5 text-end text-muted">{digits(change.count)}×</td>
           </tr>
         ))}
       </tbody>

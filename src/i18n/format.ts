@@ -1,5 +1,5 @@
 import type { BodySystem, ClinicalStatus, GraphNodeKind, LabFlag } from '@/domain/types';
-import { activeLocale, t } from '.';
+import { activeLanguage, activeLocale, digits, t } from '.';
 
 function parts(iso: string): [year: number, month: number | undefined, day: number | undefined] {
   const [y, m, d] = iso.slice(0, 10).split('-');
@@ -7,18 +7,22 @@ function parts(iso: string): [year: number, month: number | undefined, day: numb
 }
 
 /**
- * "2025-03-14T09:30" → "14 Mar 2025, 09:30" in the active language. Partial dates stay partial.
- * Always the Gregorian calendar with Western digits, so a date reads the same as in the source file.
+ * "2025-03-14T09:30" → "14 Mar 2025, 09:30" in the active language's calendar and digits:
+ * Jalali for Persian ("۲۴ اسفند ۱۴۰۳"), Gregorian otherwise. Partial dates stay partial.
  */
 export function formatDate(iso: string | undefined, withTime = false): string {
   if (!iso) return '—';
   const [year, month, day] = parts(iso);
-  if (!month) return String(year);
-  const date = new Date(Date.UTC(year, month - 1, day ?? 1));
-  const options: Intl.DateTimeFormatOptions = day ? { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' } : { month: 'short', year: 'numeric', timeZone: 'UTC' };
+  const jalali = activeLanguage() === 'fa';
+  // A year or month alone has no exact Jalali equivalent; its midpoint gives the one it mostly falls in.
+  if (!month && !jalali) return String(year);
+  const date = new Date(Date.UTC(year, (month ?? 7) - 1, day ?? (month ? 15 : 1)));
+  // Persian month names have no short forms.
+  const monthStyle = jalali ? 'long' : 'short';
+  const options: Intl.DateTimeFormatOptions = { timeZone: 'UTC', year: 'numeric', ...(month ? { month: monthStyle } : {}), ...(day ? { day: 'numeric' } : {}) };
   const text = new Intl.DateTimeFormat(activeLocale(), options).format(date);
   const time = iso.split('T')[1];
-  return withTime && time ? `${text}, ${time}` : text;
+  return withTime && time ? `${text}${jalali ? '،' : ','} ${digits(time)}` : text;
 }
 
 export function daysSince(iso: string | undefined, now = new Date()): number | undefined {

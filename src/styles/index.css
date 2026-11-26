@@ -131,6 +131,10 @@
 
 @utility tnum {
   font-variant-numeric: tabular-nums;
+  /* Estedad's fixed-width Persian digits are spaced far apart; its natural digits read better. */
+  &:lang(fa) {
+    font-variant-numeric: normal;
+  }
 }
 
 @keyframes mv-dash {

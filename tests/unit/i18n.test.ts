@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from 'vitest';
-import { dictionaryOf, ltr, setActiveLanguage, t, term, tList, type Plural } from '@/i18n';
+import { dictionaryOf, digits, ltr, setActiveLanguage, t, term, tList, type Plural } from '@/i18n';
 import { translateError } from '@/i18n/errors';
 import { describeAge, formatDate } from '@/i18n/format';
 import { detectLanguage, directionOf } from '@/i18n/languages';
@@ -62,15 +62,38 @@ describe('translation', () => {
     expect(term(undefined)).toBe('');
   });
 
-  test('dates use Gregorian months and Western digits in every language', () => {
+  test('English and Turkish dates are Gregorian with Western digits', () => {
     expect(formatDate('2025-03-14T09:30', true)).toBe('14 Mar 2025, 09:30');
     expect(formatDate('2025-03')).toBe('Mar 2025');
+    expect(formatDate('1968')).toBe('1968');
     setActiveLanguage('tr');
     expect(formatDate('2025-08-14')).toBe('14 Ağu 2025');
+  });
+
+  test('Persian dates use the Jalali calendar and Persian digits', () => {
     setActiveLanguage('fa');
-    expect(formatDate('2025-08-14')).toMatch(/^14 \S+ 2025$/);
-    expect(formatDate('2025-08-14')).not.toMatch(/[۰-۹]/);
-    expect(formatDate('1968')).toBe('1968');
+    expect(formatDate('2025-03-14')).toBe('۲۴ اسفند ۱۴۰۳');
+    expect(formatDate('2025-03-21')).toBe('۱ فروردین ۱۴۰۴');
+    expect(formatDate('2025-03-14T09:30', true)).toBe('۲۴ اسفند ۱۴۰۳، ۰۹:۳۰');
+    // A bare year maps to the Jalali year it mostly overlaps.
+    expect(formatDate('1968')).toBe('۱۳۴۷');
+    expect(formatDate('2025-08')).toMatch(/مرداد ۱۴۰۴|۱۴۰۴ مرداد/);
+  });
+
+  test('Persian digits apply to numbers but never to codes, units or identifiers', () => {
+    expect(digits('8.4')).toBe('8.4');
+    setActiveLanguage('fa');
+    expect(digits('8.4')).toBe('۸٫۴');
+    expect(digits('148/94')).toBe('۱۴۸/۹۴');
+    expect(digits('3.5 – 5.1')).toBe('۳٫۵ – ۵٫۱');
+    expect(digits(12)).toBe('۱۲');
+    expect(digits('74 mL/min/1.73m2')).toBe('۷۴ mL/min/1.73m2');
+    expect(digits('HL7 v2 · FHIR R4 · HbA1c')).toBe('HL7 v2 · FHIR R4 · HbA1c');
+    expect(digits('MRN-48213907')).toBe('MRN-48213907');
+    expect(t('side.age', { age: 58 })).toBe('۵۸ ساله');
+    expect(t('med.by', { name: 'Dr. Okafor 2' })).toBe('تجویز: Dr. Okafor 2');
+    expect(t('drop.pasteLabel')).toContain('HL7 v2');
+    expect(tList('privacy.verifySteps')[0]).toContain('F12');
   });
 
   test('ages are spoken in the active language', () => {
@@ -79,7 +102,7 @@ describe('translation', () => {
     setActiveLanguage('tr');
     expect(describeAge('2025-01-10', now)).toBe('5 ay önce');
     setActiveLanguage('fa');
-    expect(describeAge('2022-06-01', now)).toBe('بیش از 3 سال پیش');
+    expect(describeAge('2022-06-01', now)).toBe('بیش از ۳ سال پیش');
   });
 
   test('engine errors are translated, unknown details pass through', () => {
@@ -96,8 +119,8 @@ describe('translation', () => {
     const sugar = buildPlainSummary(record).findings.find((f) => f.id === 'blood-sugar')!;
     expect(sugar.title).toBe('قند خون شما بالاست');
     // The value is wrapped in directional isolates so "8.4 %" is not reordered inside Persian text.
-    expect(sugar.evidence[1].label.replace(/[\u2066\u2069]/g, '')).toBe('میانگین قند خون سه ماه اخیر (HbA1c): 8.4 %');
-    expect(sugar.evidence[1].label).toContain(String.fromCharCode(0x2066) + '8.4 %' + String.fromCharCode(0x2069));
+    expect(sugar.evidence[1].label.replace(/[\u2066\u2069]/g, '')).toBe('میانگین قند خون سه ماه اخیر (HbA1c): ۸٫۴ %');
+    expect(sugar.evidence[1].label).toContain(String.fromCharCode(0x2066) + '۸٫۴ %' + String.fromCharCode(0x2069));
     expect(ltr('3.5 – 5.1')).not.toBe('3.5 – 5.1');
     expect(sugar.selfCare).toHaveLength(5);
     setActiveLanguage('tr');

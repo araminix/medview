@@ -1,7 +1,7 @@
 import { byDateDesc } from '../dates';
 import { isAbnormal, rangeText } from '../labs';
 import type { ClinicalRecord, ConditionItem, LabItem } from '../types';
-import { ltr, t, tList } from '@/i18n';
+import { digits, ltr, t, tList } from '@/i18n';
 import { OXYGEN_TOPIC, topicKeys, TOPICS, type LabRule, type Topic } from './topics';
 import type { Evidence, Finding, PlainSummary, Urgency } from './types';
 
@@ -27,8 +27,8 @@ function describeResult(plain: string, lab: LabItem): Evidence {
   const range = lab.refText ?? rangeText(lab.refLow, lab.refHigh);
   const comparison = t(direction === 'high' ? 'evidence.higher' : direction === 'low' ? 'evidence.lower' : 'evidence.outside');
   return {
-    label: `${plain}: ${ltr(`${lab.valueText}${lab.unit ? ` ${lab.unit}` : ''}`)}`,
-    detail: range ? `${comparison} (${ltr(range)})` : comparison,
+    label: `${plain}: ${ltr(`${digits(lab.valueText)}${lab.unit ? ` ${lab.unit}` : ''}`)}`,
+    detail: range ? `${comparison} (${ltr(digits(range))})` : comparison,
     date: lab.date,
   };
 }
@@ -125,18 +125,18 @@ function readVitals(vitals: LabItem[], drafts: Drafts): void {
     const severe = pressure.systolic >= 180 || pressure.diastolic >= 120;
     drafts.add(
       BLOOD_PRESSURE,
-      { label: t('evidence.bloodPressure', { value: ltr(`${pressure.systolic}/${pressure.diastolic}`) }), detail: t('evidence.bloodPressureDetail'), date: pressure.date },
+      { label: t('evidence.bloodPressure', { value: ltr(digits(`${pressure.systolic}/${pressure.diastolic}`)) }), detail: t('evidence.bloodPressureDetail'), date: pressure.date },
       severe ? 'emergency' : 'soon',
       severe ? t('redflag.bloodPressure') : undefined,
     );
   }
   const oxygen = latest.find((v) => /oxygen saturation|spo2/i.test(v.name));
   if (oxygen?.value !== undefined && oxygen.value <= 92) {
-    drafts.add(OXYGEN_TOPIC, { label: t('evidence.oxygen', { value: oxygen.valueText }), detail: t('evidence.oxygenDetail'), date: oxygen.date }, redFlag(oxygen) ? 'emergency' : 'soon', redFlag(oxygen));
+    drafts.add(OXYGEN_TOPIC, { label: t('evidence.oxygen', { value: digits(oxygen.valueText) }), detail: t('evidence.oxygenDetail'), date: oxygen.date }, redFlag(oxygen) ? 'emergency' : 'soon', redFlag(oxygen));
   }
   const bmi = latest.find((v) => /\bbmi\b|body mass index/i.test(v.name));
   if (bmi?.value !== undefined && bmi.value >= 30) {
-    drafts.add(WEIGHT, { label: t('evidence.bmi', { value: bmi.valueText }), detail: t('evidence.bmiDetail'), date: bmi.date }, 'routine');
+    drafts.add(WEIGHT, { label: t('evidence.bmi', { value: digits(bmi.valueText) }), detail: t('evidence.bmiDetail'), date: bmi.date }, 'routine');
   }
 }
 

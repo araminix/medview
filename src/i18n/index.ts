@@ -40,13 +40,38 @@ export function activeDirection(): Direction {
   return directionOf(active);
 }
 
-/** Gregorian calendar and Western digits in every language, so values always match the source document. */
+/** Persian uses the Jalali (Solar Hijri) calendar with Persian digits; the others Gregorian with Western digits. */
 export function activeLocale(): string {
-  return `${localeOf(active)}-u-ca-gregory-nu-latn`;
+  return active === 'fa' ? 'fa-IR-u-ca-persian-nu-arabext' : `${localeOf(active)}-u-ca-gregory-nu-latn`;
 }
 
+const PERSIAN_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
+const DECIMAL_SEPARATOR = '٫';
+/** Runs of text between spaces and brackets; a run containing Latin letters is a code or unit. */
+const TOKEN = /[^\s()[\]،؛:«»—–·]+/g;
+
+/**
+ * Writes numbers with Persian digits (and the Persian decimal mark) when the interface is
+ * Persian. Anything attached to Latin letters — "HL7", "v2", "1.73m2", "HbA1c", an MRN —
+ * is a code, a unit or an identifier and is left exactly as written.
+ */
+export function digits(value: string | number | undefined): string {
+  const text = value === undefined ? '' : String(value);
+  if (active !== 'fa') return text;
+  return text.replace(TOKEN, (token) =>
+    /[A-Za-z]/.test(token) ? token : token.replace(/(\d)\.(?=\d)/g, `$1${DECIMAL_SEPARATOR}`).replace(/\d/g, (digit) => PERSIAN_DIGITS[Number(digit)]),
+  );
+}
+
+/** Numbers handed in as parameters follow the language's digits; text parameters come from the file and stay as they are. */
 function fill(text: string, params?: Params): string {
-  return params ? text.replace(/\{\{(\w+)\}\}/g, (match, name: string) => (name in params ? String(params[name]) : match)) : text;
+  const template = digits(text);
+  if (!params) return template;
+  return template.replace(/\{\{(\w+)\}\}/g, (match, name: string) => {
+    if (!(name in params)) return match;
+    const value = params[name];
+    return typeof value === 'number' || /^[\d.,]+$/.test(value) ? digits(value) : value;
+  });
 }
 
 /** The message in the active language (else English), in the plural form for `params.count`, with {{placeholders}} filled. */
@@ -58,7 +83,7 @@ export function t(key: MessageKey, params?: Params): string {
 }
 
 export function tList(key: ListKey): readonly string[] {
-  return DICTIONARIES[active][key] as readonly string[];
+  return (DICTIONARIES[active][key] as readonly string[]).map((line) => digits(line));
 }
 
 /**

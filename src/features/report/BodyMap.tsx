@@ -1,6 +1,6 @@
 import type { KeyboardEvent, ReactNode } from 'react';
 import { BODY_SYSTEMS } from '@/domain/bodySystems';
-import { t } from '@/i18n';
+import { digits, t } from '@/i18n';
 import { bodySystemLabel } from '@/i18n/format';
 import type { ZoneSummary, ZoneTone } from '@/domain/selectors';
 import type { BodySystem } from '@/domain/types';
@@ -104,7 +104,7 @@ export function BodyMap({ zones, selected, onSelect, interactive = true }: BodyM
             <>
               <span className="size-2.5 shrink-0 rounded-full" style={{ background: TONE_COLOR[zone.tone] }} aria-hidden="true" />
               <span className="min-w-0 flex-1 truncate text-start">{bodySystemLabel(system)}</span>
-              <span className="tnum text-muted">{zone.count}</span>
+              <span className="tnum text-muted">{digits(zone.count)}</span>
             </>
           );
           return (

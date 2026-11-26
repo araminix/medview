@@ -1,6 +1,6 @@
 import { CircleCheck, TriangleAlert } from 'lucide-react';
 import { Card } from '@/components/Card';
-import { ltr, t } from '@/i18n';
+import { digits, ltr, t } from '@/i18n';
 import { formatDate } from '@/i18n/format';
 import { abnormalLabs, activeConditions } from '@/domain/selectors';
 import type { ClinicalRecord } from '@/domain/types';
@@ -36,9 +36,9 @@ export function AttentionBox({ record }: { record: ClinicalRecord }) {
                 {lab.name}
               </span>
               <bdi dir="ltr" className="tnum text-sm font-semibold whitespace-nowrap text-crit-text">
-                {lab.valueText} {lab.unit} {flagArrow(lab.flag)}
+                {digits(lab.valueText)} {lab.unit} {flagArrow(lab.flag)}
               </bdi>
-              <span className="tnum hidden w-32 shrink-0 text-end text-xs text-muted sm:block">{lab.refText ? t('report.ref', { range: ltr(lab.refText) }) : ''}</span>
+              <span className="tnum hidden w-32 shrink-0 text-end text-xs text-muted sm:block">{lab.refText ? t('report.ref', { range: ltr(digits(lab.refText)) }) : ''}</span>
               <span className="tnum hidden w-24 shrink-0 text-end text-xs whitespace-nowrap text-muted md:block">{formatDate(lab.date)}</span>
             </li>
           ))}

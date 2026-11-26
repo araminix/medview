@@ -1,4 +1,4 @@
-import { activeDirection, t, term } from '@/i18n';
+import { activeDirection, digits, t, term } from '@/i18n';
 import { flagLabel, formatDate } from '@/i18n/format';
 import { isAbnormal } from '@/domain/labs';
 import { abnormalLabs, buildTimeline, summarizeZones } from '@/domain/selectors';
@@ -60,12 +60,12 @@ function LabsGrid({ labs }: { labs: LabItem[] }) {
             </td>
             <td className={`${cell} ${isAbnormal(lab.flag) ? 'font-bold' : ''}`}>
               <bdi dir="ltr">
-                {lab.valueText} {lab.unit}
+                {digits(lab.valueText)} {lab.unit}
               </bdi>
             </td>
             <td className={`${cell} font-bold`}>{isAbnormal(lab.flag) ? `${flagArrow(lab.flag)} ${flagLabel(lab.flag)}` : ''}</td>
             <td className={cell}>
-              <bdi dir="ltr">{lab.refText ?? ''}</bdi>
+              <bdi dir="ltr">{digits(lab.refText)}</bdi>
             </td>
             <td className={cell}>{formatDate(lab.date)}</td>
           </tr>

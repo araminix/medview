@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { digits } from '@/i18n';
 import { cx } from '@/lib/browser';
 
 interface CardProps {
@@ -19,7 +20,7 @@ export function Card({ id, title, aside, actions, children, className, flush }: 
       {title && (
         <header className="flex items-center gap-2 border-b border-line px-4 py-2.5">
           <h2 className="text-sm font-semibold text-ink">{title}</h2>
-          {aside && <span className="tnum text-xs text-muted">{aside}</span>}
+          {aside !== undefined && aside !== null && aside !== false && <span className="tnum text-xs text-muted">{typeof aside === 'number' ? digits(aside) : aside}</span>}
           {actions && <div className="ms-auto flex items-center gap-2">{actions}</div>}
         </header>
       )}

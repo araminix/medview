@@ -10,7 +10,7 @@ import { useAsync } from '@/lib/useAsync';
 import { DEFAULT_SCRUB_OPTIONS } from '@/scrubber';
 import { QueryBar, type QueryMode } from './QueryBar';
 import { SourceTree } from './SourceTree';
-import { t, type MessageKey } from '@/i18n';
+import { digits, t, type MessageKey } from '@/i18n';
 
 type Pane = 'raw' | 'normalized' | 'warnings';
 
@@ -152,7 +152,7 @@ export function DevView() {
                   className={cx('-mb-px border-b-2 px-2.5 py-2 text-xs font-medium whitespace-nowrap', pane === id ? 'border-accent text-accent-strong' : 'border-transparent text-muted hover:text-ink')}
                 >
                   {t(label)}
-                  {id === 'warnings' && record.meta.warnings.length > 0 && <span className="tnum ms-1 rounded-full bg-warn-bg px-1.5 text-warn-text">{record.meta.warnings.length}</span>}
+                  {id === 'warnings' && record.meta.warnings.length > 0 && <span className="tnum ms-1 rounded-full bg-warn-bg px-1.5 text-warn-text">{digits(record.meta.warnings.length)}</span>}
                 </button>
               ))}
             </div>

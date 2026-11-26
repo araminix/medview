@@ -1,6 +1,6 @@
 import { Card, EmptyNote } from '@/components/Card';
 import { byDateDesc } from '@/domain/dates';
-import { t, term } from '@/i18n';
+import { digits, t, term } from '@/i18n';
 import { formatDate } from '@/i18n/format';
 import { isAbnormal } from '@/domain/labs';
 import type { LabItem } from '@/domain/types';
@@ -37,7 +37,7 @@ function LabRows({ labs }: { labs: LabItem[] }) {
       </td>
       <td className={cx('tnum px-3 py-2 text-end text-sm font-semibold whitespace-nowrap', isAbnormal(lab.flag) ? 'text-crit-text' : 'text-ink')}>
         <bdi dir="ltr">
-          {lab.valueText} <span className="font-normal text-muted">{lab.unit}</span>
+          {digits(lab.valueText)} <span className="font-normal text-muted">{lab.unit}</span>
         </bdi>
       </td>
       <td className="px-3 py-2">
