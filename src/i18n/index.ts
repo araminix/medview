@@ -1,12 +1,23 @@
 import { directionOf, localeOf, type Direction, type LanguageCode } from './languages';
+import { ar } from './locales/ar';
+import { de } from './locales/de';
 import { en } from './locales/en';
+import { es } from './locales/es';
 import { fa } from './locales/fa';
+import { fr } from './locales/fr';
+import { hi } from './locales/hi';
+import { it } from './locales/it';
+import { ja } from './locales/ja';
+import { ko } from './locales/ko';
+import { pt } from './locales/pt';
+import { ru } from './locales/ru';
 import { tr } from './locales/tr';
+import { zh } from './locales/zh';
 
 export { LANGUAGES, detectLanguage, directionOf, isLanguage, type LanguageCode } from './languages';
 
-/** A message, or one per plural form of the language for a `count` parameter. */
-export type Plural = { one?: string; other: string };
+/** A message, or one per plural form of the language for a `count` parameter (Russian has four forms, Arabic six). */
+export type Plural = { zero?: string; one?: string; two?: string; few?: string; many?: string; other: string };
 type Source = typeof en;
 export type ListKey = { [K in keyof Source]: Source[K] extends readonly string[] ? K : never }[keyof Source];
 export type MessageKey = Exclude<keyof Source, ListKey | 'terms'>;
@@ -15,10 +26,10 @@ export type Dictionary = { [K in keyof Source]: K extends 'terms' ? Record<strin
 type Params = Record<string, string | number>;
 
 /**
- * All three dictionaries are bundled: loading one on demand would be a network
+ * Every dictionary is bundled: loading one on demand would be a network
  * request after page load, which MedView promises never to make.
  */
-const DICTIONARIES: Record<LanguageCode, Dictionary> = { en, fa, tr };
+const DICTIONARIES: Record<LanguageCode, Dictionary> = { ar, de, en, es, fa, fr, hi, it, ja, ko, pt, ru, tr, zh };
 
 let active: LanguageCode = 'en';
 let pluralRules = new Intl.PluralRules('en');
@@ -40,7 +51,7 @@ export function activeDirection(): Direction {
   return directionOf(active);
 }
 
-/** Persian uses the Jalali (Solar Hijri) calendar with Persian digits; the others Gregorian with Western digits. */
+/** Persian uses the Jalali (Solar Hijri) calendar with Persian digits; the others, Arabic included, Gregorian with Western digits. */
 export function activeLocale(): string {
   return active === 'fa' ? 'fa-IR-u-ca-persian-nu-arabext' : `${localeOf(active)}-u-ca-gregory-nu-latn`;
 }
@@ -79,7 +90,7 @@ export function t(key: MessageKey, params?: Params): string {
   const message = (DICTIONARIES[active][key] ?? en[key]) as string | Plural;
   if (typeof message === 'string') return fill(message, params);
   const form = typeof params?.count === 'number' ? pluralRules.select(params.count) : 'other';
-  return fill((form === 'one' ? message.one : undefined) ?? message.other, params);
+  return fill(message[form] ?? message.other, params);
 }
 
 export function tList(key: ListKey): readonly string[] {

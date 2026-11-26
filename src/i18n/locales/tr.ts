@@ -84,6 +84,7 @@ export const tr: Dictionary = {
   'common.close': 'Kapat',
   'common.copied': 'Kopyalandı',
   'common.dismiss': 'Kapat',
+  'common.sentenceEnd': '.',
   'lang.label': 'Dil',
   'theme.toDark': 'Koyu moda geç',
   'theme.toLight': 'Açık moda geç',

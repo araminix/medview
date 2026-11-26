@@ -1,0 +1,242 @@
+import type { guidance as source } from './en.guidance';
+
+type Guidance = { [K in keyof typeof source]: (typeof source)[K] extends readonly string[] ? readonly string[] : string };
+
+/** Gesundheitshinweise in einfacher Sprache. Die Tipps betreffen nur Ernährung und Gewohnheiten; es werden keine Medikamente empfohlen. */
+export const guidance: Guidance = {
+  'topic.heart-attack-marker.title': 'Ein Wert für Herzbelastung ist erhöht',
+  'topic.heart-attack-marker.meaning': 'Troponin ist ein Stoff, den das Herz abgibt, wenn es stark belastet oder geschädigt ist. Ein erhöhter Wert muss immer ärztlich angesehen werden.',
+  'topic.heart-attack-marker.selfCare': [
+    'Ruhen Sie sich aus und vermeiden Sie schwere körperliche Anstrengung, bis eine Ärztin oder ein Arzt dieses Ergebnis geprüft hat.',
+    'Fahren Sie nicht selbst, wenn Sie Brustschmerzen, Atemnot oder ein Schwächegefühl wie kurz vor einer Ohnmacht spüren.',
+  ],
+  'topic.heart-attack-marker.askDoctor': ['Wurde dieses Ergebnis schon geprüft und mir erklärt?', 'Brauche ich weitere Untersuchungen am Herzen?'],
+
+  'topic.potassium.title': 'Ihr Kaliumwert liegt außerhalb des sicheren Bereichs',
+  'topic.potassium.meaning': 'Kalium ist ein Mineralstoff, der Ihren Herzschlag gleichmäßig hält. Zu viel oder zu wenig kann den Herzrhythmus stören.',
+  'topic.potassium.selfCare': [
+    'Verwenden Sie keinen Salzersatz („natriumarmes Salz“) – die meisten bestehen aus Kalium.',
+    'Beginnen oder beenden Sie nicht auf eigene Faust eine kaliumreiche Ernährung oder Nahrungsergänzungsmittel; fragen Sie vorher nach.',
+  ],
+  'topic.potassium.askDoctor': [
+    'Sollte dieser Test wiederholt werden?',
+    'Könnte eines meiner Medikamente meinen Kaliumwert beeinflussen?',
+    'Von welchen Lebensmitteln sollte ich weniger oder mehr essen?',
+  ],
+
+  'topic.blood-sugar.title': 'Ihr Blutzucker ist hoch',
+  'topic.blood-sugar.meaning': 'Zucker bleibt in Ihrem Blut, statt von Ihrem Körper verbraucht zu werden. Über die Jahre kann das Augen, Nieren, Nerven und Herz schädigen – ein Blutzucker im Zielbereich schützt sie.',
+  'topic.blood-sugar.selfCare': [
+    'Trinken Sie Wasser oder ungesüßten Tee statt süßer Getränke und Säfte.',
+    'Füllen Sie den halben Teller mit Gemüse; wählen Sie Vollkorn statt Weißbrot, weißem Reis und Süßigkeiten.',
+    'Gehen Sie nach dem Essen 10–15 Minuten spazieren – das senkt den Blutzucker direkt.',
+    'Essen Sie zu regelmäßigen Zeiten und halten Sie die Portionen stärkehaltiger Lebensmittel maßvoll.',
+    'Sehen Sie sich Ihre Füße täglich an: Gibt es Schnitte oder wunde Stellen, die langsam heilen?',
+  ],
+  'topic.blood-sugar.askDoctor': ['Welcher Blutzucker-Zielwert ist für mich richtig?', 'Wie oft sollte ich getestet werden?', 'Würde mir eine Ernährungsberatung helfen?'],
+
+  'topic.low-blood-sugar.title': 'Ihr Blutzucker war niedrig',
+  'topic.low-blood-sugar.meaning': 'Ein niedriger Blutzucker kann Zittern, Schwitzen, Verwirrtheit oder Ohnmacht auslösen.',
+  'topic.low-blood-sugar.selfCare': [
+    'Lassen Sie keine Mahlzeiten aus.',
+    'Wenn Sie zittrig sind oder schwitzen, trinken Sie sofort etwas Zuckerhaltiges oder nehmen Sie ein paar Stücke Traubenzucker, und essen Sie danach eine Kleinigkeit.',
+  ],
+  'topic.low-blood-sugar.askDoctor': ['Warum war mein Blutzucker niedrig?', 'Müssen meine Diabetes-Medikamente angepasst werden?'],
+
+  'topic.blood-pressure.title': 'Ihr Blutdruck ist hoch',
+  'topic.blood-pressure.meaning': 'Das Blut drückt zu stark gegen die Wände Ihrer Blutgefäße. Meist spürt man das nicht, aber auf Dauer belastet es Herz, Gehirn und Nieren.',
+  'topic.blood-pressure.selfCare': [
+    'Nehmen Sie weniger Salz: Würzen Sie mit Kräutern, Zitrone und Gewürzen und essen Sie nur wenig verarbeitete Lebensmittel, Chips, gepökeltes Fleisch und Fertiggerichte.',
+    'Essen Sie mehr Gemüse, Obst, Bohnen, ungesalzene Nüsse und fettarme Milchprodukte.',
+    'Bewegen Sie sich an den meisten Tagen – auch 30 Minuten zügiges Gehen zählen.',
+    'Trinken Sie nur wenig Alkohol, und hören Sie mit dem Rauchen auf, falls Sie rauchen.',
+    'Schlafen Sie 7–8 Stunden und finden Sie jeden Tag einen Weg, zur Ruhe zu kommen.',
+    'Messen Sie Ihren Blutdruck zu Hause und schreiben Sie die Werte für Ihre Ärztin oder Ihren Arzt auf.',
+  ],
+  'topic.blood-pressure.askDoctor': ['Welchen Blutdruck sollte ich anstreben?', 'Wie oft sollte ich zu Hause messen?'],
+
+  'topic.cholesterol.title': 'Ihr Cholesterin braucht Aufmerksamkeit',
+  'topic.cholesterol.meaning': 'Zu viel „schlechtes“ Cholesterin (LDL) kann sich in den Blutgefäßen ablagern und sie verengen. Das erhöht das Risiko für Herzinfarkt und Schlaganfall. „Gutes“ Cholesterin (HDL) hilft, es abzutransportieren.',
+  'topic.cholesterol.selfCare': [
+    'Essen Sie Haferflocken, Bohnen, Linsen, Gemüse und Obst – ihre Ballaststoffe helfen, das Cholesterin zu senken.',
+    'Wählen Sie Olivenöl, Nüsse und fetten Fisch statt Butter, fettem Fleisch und Frittiertem.',
+    'Essen Sie weniger Gebäck, Kekse und Fast Food.',
+    'Bleiben Sie an den meisten Tagen in Bewegung; das erhöht das „gute“ Cholesterin.',
+  ],
+  'topic.cholesterol.askDoctor': ['Wie hoch ist mein Risiko für eine Herzerkrankung?', 'Welchen Cholesterinwert sollte ich anstreben?'],
+
+  'topic.kidneys.title': 'Ihre Nieren arbeiten schwächer als normal',
+  'topic.kidneys.meaning': 'Ihre Nieren filtern Abfallstoffe aus Ihrem Blut. Diese Ergebnisse deuten darauf hin, dass sie langsamer filtern, als sie sollten. Wird früh darauf geachtet, lässt sich die Nierenfunktion oft stabil halten.',
+  'topic.kidneys.selfCare': [
+    'Halten Sie Blutdruck und Blutzucker im Zielbereich – das sind die zwei wichtigsten Schutzfaktoren für Ihre Nieren.',
+    'Nehmen Sie weniger Salz.',
+    'Trinken Sie über den Tag verteilt regelmäßig Wasser, außer Ihre Ärztin oder Ihr Arzt hat Ihnen gesagt, dass Sie weniger trinken sollen.',
+    'Nehmen Sie keine entzündungshemmenden Schmerzmittel wie Ibuprofen oder Naproxen, außer Ihre Ärztin oder Ihr Arzt ist einverstanden – sie können den Nieren schaden.',
+    'Sagen Sie in der Apotheke vor jedem neuen Medikament, Nahrungsergänzungsmittel oder pflanzlichen Mittel, dass Sie Nierenprobleme haben.',
+  ],
+  'topic.kidneys.askDoctor': [
+    'In welchem Stadium ist meine Nierenfunktion, und ist sie stabil?',
+    'Welche Schmerzmittel sind für mich sicher?',
+    'Muss ich ändern, wie viel Eiweiß, Salz oder Kalium ich esse?',
+  ],
+
+  'topic.heart-failure.title': 'Ihr Herz ist stark belastet',
+  'topic.heart-failure.meaning': 'Ihr Herz pumpt nicht so kräftig, wie es sollte. Dadurch kann sich Flüssigkeit in den Beinen und in der Lunge ansammeln, und Sie werden vielleicht schnell müde oder kurzatmig.',
+  'topic.heart-failure.selfCare': [
+    'Wiegen Sie sich jeden Morgen. Wenn Sie in zwei oder drei Tagen mehr als etwa 1,5–2 kg zunehmen, sammelt sich Flüssigkeit an – rufen Sie Ihre Ärztin oder Ihren Arzt an.',
+    'Nehmen Sie weniger Salz; es sorgt dafür, dass der Körper Wasser zurückhält.',
+    'Nehmen Sie Ihre Medikamente genau wie verordnet, auch an Tagen, an denen Sie sich gut fühlen.',
+    'Bleiben Sie in sanfter Bewegung, so wie Ihr Behandlungsteam es Ihnen rät.',
+  ],
+  'topic.heart-failure.askDoctor': ['Wie viel sollte ich pro Tag trinken?', 'Bei welchen Beschwerden sollte ich Sie sofort anrufen?'],
+
+  'topic.heart-rhythm.title': 'Ihr Herz schlägt unregelmäßig',
+  'topic.heart-rhythm.meaning': 'Ihr Herz gerät manchmal aus dem Takt (Vorhofflimmern). Die größte Sorge ist, dass sich Blutgerinnsel bilden können. Deshalb nehmen viele Menschen einen Blutverdünner.',
+  'topic.heart-rhythm.selfCare': [
+    'Nehmen Sie ein blutverdünnendes Medikament jeden Tag zur gleichen Zeit und lassen Sie nie eine Dosis aus.',
+    'Trinken Sie nur wenig Alkohol und Koffein, wenn diese bei Ihnen Herzklopfen auslösen.',
+    'Sagen Sie in jeder Arztpraxis, Zahnarztpraxis und Apotheke, dass Sie diese Erkrankung haben und welche Medikamente Sie nehmen.',
+  ],
+  'topic.heart-rhythm.askDoctor': ['Wie hoch ist mein Schlaganfallrisiko, und wie wird es gesenkt?', 'Was soll ich tun, wenn mein Herz rast?'],
+
+  'topic.anemia.title': 'Ihr Blut hat zu wenig rote Blutkörperchen oder Eisen',
+  'topic.anemia.meaning': 'Rote Blutkörperchen bringen Sauerstoff durch Ihren Körper. Wenn es zu wenige davon gibt oder Ihre Eisenspeicher leer werden (Blutarmut, Anämie), können Sie sich müde, schwach, schwindelig oder kurzatmig fühlen.',
+  'topic.anemia.selfCare': [
+    'Essen Sie eisenreiche Lebensmittel: mageres rotes Fleisch, Hähnchen, Fisch, Linsen, Bohnen, Spinat und mit Eisen angereicherte Getreideflocken.',
+    'Nehmen Sie zu den Mahlzeiten Vitamin C zu sich (Orange, Zitrone, Paprika, Tomaten) – es hilft Ihrem Körper, Eisen aufzunehmen.',
+    'Trinken Sie Tee und Kaffee zwischen den Mahlzeiten statt zum Essen; sie hemmen die Aufnahme von Eisen.',
+    'Ruhen Sie sich aus, wenn Sie müde sind, und stehen Sie langsam auf, wenn Ihnen schwindelig ist.',
+  ],
+  'topic.anemia.askDoctor': ['Was ist die Ursache meiner Blutarmut?', 'Brauche ich Eisen- oder Vitamintabletten, und welche Art ist für mich sicher?'],
+
+  'topic.sodium.title': 'Ihr Natriumwert (Blutsalz) ist niedrig',
+  'topic.sodium.meaning': 'Natrium hält den Wasserhaushalt in Ihrem Körper im Gleichgewicht. Ein niedriger Wert kann Müdigkeit, Kopfschmerzen, Verwirrtheit oder Unsicherheit beim Gehen und Stehen auslösen.',
+  'topic.sodium.selfCare': [
+    'Trinken Sie nicht viel mehr und nicht viel weniger Wasser als sonst, bis Sie mit Ihrer Ärztin oder Ihrem Arzt gesprochen haben – beides kann es verschlimmern.',
+  ],
+  'topic.sodium.askDoctor': ['Könnte eines meiner Medikamente (zum Beispiel eine Wassertablette) die Ursache sein?', 'Wie viel sollte ich pro Tag trinken?'],
+
+  'topic.liver.title': 'Ihre Leberwerte sind erhöht',
+  'topic.liver.meaning': 'Die Leber reinigt Ihr Blut und hilft bei der Verdauung. Erhöhte Leberwerte bedeuten, dass sie gereizt ist oder mehr arbeiten muss als sonst.',
+  'topic.liver.selfCare': [
+    'Verzichten Sie auf Alkohol, bis Ihre Ärztin oder Ihr Arzt diese Ergebnisse geprüft hat.',
+    'Halten Sie sich bei jedem Schmerzmittel an die Dosis, die auf der Packung steht, und fragen Sie, welche für Ihre Leber sicher sind.',
+    'Streben Sie ein gesundes Gewicht an, mit weniger Zucker und Frittiertem.',
+  ],
+  'topic.liver.askDoctor': ['Was könnte meine Leber reizen?', 'Sollten diese Tests wiederholt werden?'],
+
+  'topic.thyroid.title': 'Ihr Schilddrüsenwert liegt außerhalb des Normalbereichs',
+  'topic.thyroid.meaning': 'Die Schilddrüse ist eine kleine Drüse im Hals, die das Tempo Ihres Körpers bestimmt. Werte außerhalb des Normalbereichs können Ihre Energie, Ihr Gewicht, Ihre Stimmung und Ihren Herzschlag beeinflussen.',
+  'topic.thyroid.selfCare': ['Wenn Sie Schilddrüsentabletten nehmen, nehmen Sie sie jeden Tag zur gleichen Zeit, so wie es Ihnen erklärt wurde.'],
+  'topic.thyroid.askDoctor': ['Muss meine Schilddrüse behandelt oder nur beobachtet werden?', 'Wann sollte der Test wiederholt werden?'],
+
+  'topic.weight.title': 'Ihr Gewicht liegt über dem gesunden Bereich',
+  'topic.weight.meaning': 'Zusätzliches Gewicht macht dem Herzen, den Gelenken und der Blutzuckerregelung mehr Arbeit. Schon eine kleine Abnahme – 5 % Ihres Gewichts – bringt spürbare Vorteile.',
+  'topic.weight.selfCare': [
+    'Nehmen Sie sich kleine Änderungen vor, die Sie durchhalten können: kleinere Portionen, weniger süße Getränke und Snacks.',
+    'Streben Sie an den meisten Tagen 30 Minuten Bewegung an – auch Gehen zählt.',
+    'Halten Sie regelmäßige Essens- und Schlafenszeiten ein.',
+  ],
+  'topic.weight.askDoctor': ['Was ist ein realistisches Gewichtsziel für mich?', 'Würde mir eine Ernährungsberatung helfen?'],
+
+  'topic.breathing.title': 'Sie haben eine dauerhafte Atemwegserkrankung',
+  'topic.breathing.meaning': 'Ihre Atemwege sind empfindlich oder verengt (Asthma oder COPD). Das kann Husten, pfeifende Atmung oder Atemnot auslösen.',
+  'topic.breathing.selfCare': [
+    'Wenn Sie rauchen, ist das Aufhören der hilfreichste einzelne Schritt – bitten Sie um Unterstützung.',
+    'Meiden Sie Rauch, Staub und starke Dämpfe.',
+    'Benutzen Sie Ihre Inhalatoren genau so, wie es Ihnen gezeigt wurde, und haben Sie Ihr Notfallspray immer dabei.',
+    'Halten Sie Ihre Grippeimpfung und andere empfohlene Impfungen auf dem aktuellen Stand.',
+  ],
+  'topic.breathing.askDoctor': ['Inhaliere ich richtig?', 'Was soll ich tun, wenn meine Atmung schlechter wird?'],
+
+  'topic.joints.title': 'Eines Ihrer Gelenke ist abgenutzt',
+  'topic.joints.meaning': 'Das Polster in einem Gelenk hat sich abgenutzt (Arthrose). Das kann Schmerzen und Steifheit auslösen, besonders nach Ruhepausen.',
+  'topic.joints.selfCare': [
+    'Bleiben Sie in Bewegung: Gehen, Radfahren und Schwimmen stärken die Muskeln, die das Gelenk schützen.',
+    'Wärme kann Steifheit lindern; eine Kühlpackung kann Schwellungen lindern.',
+    'Schon ein wenig abzunehmen entlastet Knie und Hüften deutlich.',
+    'Fragen Sie in der Apotheke, welches Schmerzmittel bei Ihren anderen Erkrankungen sicher ist, bevor Sie eines nehmen.',
+  ],
+  'topic.joints.askDoctor': ['Würde mir Physiotherapie helfen?', 'Welches Schmerzmittel ist bei meinen anderen Erkrankungen sicher?'],
+
+  'topic.reflux.title': 'Sie haben Sodbrennen durch Magensäure (Reflux)',
+  'topic.reflux.meaning': 'Magensäure fließt zurück nach oben in Richtung Hals und verursacht Sodbrennen.',
+  'topic.reflux.selfCare': [
+    'Essen Sie kleinere Mahlzeiten und essen Sie in den 3 Stunden vor dem Schlafengehen nichts mehr.',
+    'Achten Sie darauf, was bei Ihnen die Beschwerden auslöst, und nehmen Sie weniger davon – oft sind es fettes oder scharfes Essen, Kaffee, Schokolade und Alkohol.',
+    'Stellen Sie das Kopfende Ihres Bettes etwas höher.',
+  ],
+  'topic.reflux.askDoctor': ['Brauche ich eine Behandlung, oder reicht es, meine Gewohnheiten zu ändern?'],
+
+  'topic.infection-marker.title': 'Die Zahl Ihrer weißen Blutkörperchen ist hoch',
+  'topic.infection-marker.meaning': 'Weiße Blutkörperchen bekämpfen Infektionen. Eine hohe Zahl bedeutet oft, dass Ihr Körper mit einer Infektion oder Entzündung zu tun hat.',
+  'topic.infection-marker.selfCare': ['Ruhen Sie sich aus und trinken Sie genug.', 'Achten Sie auf Fieber, Schüttelfrost oder darauf, ob Sie sich schlechter fühlen.'],
+  'topic.infection-marker.askDoctor': ['Was ist die Ursache, und muss es behandelt werden?'],
+
+  'topic.oxygen.title': 'Der Sauerstoff in Ihrem Blut war niedrig',
+  'topic.oxygen.meaning': 'Die Sauerstoffsättigung zeigt, wie viel Sauerstoff Ihr Blut trägt. Gesunde Werte liegen meist bei 95 % oder höher.',
+  'topic.oxygen.selfCare': ['Setzen Sie sich aufrecht hin und atmen Sie langsam, wenn Sie Atemnot haben.', 'Rauchen Sie nicht, und meiden Sie verrauchte Räume.'],
+  'topic.oxygen.askDoctor': ['Welcher Sauerstoffwert ist für mich normal?', 'Was soll ich tun, wenn meine Atemnot stärker wird?'],
+
+  'lab.troponin': 'Wert für Herzbelastung (Troponin)',
+  'lab.potassium': 'Kalium',
+  'lab.hba1c': 'Durchschnittlicher Blutzucker über 3 Monate (HbA1c)',
+  'lab.glucose': 'Blutzucker (Glukose)',
+  'lab.ldl': '„Schlechtes“ Cholesterin (LDL)',
+  'lab.totalCholesterol': 'Gesamtcholesterin',
+  'lab.triglycerides': 'Blutfette (Triglyzeride)',
+  'lab.hdl': '„Gutes“ Cholesterin (HDL)',
+  'lab.creatinine': 'Abfallstoff der Nieren (Kreatinin)',
+  'lab.egfr': 'Filterleistung der Nieren (eGFR)',
+  'lab.bnp': 'Wert für Herzbelastung (BNP)',
+  'lab.hemoglobin': 'Roter Blutfarbstoff (Hämoglobin)',
+  'lab.hematocrit': 'Anteil der roten Blutkörperchen im Blut (Hämatokrit)',
+  'lab.ferritin': 'Eisenspeicher (Ferritin)',
+  'lab.sodium': 'Natrium',
+  'lab.alt': 'Leberenzym (ALT)',
+  'lab.ast': 'Leberenzym (AST)',
+  'lab.bilirubin': 'Gallenfarbstoff (Bilirubin)',
+  'lab.liverEnzyme': 'Leberenzym',
+  'lab.tsh': 'Schilddrüsen-Steuerhormon (TSH)',
+  'lab.wbc': 'Weiße Blutkörperchen',
+
+  'evidence.diagnosis': 'Eingetragene Diagnose: {{name}}',
+  'evidence.higher': 'höher als der übliche Bereich',
+  'evidence.lower': 'niedriger als der übliche Bereich',
+  'evidence.outside': 'außerhalb des üblichen Bereichs',
+  'evidence.bloodPressure': 'Blutdruck: {{value}} mmHg',
+  'evidence.bloodPressureDetail': 'höher als das übliche Ziel von unter 140/90',
+  'evidence.oxygen': 'Sauerstoff im Blut: {{value}} %',
+  'evidence.oxygenDetail': 'niedriger als die üblichen 95 % oder mehr',
+  'evidence.bmi': 'Body-Mass-Index (BMI): {{value}}',
+  'evidence.bmiDetail': 'über dem gesunden Bereich von 18,5 – 25',
+
+  'redflag.potassium': 'Kalium in dieser Höhe kann den Herzrhythmus stören.',
+  'redflag.sodium': 'Natrium in dieser Höhe kann das Gehirn beeinträchtigen.',
+  'redflag.glucoseLow': 'Ein so niedriger Blutzucker kann zu Ohnmacht oder Krampfanfällen führen.',
+  'redflag.glucoseHigh': 'Ein so hoher Blutzucker kann schnell gefährlich werden.',
+  'redflag.hemoglobin': 'Ein so niedriger Hämoglobinwert bedeutet, dass das Blut nur sehr wenig Sauerstoff trägt.',
+  'redflag.egfr': 'Eine so niedrige Filterleistung der Nieren braucht fachärztliche Betreuung.',
+  'redflag.oxygen': 'Ein so niedriger Sauerstoffwert bedeutet, dass der Körper nicht genug Luft bekommt.',
+  'redflag.troponin': 'Ein erhöhter Wert für Herzbelastung kann ein Zeichen für einen Herzinfarkt sein.',
+  'redflag.bloodPressure': 'Ein so hoher Blutdruck kann Herz und Gehirn schädigen.',
+  'redflag.critical': 'Das Labor hat dieses Ergebnis als kritisch markiert.',
+
+  'purpose.sugar': 'hilft, den Blutzucker zu senken',
+  'purpose.insulin': 'senkt den Blutzucker',
+  'purpose.cholesterol': 'senkt das Cholesterin',
+  'purpose.pressure': 'senkt den Blutdruck',
+  'purpose.betaBlocker': 'verlangsamt den Herzschlag und senkt den Blutdruck',
+  'purpose.diuretic': 'eine „Wassertablette“, die überschüssige Flüssigkeit ausschwemmt',
+  'purpose.anticoagulant': 'ein Blutverdünner, der Gerinnsel verhindert',
+  'purpose.antiplatelet': 'hilft, Blutgerinnsel zu verhindern',
+  'purpose.acid': 'verringert die Magensäure',
+  'purpose.thyroid': 'ersetzt das Schilddrüsenhormon',
+  'purpose.airways': 'öffnet die Atemwege und erleichtert das Atmen',
+  'purpose.antibiotic': 'ein Antibiotikum, das bakterielle Infektionen behandelt',
+  'purpose.antiInflammatory': 'lindert Schmerzen und Entzündungen',
+  'purpose.painFever': 'lindert Schmerzen und Fieber',
+  'purpose.mood': 'behandelt gedrückte Stimmung und Angst',
+  'purpose.iron': 'füllt die Eisenspeicher auf',
+  'purpose.gout': 'beugt Gichtanfällen vor',
+};

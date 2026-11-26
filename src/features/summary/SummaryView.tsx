@@ -98,7 +98,8 @@ export function SummaryView() {
       <p className="flex gap-2 rounded-lg bg-sunken px-3 py-2 text-[13px] text-muted">
         <Info size={15} className="mt-0.5 shrink-0" aria-hidden="true" />
         <span>
-          {t('summary.disclaimerBefore')} <strong>{t('summary.disclaimerStrong')}</strong>. {t('summary.disclaimerAfter')}
+          {t('summary.disclaimerBefore')} <strong>{t('summary.disclaimerStrong')}</strong>
+          {t('common.sentenceEnd')} {t('summary.disclaimerAfter')}
         </span>
       </p>
 

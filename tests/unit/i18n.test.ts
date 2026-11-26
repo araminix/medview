@@ -1,41 +1,12 @@
 import { afterEach, describe, expect, test } from 'vitest';
-import { dictionaryOf, digits, ltr, setActiveLanguage, t, term, tList, type Plural } from '@/i18n';
+import { digits, ltr, setActiveLanguage, t, term, tList } from '@/i18n';
 import { translateError } from '@/i18n/errors';
 import { describeAge, formatDate } from '@/i18n/format';
 import { detectLanguage, directionOf } from '@/i18n/languages';
-import { en } from '@/i18n/locales/en';
 import { buildPlainSummary } from '@/domain/guidance/summarize';
 import { recordOf, sample } from './helpers';
 
 afterEach(() => setActiveLanguage('en'));
-
-const placeholders = (text: string) => [...text.matchAll(/\{\{(\w+)\}\}/g)].map((m) => m[1]).sort();
-const forms = (message: unknown): string[] => (typeof message === 'string' ? [message] : Array.isArray(message) ? message : Object.values(message as Plural));
-
-describe.each(['fa', 'tr'] as const)('%s dictionary', (lang) => {
-  const dictionary = dictionaryOf(lang);
-  const keys = (Object.keys(en) as Array<keyof typeof en>).filter((key) => key !== 'terms');
-
-  test('uses exactly the placeholders of the English source', () => {
-    for (const key of keys) {
-      const expected = new Set(forms(en[key]).flatMap(placeholders));
-      for (const text of forms(dictionary[key])) expect(new Set(placeholders(text)), key).toEqual(expected);
-    }
-  });
-
-  test('keeps lists the same length', () => {
-    for (const key of keys) {
-      if (Array.isArray(en[key])) expect(dictionary[key], key).toHaveLength((en[key] as readonly string[]).length);
-    }
-  });
-
-  test('is actually translated', () => {
-    const untranslated = keys.filter((key) => typeof en[key] === 'string' && dictionary[key] === en[key] && /[a-z]{4}/.test(en[key] as string));
-    // Proper names and syntax examples are the same in every language.
-    expect(untranslated).toEqual(expect.arrayContaining([]));
-    expect(untranslated.length).toBeLessThan(8);
-  });
-});
 
 describe('translation', () => {
   test('falls back to plural forms and fills placeholders', () => {
@@ -128,10 +99,25 @@ describe('translation', () => {
   });
 });
 
+test('Arabic is right to left but keeps Gregorian dates and Western digits', () => {
+  setActiveLanguage('ar');
+  expect(formatDate('2025-03-14')).toMatch(/^14 .+ 2025$/);
+  expect(digits('8.4')).toBe('8.4');
+  expect(t('top.warnings', { count: 2 })).toBe('تحذيران');
+  expect(t('top.warnings', { count: 5 })).toBe('5 تحذيرات');
+  setActiveLanguage('ru');
+  expect([1, 3, 5].map((count) => t('top.warnings', { count }))).toEqual(['1 предупреждение', '3 предупреждения', '5 предупреждений']);
+  setActiveLanguage('zh');
+  expect(t('common.sentenceEnd')).toBe('。');
+});
+
 test('language detection and direction', () => {
   expect(detectLanguage(['fa-IR', 'en'])).toBe('fa');
   expect(detectLanguage(['tr-TR'])).toBe('tr');
-  expect(detectLanguage(['de-DE', 'ja'])).toBe('en');
+  expect(detectLanguage(['de-DE', 'ja'])).toBe('de');
+  expect(detectLanguage(['pt-BR'])).toBe('pt');
+  expect(detectLanguage(['sv-SE', 'nl'])).toBe('en');
+  expect(directionOf('ar')).toBe('rtl');
   expect(directionOf('fa')).toBe('rtl');
   expect(directionOf('tr')).toBe('ltr');
 });

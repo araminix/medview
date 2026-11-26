@@ -84,6 +84,7 @@ export const fa: Dictionary = {
   'common.close': 'بستن',
   'common.copied': 'کپی شد',
   'common.dismiss': 'بستن',
+  'common.sentenceEnd': '.',
   'lang.label': 'زبان',
   'theme.toDark': 'تغییر به حالت تیره',
   'theme.toLight': 'تغییر به حالت روشن',

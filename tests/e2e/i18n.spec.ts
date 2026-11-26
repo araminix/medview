@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { dropSample, openApp } from './helpers';
 
-async function chooseLanguage(page: Page, code: 'en' | 'fa' | 'tr'): Promise<void> {
+async function chooseLanguage(page: Page, code: string): Promise<void> {
   await page.getByTestId('language-menu').selectOption(code);
   await expect(page.locator('html')).toHaveAttribute('lang', code);
 }
@@ -143,4 +143,35 @@ test('switching language makes no network request', async ({ page, context }) =>
   }
   await page.waitForTimeout(300);
   expect(requests).toEqual([]);
+});
+
+const ALL_LANGUAGES = ['en', 'zh', 'hi', 'es', 'fr', 'ar', 'fa', 'pt', 'ru', 'ja', 'de', 'ko', 'tr', 'it'];
+
+test('every one of the 14 languages shows the summary, the report and a scan without overflowing or failing', async ({ page }) => {
+  test.slow();
+  const problems: string[] = [];
+  page.on('pageerror', (error) => problems.push(error.message));
+  page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+  await openApp(page, 'summary');
+  await expect(page.getByTestId('language-menu').locator('option')).toHaveCount(ALL_LANGUAGES.length);
+  const english = await page.getByRole('heading', { level: 1 }).innerText();
+
+  for (const code of ALL_LANGUAGES) {
+    await chooseLanguage(page, code);
+    await expect(page.locator('html')).toHaveAttribute('dir', code === 'ar' || code === 'fa' ? 'rtl' : 'ltr');
+    if (code !== 'en') await expect(page.getByRole('heading', { level: 1 })).not.toHaveText(english);
+    await page.getByTestId('sample-fhir').click();
+    await page.getByRole('tab').first().click();
+    await expect(page.getByTestId('summary-view')).toBeVisible();
+    // An untranslated key would show up as its own name, "summary.title".
+    await expect(page.getByTestId('summary-view')).not.toContainText(/\b(summary|finding|topic|urgency)\.[a-z]/);
+    await page.getByRole('tab').nth(1).click();
+    await expect(page.getByTestId('lab-row').first()).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${code} overflows sideways`).toBe(true);
+    await page.getByTestId('clear-file').click();
+    await page.getByTestId('sample-dicom').click();
+    await expect(page.getByTestId('image-canvas')).toBeVisible();
+    await page.getByTestId('clear-file').click();
+  }
+  expect(problems).toEqual([]);
 });

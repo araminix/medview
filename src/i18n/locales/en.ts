@@ -12,6 +12,7 @@ export const en = {
   'common.close': 'Close',
   'common.copied': 'Copied',
   'common.dismiss': 'Dismiss',
+  'common.sentenceEnd': '.',
   'lang.label': 'Language',
   'theme.toDark': 'Switch to dark mode',
   'theme.toLight': 'Switch to light mode',

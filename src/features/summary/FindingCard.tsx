@@ -43,7 +43,8 @@ function UrgentBox({ finding }: { finding: Finding }) {
           <p className="mt-1">{t('finding.stale')}</p>
         ) : (
           <p className="mt-1">
-            {t('finding.freshBefore')} <strong>{t('finding.freshStrong')}</strong>. {t('finding.freshAfter')}
+            {t('finding.freshBefore')} <strong>{t('finding.freshStrong')}</strong>
+            {t('common.sentenceEnd')} {t('finding.freshAfter')}
           </p>
         )}
       </div>

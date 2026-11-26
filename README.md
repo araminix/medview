@@ -40,13 +40,15 @@ The image viewer is for looking, not for diagnosis: it is not calibrated like a 
 
 ## Languages
 
-The interface and the health guidance are available in **English, فارسی (Persian) and Türkçe (Turkish)**; the browser language is used on a first visit and the choice is remembered. Persian is laid out right to left. A few things are deliberate:
+The interface and the health guidance are available in **14 languages**: English, 中文, हिन्दी, Español, Français, العربية, فارسی, Português, Русский, 日本語, Deutsch, 한국어, Türkçe and Italiano. The browser language is used on a first visit and the choice is remembered. Arabic and Persian are laid out right to left. A few things are deliberate:
 
-- Persian shows dates in the Jalali (Solar Hijri) calendar and numbers in Persian digits; English and Turkish use the Gregorian calendar and Western digits. Codes, units and identifiers (`HbA1c`, `mL/min/1.73m2`, an MRN) are never converted.
-- Code, raw payloads and the resource diagram stay left to right.
+- Persian shows dates in the Jalali (Solar Hijri) calendar and numbers in Persian digits. Every other language, Arabic included, uses the Gregorian calendar and Western digits, so a lab value reads the same as on the lab sheet. Codes, units and identifiers (`HbA1c`, `mL/min/1.73m2`, an MRN) are never converted.
+- Code, raw payloads, the resource diagram and medical images stay left to right.
 - Content that comes from the file (lab names, drug names, diagnoses) and the technical parse warnings are shown as written.
+- Inter is bundled for Latin and Cyrillic text and Estedad for Arabic and Persian. Chinese, Japanese, Korean and Hindi use the fonts of your own system: bundling them would add tens of megabytes.
+- The translations were written with machine help and checked by automated tests for completeness, not yet by native-speaking clinicians. The health guidance in particular should be read with that in mind; corrections are welcome.
 
-All dictionaries are bundled, so switching language makes no network request. To add a language, add a file in `src/i18n/locales/` — TypeScript reports any key it is missing — and list it in `src/i18n/languages.ts`.
+All dictionaries are bundled, so switching language makes no network request. To add a language, add its two files in `src/i18n/locales/` (TypeScript and `tests/unit/locales.test.ts` report anything missing) and list it in `src/i18n/languages.ts` and `src/i18n/index.ts`.
 
 ## Privacy, and how to check it yourself
 
@@ -93,7 +95,7 @@ src/
   parsers/     fhir/ · hl7v2/ · ccda/ · openehr/ · appleHealth/ · dicom/ — each maps its format to a ClinicalRecord
   scrubber/    PHI collection and replacement
   engine/      the Web Worker that owns the open file, and its typed client
-  i18n/        dictionaries (en, fa, tr), translation and locale-aware formatting
+  i18n/        dictionaries for 14 languages, translation and locale-aware formatting
   features/    landing · workspace · summary · report · graph · imaging · dev · privacy · scrubber · print
   components/  shared UI building blocks
   samples/     seven synthetic sample files (no real patient data); `scripts/` rebuilds them

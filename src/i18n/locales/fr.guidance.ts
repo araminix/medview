@@ -1,0 +1,247 @@
+import type { guidance as source } from './en.guidance';
+
+type Guidance = { [K in keyof typeof source]: (typeof source)[K] extends readonly string[] ? readonly string[] : string };
+
+/** Conseils de santé en langage simple. Les conseils portent uniquement sur l'alimentation et les habitudes de vie, jamais sur des médicaments. */
+export const guidance: Guidance = {
+  'topic.heart-attack-marker.title': 'Un marqueur de souffrance du cœur est élevé',
+  'topic.heart-attack-marker.meaning': "La troponine est une substance que le cœur libère quand il est en souffrance ou abîmé. Un taux élevé doit toujours être examiné par un médecin.",
+  'topic.heart-attack-marker.selfCare': [
+    "Reposez-vous et évitez les efforts physiques intenses tant qu'un médecin n'a pas examiné ce résultat.",
+    'Ne conduisez pas vous-même si vous ressentez une douleur dans la poitrine, un essoufflement ou une sensation de malaise.',
+  ],
+  'topic.heart-attack-marker.askDoctor': ['Ce résultat a-t-il déjà été examiné et expliqué ?', "Ai-je besoin d'autres examens du cœur ?"],
+
+  'topic.potassium.title': 'Votre taux de potassium est en dehors de la zone sûre',
+  'topic.potassium.meaning': 'Le potassium est un minéral qui garde les battements de votre cœur réguliers. En excès ou en manque, il peut perturber le rythme du cœur.',
+  'topic.potassium.selfCare': [
+    "N'utilisez pas de substituts de sel (« sel pauvre en sodium ») : la plupart sont à base de potassium.",
+    "Ne commencez pas et n'arrêtez pas de vous-même un régime riche en potassium ou des compléments de potassium ; demandez d'abord.",
+  ],
+  'topic.potassium.askDoctor': [
+    'Faut-il refaire cette analyse ?',
+    "L'un de mes médicaments pourrait-il modifier mon potassium ?",
+    'Quels aliments dois-je limiter ou manger davantage ?',
+  ],
+
+  'topic.blood-sugar.title': 'Votre taux de sucre dans le sang est élevé',
+  'topic.blood-sugar.meaning': "Le sucre reste dans votre sang au lieu d'être utilisé par votre corps. Au fil des années, cela peut abîmer les yeux, les reins, les nerfs et le cœur ; le garder dans la bonne zone les protège.",
+  'topic.blood-sugar.selfCare': [
+    "Remplacez les boissons sucrées et les jus par de l'eau ou du thé sans sucre.",
+    'Remplissez la moitié de votre assiette de légumes ; préférez les céréales complètes au pain blanc, au riz blanc et aux sucreries.',
+    'Marchez 10 à 15 minutes après les repas : cela fait baisser directement le sucre dans le sang.',
+    'Mangez à heures régulières et gardez des portions modérées de féculents.',
+    'Regardez vos pieds chaque jour pour repérer les coupures ou les plaies qui guérissent lentement.',
+  ],
+  'topic.blood-sugar.askDoctor': [
+    'Quel taux de sucre dans le sang dois-je viser ?',
+    'À quelle fréquence dois-je faire des analyses ?',
+    "Est-ce que voir un diététicien m'aiderait ?",
+  ],
+
+  'topic.low-blood-sugar.title': 'Votre taux de sucre dans le sang était bas',
+  'topic.low-blood-sugar.meaning': 'Un taux de sucre bas dans le sang peut provoquer des tremblements, des sueurs, une confusion ou un évanouissement.',
+  'topic.low-blood-sugar.selfCare': [
+    'Ne sautez pas de repas.',
+    'Si vous tremblez ou transpirez, prenez tout de suite une boisson sucrée ou quelques bonbons au glucose, puis une collation.',
+  ],
+  'topic.low-blood-sugar.askDoctor': ['Pourquoi mon taux de sucre était-il bas ?', 'Faut-il ajuster mes médicaments contre le diabète ?'],
+
+  'topic.blood-pressure.title': 'Votre tension artérielle est élevée',
+  'topic.blood-pressure.meaning': 'Le sang appuie trop fort sur les parois de vos vaisseaux sanguins. En général on ne le sent pas, mais avec le temps cela fatigue le cœur, le cerveau et les reins.',
+  'topic.blood-pressure.selfCare': [
+    'Utilisez moins de sel : cuisinez avec des herbes, du citron et des épices, et limitez les aliments industriels, les chips, la charcuterie et les plats préparés.',
+    'Mangez plus de légumes, de fruits, de légumes secs, de fruits à coque non salés et de produits laitiers allégés.',
+    'Bougez la plupart des jours : 30 minutes de marche rapide comptent.',
+    "Limitez l'alcool et, si vous fumez, arrêtez de fumer.",
+    'Dormez 7 à 8 heures et trouvez chaque jour un moyen de vous détendre.',
+    'Mesurez votre tension à la maison et notez les chiffres pour votre médecin.',
+  ],
+  'topic.blood-pressure.askDoctor': ['Quelle tension dois-je viser ?', 'À quelle fréquence dois-je la mesurer à la maison ?'],
+
+  'topic.cholesterol.title': "Votre cholestérol demande de l'attention",
+  'topic.cholesterol.meaning': "Trop de « mauvais » cholestérol (LDL) peut se déposer dans les vaisseaux sanguins et les rétrécir, ce qui augmente le risque de crise cardiaque et d'accident vasculaire cérébral (AVC). Le « bon » cholestérol (HDL) aide à l'éliminer.",
+  'topic.cholesterol.selfCare': [
+    "Mangez de l'avoine, des haricots, des lentilles, des légumes et des fruits : leurs fibres aident à faire baisser le cholestérol.",
+    "Choisissez l'huile d'olive, les fruits à coque et les poissons gras plutôt que le beurre, les viandes grasses et les fritures.",
+    'Réduisez les viennoiseries, les biscuits et la restauration rapide.',
+    'Soyez actif la plupart des jours ; cela augmente le « bon » cholestérol.',
+  ],
+  'topic.cholesterol.askDoctor': ['Quel est mon risque de maladie du cœur ?', 'Quel taux de cholestérol dois-je viser ?'],
+
+  'topic.kidneys.title': 'Vos reins fonctionnent moins bien que la normale',
+  'topic.kidneys.meaning': "Vos reins filtrent les déchets de votre sang. Ces résultats laissent penser qu'ils filtrent plus lentement qu'ils ne le devraient. Quand on s'en occupe tôt, le fonctionnement des reins peut souvent rester stable.",
+  'topic.kidneys.selfCare': [
+    'Gardez votre tension et votre taux de sucre dans le sang dans la bonne zone : ce sont les deux meilleures protections pour vos reins.',
+    'Utilisez moins de sel.',
+    "Buvez de l'eau régulièrement tout au long de la journée, sauf si votre médecin vous a demandé de limiter les boissons.",
+    "Ne prenez pas d'antidouleurs anti-inflammatoires comme l'ibuprofène ou le naproxène sans l'accord de votre médecin : ils peuvent abîmer les reins.",
+    'Avant tout nouveau médicament, complément alimentaire ou produit à base de plantes, dites au pharmacien que vous avez un problème de reins.',
+  ],
+  'topic.kidneys.askDoctor': [
+    'À quel stade en sont mes reins, et est-ce stable ?',
+    'Quels antidouleurs sont sans danger pour moi ?',
+    'Dois-je changer la quantité de protéines, de sel ou de potassium que je mange ?',
+  ],
+
+  'topic.heart-failure.title': 'Votre cœur est en difficulté',
+  'topic.heart-failure.meaning': "Votre cœur ne pompe pas aussi fort qu'il le devrait. Du liquide peut donc s'accumuler dans les jambes et les poumons, et vous pouvez vous fatiguer ou vous essouffler facilement.",
+  'topic.heart-failure.selfCare': [
+    "Pesez-vous chaque matin. Prendre plus de 1,5 à 2 kg environ en deux ou trois jours signifie que du liquide s'accumule : appelez votre médecin.",
+    "Utilisez moins de sel ; il pousse le corps à retenir l'eau.",
+    'Prenez vos médicaments exactement comme prescrit, même les jours où vous vous sentez bien.',
+    'Restez actif en douceur, selon les conseils de votre équipe soignante.',
+  ],
+  'topic.heart-failure.askDoctor': ['Quelle quantité de liquide dois-je boire chaque jour ?', 'Quels symptômes doivent me faire vous appeler tout de suite ?'],
+
+  'topic.heart-rhythm.title': 'Votre cœur bat de façon irrégulière',
+  'topic.heart-rhythm.meaning': "Votre cœur bat parfois de façon désordonnée (fibrillation auriculaire). Le principal risque est la formation de caillots de sang ; c'est pourquoi beaucoup de personnes prennent un médicament qui fluidifie le sang.",
+  'topic.heart-rhythm.selfCare': [
+    'Si vous prenez un médicament qui fluidifie le sang, prenez-le chaque jour à la même heure et ne sautez jamais de prise.',
+    "Limitez l'alcool et la caféine s'ils déclenchent des palpitations.",
+    'Dites à chaque médecin, dentiste et pharmacien que vous avez ce problème et quels médicaments vous prenez.',
+  ],
+  'topic.heart-rhythm.askDoctor': ["Quel est mon risque d'AVC et comment est-il réduit ?", "Que dois-je faire si mon cœur s'emballe ?"],
+
+  'topic.anemia.title': 'Votre sang manque de globules rouges ou de fer',
+  'topic.anemia.meaning': "Les globules rouges transportent l'oxygène dans votre corps. Quand ils sont trop peu nombreux ou que vos réserves de fer sont basses (anémie), vous pouvez vous sentir fatigué, faible, pris de vertiges ou essoufflé.",
+  'topic.anemia.selfCare': [
+    'Mangez des aliments riches en fer : viande rouge maigre, poulet, poisson, lentilles, haricots, épinards et céréales enrichies en fer.',
+    'Prenez de la vitamine C pendant les repas (orange, citron, poivron, tomate) : elle aide votre corps à absorber le fer.',
+    "Buvez le thé et le café entre les repas plutôt que pendant ; ils gênent l'absorption du fer.",
+    'Reposez-vous quand vous êtes fatigué et levez-vous lentement si vous avez la tête qui tourne.',
+  ],
+  'topic.anemia.askDoctor': ["Quelle est la cause de mon anémie ?", "Ai-je besoin de comprimés de fer ou de vitamines, et lesquels sont sans danger pour moi ?"],
+
+  'topic.sodium.title': 'Votre taux de sodium (sel du sang) est bas',
+  'topic.sodium.meaning': "Le sodium maintient le bon équilibre de l'eau dans votre corps. Un taux bas peut provoquer de la fatigue, des maux de tête, une confusion ou des troubles de l'équilibre.",
+  'topic.sodium.selfCare': ["Ne buvez pas beaucoup plus ni beaucoup moins d'eau que d'habitude avant d'avoir parlé à votre médecin : les deux peuvent aggraver la situation."],
+  'topic.sodium.askDoctor': [
+    "L'un de mes médicaments (par exemple un diurétique, qui fait uriner) pourrait-il en être la cause ?",
+    'Quelle quantité dois-je boire chaque jour ?',
+  ],
+
+  'topic.liver.title': 'Vos analyses du foie sont élevées',
+  'topic.liver.meaning': "Le foie nettoie votre sang et aide à digérer les aliments. Des valeurs du foie élevées signifient qu'il est irrité ou qu'il travaille plus que d'habitude.",
+  'topic.liver.selfCare': [
+    "Évitez l'alcool tant que votre médecin n'a pas examiné ces résultats.",
+    "Ne dépassez pas la dose indiquée sur la boîte pour tout antidouleur, et demandez lesquels sont sans danger pour votre foie.",
+    'Visez un poids de bonne santé, avec moins de sucre et de fritures.',
+  ],
+  'topic.liver.askDoctor': ["Qu'est-ce qui pourrait irriter mon foie ?", 'Faut-il refaire ces analyses ?'],
+
+  'topic.thyroid.title': 'Votre analyse de la thyroïde est en dehors des valeurs habituelles',
+  'topic.thyroid.meaning': "La thyroïde est une petite glande située dans votre cou qui règle la vitesse de fonctionnement de votre corps. Des résultats en dehors des valeurs habituelles peuvent jouer sur votre énergie, votre poids, votre humeur et les battements de votre cœur.",
+  'topic.thyroid.selfCare': ["Si vous prenez des comprimés pour la thyroïde, prenez-les chaque jour à la même heure, comme on vous l'a indiqué."],
+  'topic.thyroid.askDoctor': ["Ma thyroïde a-t-elle besoin d'un traitement ou seulement d'une surveillance ?", "Quand faut-il refaire l'analyse ?"],
+
+  'topic.weight.title': 'Votre poids est au-dessus de la zone de bonne santé',
+  'topic.weight.meaning': 'Des kilos en trop font travailler davantage le cœur et les articulations, et rendent le contrôle du sucre dans le sang plus difficile. Même une petite perte, 5 % de votre poids, apporte de vrais bénéfices.',
+  'topic.weight.selfCare': [
+    'Faites de petits changements que vous pourrez garder : des portions plus petites, moins de boissons sucrées et de grignotages.',
+    "Visez 30 minutes d'activité la plupart des jours ; la marche compte.",
+    'Gardez des heures régulières pour les repas et le sommeil.',
+  ],
+  'topic.weight.askDoctor': ['Quel objectif de poids est réaliste pour moi ?', "Est-ce que voir un diététicien m'aiderait ?"],
+
+  'topic.breathing.title': 'Vous avez une maladie respiratoire de longue durée',
+  'topic.breathing.meaning': 'Vos bronches sont sensibles ou rétrécies (asthme ou BPCO), ce qui peut provoquer de la toux, une respiration sifflante ou un essoufflement.',
+  'topic.breathing.selfCare': [
+    "Si vous fumez, arrêter est la mesure la plus utile de toutes ; demandez de l'aide.",
+    'Évitez la fumée, la poussière et les vapeurs fortes.',
+    "Utilisez vos inhalateurs exactement comme on vous l'a montré et gardez votre inhalateur de secours sur vous.",
+    'Gardez à jour votre vaccin contre la grippe et les autres vaccins recommandés.',
+  ],
+  'topic.breathing.askDoctor': ["Est-ce que j'utilise bien mon inhalateur ?", 'Que dois-je faire quand ma respiration se dégrade ?'],
+
+  'topic.joints.title': "Une de vos articulations est usée",
+  'topic.joints.meaning': "Le coussin qui protège une articulation s'est usé (arthrose), ce qui peut provoquer des douleurs et une raideur, surtout après le repos.",
+  'topic.joints.selfCare': [
+    "Continuez à bouger : la marche, le vélo et la natation renforcent les muscles qui protègent l'articulation.",
+    'La chaleur peut soulager la raideur ; une poche de froid peut soulager le gonflement.',
+    'Perdre un peu de poids soulage beaucoup les genoux et les hanches.',
+    "Avant de prendre un antidouleur, demandez à un pharmacien lequel est sans danger avec vos autres problèmes de santé.",
+  ],
+  'topic.joints.askDoctor': ["Est-ce que la kinésithérapie m'aiderait ?", 'Quel antidouleur est sans danger avec mes autres problèmes de santé ?'],
+
+  'topic.reflux.title': 'Vous avez des remontées acides',
+  'topic.reflux.meaning': "L'acide de l'estomac remonte vers votre gorge, ce qui provoque des brûlures d'estomac.",
+  'topic.reflux.selfCare': [
+    'Faites des repas plus légers et évitez de manger dans les 3 heures avant le coucher.',
+    "Repérez ce qui déclenche vos remontées et réduisez-le : souvent les plats gras ou épicés, le café, le chocolat et l'alcool.",
+    'Surélevez légèrement la tête de votre lit.',
+  ],
+  'topic.reflux.askDoctor': ["Ai-je besoin d'un traitement, ou des changements d'habitudes suffisent-ils ?"],
+
+  'topic.infection-marker.title': 'Votre nombre de globules blancs est élevé',
+  'topic.infection-marker.meaning': "Les globules blancs combattent les infections. Un nombre élevé signifie souvent que votre corps fait face à une infection ou à une inflammation.",
+  'topic.infection-marker.selfCare': ['Reposez-vous et buvez suffisamment.', 'Surveillez la fièvre, les frissons ou une aggravation de votre état.'],
+  'topic.infection-marker.askDoctor': ["Quelle en est la cause, et faut-il un traitement ?"],
+
+  'topic.oxygen.title': "Votre taux d'oxygène dans le sang était bas",
+  'topic.oxygen.meaning': "La saturation en oxygène indique la quantité d'oxygène que transporte votre sang. Les valeurs saines sont en général de 95 % ou plus.",
+  'topic.oxygen.selfCare': ['Asseyez-vous bien droit et respirez lentement si vous êtes essoufflé.', 'Ne fumez pas et évitez les pièces enfumées.'],
+  'topic.oxygen.askDoctor': ["Quel taux d'oxygène est normal pour moi ?", "Que dois-je faire si je suis plus essoufflé ?"],
+
+  'lab.troponin': 'Marqueur de souffrance du cœur (troponine)',
+  'lab.potassium': 'Potassium',
+  'lab.hba1c': 'Sucre moyen dans le sang sur 3 mois (HbA1c)',
+  'lab.glucose': 'Sucre dans le sang (glucose)',
+  'lab.ldl': '« Mauvais » cholestérol (LDL)',
+  'lab.totalCholesterol': 'Cholestérol total',
+  'lab.triglycerides': 'Graisses du sang (triglycérides)',
+  'lab.hdl': '« Bon » cholestérol (HDL)',
+  'lab.creatinine': 'Marqueur des déchets des reins (créatinine)',
+  'lab.egfr': 'Vitesse de filtration des reins (eGFR)',
+  'lab.bnp': 'Marqueur de souffrance du cœur (BNP)',
+  'lab.hemoglobin': 'Protéine des globules rouges (hémoglobine)',
+  'lab.hematocrit': 'Part des globules rouges dans le sang (hématocrite)',
+  'lab.ferritin': 'Réserves de fer (ferritine)',
+  'lab.sodium': 'Sodium',
+  'lab.alt': 'Enzyme du foie (ALT)',
+  'lab.ast': 'Enzyme du foie (AST)',
+  'lab.bilirubin': 'Bilirubine',
+  'lab.liverEnzyme': 'Enzyme du foie',
+  'lab.tsh': 'Signal de la thyroïde (TSH)',
+  'lab.wbc': 'Globules blancs',
+
+  'evidence.diagnosis': 'Diagnostic inscrit au dossier : {{name}}',
+  'evidence.higher': 'au-dessus des valeurs habituelles',
+  'evidence.lower': 'en dessous des valeurs habituelles',
+  'evidence.outside': 'en dehors des valeurs habituelles',
+  'evidence.bloodPressure': 'Tension artérielle : {{value}} mmHg',
+  'evidence.bloodPressureDetail': "au-dessus de l'objectif habituel, qui est de moins de 140/90",
+  'evidence.oxygen': 'Oxygène dans le sang : {{value}} %',
+  'evidence.oxygenDetail': 'en dessous des 95 % ou plus habituels',
+  'evidence.bmi': 'Indice de masse corporelle (IMC) : {{value}}',
+  'evidence.bmiDetail': 'au-dessus de la zone de bonne santé, de 18,5 à 25',
+
+  'redflag.potassium': 'À ce niveau, le potassium peut perturber le rythme du cœur.',
+  'redflag.sodium': 'À ce niveau, le sodium peut avoir des effets sur le cerveau.',
+  'redflag.glucoseLow': 'Un taux de sucre aussi bas dans le sang peut provoquer un évanouissement ou des convulsions.',
+  'redflag.glucoseHigh': 'Un taux de sucre aussi élevé dans le sang peut vite devenir dangereux.',
+  'redflag.hemoglobin': "Une hémoglobine aussi basse signifie que le sang transporte très peu d'oxygène.",
+  'redflag.egfr': "Une filtration des reins aussi basse demande les soins d'un spécialiste.",
+  'redflag.oxygen': "Un taux d'oxygène aussi bas signifie que le corps ne reçoit pas assez d'air.",
+  'redflag.troponin': "Un marqueur de souffrance du cœur élevé peut être le signe d'une crise cardiaque.",
+  'redflag.bloodPressure': 'Une tension aussi élevée peut abîmer le cœur et le cerveau.',
+  'redflag.critical': 'Le laboratoire a signalé ce résultat comme critique.',
+
+  'purpose.sugar': 'aide à faire baisser le sucre dans le sang',
+  'purpose.insulin': 'fait baisser le sucre dans le sang',
+  'purpose.cholesterol': 'fait baisser le cholestérol',
+  'purpose.pressure': 'fait baisser la tension artérielle',
+  'purpose.betaBlocker': 'ralentit le cœur et fait baisser la tension artérielle',
+  'purpose.diuretic': "un diurétique (médicament « qui fait uriner ») qui élimine l'excès de liquide",
+  'purpose.anticoagulant': 'un médicament qui fluidifie le sang et empêche les caillots',
+  'purpose.antiplatelet': 'aide à empêcher les caillots de sang',
+  'purpose.acid': "réduit l'acidité de l'estomac",
+  'purpose.thyroid': "remplace l'hormone de la thyroïde",
+  'purpose.airways': 'ouvre les bronches et facilite la respiration',
+  'purpose.antibiotic': 'un antibiotique qui traite les infections dues à des bactéries',
+  'purpose.antiInflammatory': "soulage la douleur et l'inflammation",
+  'purpose.painFever': 'soulage la douleur et la fièvre',
+  'purpose.mood': "traite la baisse de moral et l'anxiété",
+  'purpose.iron': 'reconstitue les réserves de fer',
+  'purpose.gout': 'prévient les crises de goutte',
+};

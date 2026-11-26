@@ -104,10 +104,13 @@
     -webkit-font-smoothing: antialiased;
   }
   /*
-   * Persian: Inter comes first so digits, units and codes keep their clinical look and
-   * spacing; it has no Arabic-script glyphs, so Persian text falls through to Estedad.
+   * Persian and Arabic: Inter comes first so digits, units and codes keep their clinical look
+   * and spacing; it has no Arabic-script glyphs, so the text itself falls through to Estedad.
+   * Chinese, Japanese, Korean and Hindi use the fonts of the reader's own system: bundling
+   * them would add tens of megabytes, and loading them would break the no-request promise.
    */
-  html:lang(fa) body {
+  html:lang(fa) body,
+  html:lang(ar) body {
     font-family: 'Inter Variable', 'Estedad Variable', ui-sans-serif, system-ui, sans-serif;
     line-height: 1.7;
   }
