@@ -67,6 +67,8 @@ test('tabs and modals are fully keyboard operable', async ({ page }) => {
   await page.keyboard.press('ArrowRight');
   await expect(page.getByTestId('dev-view')).toBeVisible();
   await page.keyboard.press('ArrowRight');
+  await expect(page.getByTestId('summary-view')).toBeVisible();
+  await page.keyboard.press('ArrowRight');
   await expect(page.getByTestId('simple-report')).toBeVisible();
 
   // A modal traps focus and Escape closes it, returning to the page.

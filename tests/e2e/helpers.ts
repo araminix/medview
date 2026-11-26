@@ -12,7 +12,9 @@ export function sampleText(name: string): string {
 }
 
 /** Opens the app and waits until the service worker has cached it and controls the page. */
-export async function openApp(page: Page): Promise<void> {
+export async function openApp(page: Page, startTab: 'summary' | 'report' = 'report'): Promise<void> {
+  // Most tests exercise the detailed report; the stored tab preference opens it directly.
+  await page.addInitScript((tab) => localStorage.setItem('medview:tab', tab), startTab);
   await page.goto('./');
   await page.evaluate(async () => {
     await navigator.serviceWorker.ready;
@@ -33,7 +35,7 @@ export async function dropSample(page: Page, sample: keyof typeof SAMPLE_FILES):
   await expect(page.getByTestId('workspace')).toBeVisible();
 }
 
-export async function switchTab(page: Page, name: 'Simple Report' | 'Visual Map' | 'Dev View'): Promise<void> {
+export async function switchTab(page: Page, name: 'My Summary' | 'Simple Report' | 'Visual Map' | 'Dev View'): Promise<void> {
   await page.getByRole('tab', { name }).click();
 }
 

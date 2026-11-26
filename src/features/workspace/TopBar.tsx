@@ -9,6 +9,7 @@ import { cx } from '@/lib/browser';
 import type { WorkspaceTab } from '@/lib/preferences';
 
 const TABS: Array<[WorkspaceTab, string]> = [
+  ['summary', 'My Summary'],
   ['report', 'Simple Report'],
   ['map', 'Visual Map'],
   ['dev', 'Dev View'],

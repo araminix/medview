@@ -11,7 +11,7 @@ MedView is a free, browser-only viewer for medical files. Drop a FHIR, HL7 v2 or
 | For | You get |
 |---|---|
 | Clinicians | Allergies pinned at the top, abnormal labs first with ↑/↓ and reference-range bars, a clean one-page print |
-| Patients | A readable summary of medications, labs and visits, plus a body map you can click to filter |
+| Patients | **My Summary**: what is wrong, how serious it is and what you can do, in everyday words — plus a body map you can click to filter |
 | HealthTech developers | Auto-detected parsing with line-level warnings, a resource graph with PNG/SVG export, FHIRPath, and a PHI scrubber that keeps the file valid |
 
 Supported today: **FHIR R4/R5** (JSON and XML, bundles or single resources), **HL7 v2.x** pipe messages (ADT, ORU, ORM, VXU) and **US C-CDA** documents. Zip archives are opened automatically. Planned: EU IPS, OpenEHR, DICOM, Apple Health.
@@ -26,6 +26,12 @@ Supported today: **FHIR R4/R5** (JSON and XML, bundles or single resources), **H
 Verify in ten seconds: open DevTools → Network, drop a file, and watch zero requests go out. Or turn off Wi-Fi and reload — the app keeps working, and the privacy panel turns green.
 
 This is enforced in CI: a Playwright test loads every format, visits every tab, runs the scrubber and the exports, and fails the build if a single request is made after the page has loaded.
+
+## My Summary, and what it will not do
+
+The first tab explains the file for someone with no medical background: each problem gets a plain headline, what the file shows, everyday habits that generally help (food, movement, sleep) and questions to bring to a doctor. Results at levels laboratories treat as dangerous are marked urgent, with the date of the result, because an old critical value may already have been treated.
+
+It is rule-based and runs on your device. It does not diagnose, and it deliberately recommends no medicines or supplements — not even over-the-counter ones — because what is safe depends on a person's other conditions, medicines and allergies. Where a common painkiller is risky (for example with kidney disease) it says so and points to a pharmacist.
 
 ## The PHI scrubber
 

@@ -3,7 +3,7 @@
  * Patient data never goes through this module.
  */
 export type Theme = 'light' | 'dark';
-export type WorkspaceTab = 'report' | 'map' | 'dev';
+export type WorkspaceTab = 'summary' | 'report' | 'map' | 'dev';
 
 const KEYS = { theme: 'medview:theme', tab: 'medview:tab', privacyNoteSeen: 'medview:privacy-note-seen' } as const;
 
@@ -32,7 +32,7 @@ export const preferences = {
   setTheme: (theme: Theme) => write(KEYS.theme, theme),
   tab(): WorkspaceTab {
     const stored = read(KEYS.tab);
-    return stored === 'map' || stored === 'dev' ? stored : 'report';
+    return stored === 'report' || stored === 'map' || stored === 'dev' ? stored : 'summary';
   },
   setTab: (tab: WorkspaceTab) => write(KEYS.tab, tab),
   privacyNoteSeen: () => read(KEYS.privacyNoteSeen) === '1',
