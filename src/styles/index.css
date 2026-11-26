@@ -87,6 +87,14 @@
   #root {
     height: 100%;
   }
+  /* One scroll container only: the page itself never scrolls, panels inside #root do. */
+  html,
+  body {
+    overflow: hidden;
+  }
+  #root {
+    overflow-y: auto;
+  }
   body {
     background: var(--mv-canvas);
     color: var(--mv-text);

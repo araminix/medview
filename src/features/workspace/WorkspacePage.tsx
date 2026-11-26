@@ -4,6 +4,7 @@ import { cx } from '@/lib/browser';
 import { DevView } from '../dev/DevView';
 import { VisualMap } from '../graph/VisualMap';
 import { SimpleReport } from '../report/SimpleReport';
+import { SummaryView } from '../summary/SummaryView';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 
@@ -24,7 +25,8 @@ export function WorkspacePage() {
         >
           <Sidebar onNavigate={() => setSidebarOpen(false)} />
         </aside>
-        <main id="workspace-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="min-w-0 flex-1 overflow-y-auto">
+        <main id="workspace-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="relative min-w-0 flex-1 overflow-y-auto">
+          {tab === 'summary' && <SummaryView />}
           {tab === 'report' && <SimpleReport />}
           {tab === 'map' && <VisualMap />}
           {tab === 'dev' && <DevView />}

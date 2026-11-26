@@ -21,7 +21,7 @@ export function SimpleReport() {
   const timeline = useMemo(() => buildTimeline(record), [record]);
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-4 p-4" data-testid="simple-report">
+    <div className="flex max-w-7xl flex-col gap-4 p-4 lg:p-6" data-testid="simple-report">
       <div className="grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <AttentionBox record={record} />
         <Card title="Body map" aside="Click an area to filter the report">

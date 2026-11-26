@@ -10,7 +10,8 @@ export function App() {
     <>
       {ready ? <WorkspacePage /> : <LandingPage />}
       <ModalHost />
-      <PrivacyToast />
+      {/* The note belongs to the first visit; it must not cover a patient's report. */}
+      {!ready && <PrivacyToast />}
     </>
   );
 }
