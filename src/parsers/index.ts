@@ -1,3 +1,4 @@
+import { convertHealthExport, isHealthExport } from './appleHealth';
 import { parseCcda } from './ccda/parseCcda';
 import { decodeFile, stripBom } from './decode';
 import { detectSyntax } from './detect';
@@ -11,7 +12,7 @@ import { UnreadableFileError, type ParsedDocument } from './types';
 export { UnreadableFileError, type ParsedDocument } from './types';
 
 const FHIR_NAMESPACE = 'http://hl7.org/fhir';
-const COMING_SOON: Record<string, string> = { HealthData: 'Apple Health exports', composition: 'OpenEHR compositions' };
+const COMING_SOON: Record<string, string> = { composition: 'OpenEHR compositions' };
 
 function lineOfOffset(text: string, offset: number): number {
   let line = 1;
@@ -56,6 +57,7 @@ function parseXmlDocument(text: string): ParsedDocument {
 export function parseText(text: string): ParsedDocument {
   // A BOM or blank lines before an XML declaration would otherwise be a fatal XML error.
   const body = stripBom(text).trimStart();
+  if (isHealthExport(body)) return parseJson(convertHealthExport(body));
   switch (detectSyntax(body)) {
     case 'json':
       return parseJson(body);
@@ -66,7 +68,7 @@ export function parseText(text: string): ParsedDocument {
     default:
       throw new UnreadableFileError(
         body.trim() ? 'This file format is not recognized' : 'This file is empty',
-        'MedView reads FHIR (JSON or XML), HL7 v2 and C-CDA files.',
+        'MedView reads FHIR (JSON or XML), HL7 v2, C-CDA, IPS and Apple Health files.',
       );
   }
 }

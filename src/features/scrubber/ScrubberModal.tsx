@@ -14,10 +14,16 @@ const OPTIONS: Array<keyof ScrubOptions> = ['names', 'birthDate', 'ids', 'contac
 
 const MIME: Record<string, string> = { json: 'application/json', xml: 'application/xml', hl7: 'text/plain' };
 
-/** Inserts ".scrubbed" before the extension: report.json → report.scrubbed.json */
-function scrubbedName(name: string): string {
+/**
+ * Inserts ".scrubbed" before the extension: report.json → report.scrubbed.json. A file MedView converted
+ * on opening (an Apple Health export becomes FHIR JSON) takes the extension of what is downloaded.
+ */
+function scrubbedName(name: string, syntax?: string): string {
   const dot = name.lastIndexOf('.');
-  return dot > 0 ? `${name.slice(0, dot)}.scrubbed${name.slice(dot)}` : `${name}.scrubbed`;
+  const base = dot > 0 ? name.slice(0, dot) : name;
+  const extension = dot > 0 ? name.slice(dot) : '';
+  const converted = syntax === 'json' && !/\.(json|txt)$/i.test(extension);
+  return `${base}.scrubbed${converted ? '.json' : extension}`;
 }
 
 function DiffPreview({ changes, loading }: { changes: ScrubChange[]; loading: boolean }) {
@@ -68,7 +74,7 @@ export function ScrubberModal({ onClose }: { onClose(): void }) {
 
   const download = async () => {
     const text = await engine.call('scrubbedText', options);
-    downloadBlob(text, scrubbedName(file?.name ?? 'medical-file'), MIME[record?.meta.syntax ?? 'hl7']);
+    downloadBlob(text, scrubbedName(file?.name ?? 'medical-file', record?.meta.syntax), MIME[record?.meta.syntax ?? 'hl7']);
   };
 
   const copySummary = async () => {

@@ -2,6 +2,7 @@ import { plural, RecordBuilder } from '@/domain/record';
 import { isObj, objs, pick, str, type Obj } from '../shared/access';
 import type { ParsedDocument } from '../types';
 import { UnreadableFileError } from '../types';
+import { APPLE_HEALTH_TAG, SOURCE_TAG_SYSTEM } from '../appleHealth';
 import { absentStatement, isPatientSummary } from './ips';
 import { describeUnmapped, FHIR_MAPPERS, type FhirContext } from './mappers';
 
@@ -111,7 +112,8 @@ export function parseFhir(root: unknown, syntax: 'json' | 'xml', rawOf?: (resour
   const resolveEntry = buildResolver(entries);
   const fhirVersion = detectVersion(entries);
   const summaryDocument = isPatientSummary(root);
-  const builder = new RecordBuilder({ format: summaryDocument ? 'eu-ips' : fhirVersion, version: fhirVersion === 'fhir-r5' ? 'R5' : 'R4', syntax, fhirPath: true });
+  const fromAppleHealth = objs(pick(root, 'meta.tag')).some((tag) => tag.system === SOURCE_TAG_SYSTEM && tag.code === APPLE_HEALTH_TAG);
+  const builder = new RecordBuilder({ format: fromAppleHealth ? 'apple-health' : summaryDocument ? 'eu-ips' : fhirVersion, version: fhirVersion === 'fhir-r5' ? 'R5' : 'R4', syntax, fhirPath: true });
   const byResource = new Map<Obj, Entry>(entries.map((e) => [e.resource, e]));
   const ctx: FhirContext = {
     builder,
@@ -120,6 +122,9 @@ export function parseFhir(root: unknown, syntax: 'json' | 'xml', rawOf?: (resour
   };
 
   const isBundle = root.resourceType === 'Bundle';
+  if (fromAppleHealth) {
+    builder.warn('Converted from an Apple Health export: each measurement shows its latest reading, and daily totals are a 30-day average', undefined, { severity: 'info' });
+  }
   if (isBundle && entries.length === 0) builder.warn('Bundle contains no resources', 'entry');
 
   for (const entry of entries) {
@@ -145,7 +150,7 @@ export function parseFhir(root: unknown, syntax: 'json' | 'xml', rawOf?: (resour
   if (isBundle && !builder.record.patient.sourceId) builder.warn('No Patient resource found in bundle');
 
   const sourceById = new Map(entries.map((e) => [e.id, e.resource]));
-  const version = `${summaryDocument ? 'IPS · ' : ''}${fhirVersion === 'fhir-r5' ? 'FHIR R5' : 'FHIR R4'}`;
+  const version = fromAppleHealth ? 'Apple Health' : `${summaryDocument ? 'IPS · ' : ''}${fhirVersion === 'fhir-r5' ? 'FHIR R5' : 'FHIR R4'}`;
   return {
     record: builder.finish(`${version} · ${isBundle ? plural(entries.length, 'resource') : String(root.resourceType)}`),
     fhirRoot: root,

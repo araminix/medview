@@ -303,6 +303,7 @@ export const FHIR_MAPPERS: Record<string, Mapper> = {
   MedicationRequest: mapMedication,
   MedicationStatement: mapMedication,
   MedicationUsage: mapMedication,
+  MedicationOrder: mapMedication,
   Condition: mapCondition,
   Encounter: mapEncounter,
   Immunization: mapImmunization,

@@ -108,7 +108,8 @@ const VITAL_LOINC = new Set(['8480-6', '8462-4', '85354-9', '8867-4', '9279-1', 
 const VITAL_NAME = /\b(blood pressure|systolic|diastolic|heart rate|pulse\b|respiratory rate|body temperature|temperature|body weight|weight\b|body height|height\b|bmi|body mass index|oxygen saturation|spo2)/i;
 
 export function isVitalSign(name: string, codes: Coding[], category?: string): boolean {
-  if (category && /vital/i.test(category)) return true;
+  // Activity totals from wearables (steps, exercise minutes) sit with the vital signs, not the laboratory results.
+  if (category && /vital|activity/i.test(category)) return true;
   if (category && /lab/i.test(category)) return false;
   return codes.some((c) => c.system === 'LOINC' && VITAL_LOINC.has(c.code)) || VITAL_NAME.test(name);
 }

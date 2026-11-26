@@ -14,8 +14,8 @@ import { t } from '@/i18n';
 import { translateError } from '@/i18n/errors';
 
 export const REPO_URL = 'https://github.com/araminix/medview';
-const ACTIVE_FORMATS = ['FHIR R4/R5', 'HL7 v2', 'US C-CDA', 'EU IPS'];
-const PLANNED_FORMATS = ['Apple Health', 'OpenEHR', 'DICOM'];
+const ACTIVE_FORMATS = ['FHIR R4/R5', 'HL7 v2', 'US C-CDA', 'EU IPS', 'Apple Health'];
+const PLANNED_FORMATS = ['OpenEHR', 'DICOM'];
 
 function ErrorBanner() {
   const error = useApp((state) => state.error);

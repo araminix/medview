@@ -1,7 +1,8 @@
 import { unzipSync } from 'fflate';
+import { CLINICAL_RECORD, convertHealthExport, isHealthExport } from './appleHealth';
 import { UnreadableFileError } from './types';
 
-const SUPPORTED = 'MedView reads FHIR (JSON or XML), HL7 v2 and C-CDA files.';
+const SUPPORTED = 'MedView reads FHIR (JSON or XML), HL7 v2, C-CDA, IPS and Apple Health files.';
 
 function startsWith(bytes: Uint8Array, signature: number[], offset = 0): boolean {
   return signature.every((byte, i) => bytes[offset + i] === byte);
@@ -73,6 +74,8 @@ export function decodeFile(bytes: Uint8Array): DecodedFile {
   if (bytes.length === 0) throw new UnreadableFileError('This file is empty');
   if (startsWith(bytes, [0x50, 0x4b, 0x03, 0x04])) return decodeArchive(bytes);
   rejectBinary(bytes);
+  // An Apple Health export can be too large for one string; it is read in pieces and reduced.
+  if (isHealthExport(new TextDecoder().decode(bytes.subarray(0, 20000)))) return { text: convertHealthExport(bytes) };
   const text = stripBom(decodeText(bytes));
   if (looksBinary(text)) throw new UnreadableFileError('This file is not readable text', SUPPORTED);
   return { text };
@@ -86,9 +89,25 @@ function decodeArchive(bytes: Uint8Array): DecodedFile {
     throw new UnreadableFileError('This zip archive is damaged and could not be opened');
   }
   const entries = Object.entries(files).sort(([, a], [, b]) => b.length - a.length);
+  const health = entries.find(([name, content]) => /(^|\/)export\.xml$/i.test(name) && isHealthExport(new TextDecoder().decode(content.subarray(0, 20000))));
+  if (health) return decodeHealthArchive(health, entries);
   if (entries.length === 0) throw new UnreadableFileError('No medical record files found inside this zip archive', SUPPORTED);
   const [name, content] = entries[0];
   const { text } = decodeFile(content);
   const others = entries.length - 1;
   return { text, archiveNote: `Opened "${name}" from the archive${others ? ` (${others} other file${others === 1 ? '' : 's'} not shown)` : ''}` };
+}
+
+/** An Apple Health export.zip: export.xml with the measurements, and one FHIR file per clinical record. */
+function decodeHealthArchive([name, content]: [string, Uint8Array], entries: Array<[string, Uint8Array]>): DecodedFile {
+  const clinical = entries.flatMap(([path, bytes]) => {
+    if (!CLINICAL_RECORD.test(path)) return [];
+    try {
+      return [JSON.parse(new TextDecoder().decode(bytes)) as unknown];
+    } catch {
+      return [];
+    }
+  });
+  const records = clinical.length ? ` with ${clinical.length} clinical record${clinical.length === 1 ? '' : 's'}` : '';
+  return { text: convertHealthExport(content, clinical), archiveNote: `Opened "${name}" from the Apple Health archive${records}` };
 }

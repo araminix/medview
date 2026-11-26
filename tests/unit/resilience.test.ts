@@ -130,7 +130,7 @@ describe('auto-detection', () => {
     const dicom = new Uint8Array(140);
     dicom.set([0x44, 0x49, 0x43, 0x4d], 128);
     expect(failure(() => parseBytes(dicom)).message).toBe('DICOM images are not supported yet');
-    expect(failure(() => parseText('<HealthData locale="en_US"></HealthData>')).message).toBe('Apple Health exports are not supported yet');
+    expect(parseText('<HealthData locale="en_US"></HealthData>').record.meta.format).toBe('apple-health');
   });
 
   test('opens the record inside a zip archive', () => {
